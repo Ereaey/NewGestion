@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>images/file.png</file>
+        <file>images/folder.png</file>
+        <file>images/group.png</file>
+        <file>images/icon.png</file>
+        <file>images/settings.png</file>
+        <file>images/user.png</file>
+        <file>images/logo2.jpg</file>
+        <file>MainMenu.qml</file>
+        <file>images/question-list.png</file>
+        <file>images/play-button.png</file>
+        <file>pages/PageGoalSearch.qml</file>
+        <file>ButtonSt.qml</file>
+        <file>menu/GoalMenu.qml</file>
+        <file>images/magnifying-glass.png</file>
+    </qresource>
+</RCC>
