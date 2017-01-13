@@ -59,7 +59,7 @@ Item {
             Text
             {
                 y:80
-                text:"Rechercher Goal"
+                text:"Rechercher Utilisateur"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -69,7 +69,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalSearch.qml");
+                    swipeView.replace("qrc:pages/PageUtilisateurSearch.qml");
                 }
             }
         }
@@ -79,7 +79,15 @@ Item {
             Text
             {
                 y:80
-                text:"Goals Vides"
+                text:"Utilisateurs"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Hors Commu"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -99,7 +107,7 @@ Item {
             Text
             {
                 y:80
-                text:"Goals"
+                text:"Utilisateurs"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -107,7 +115,7 @@ Item {
             Text
             {
                 y:110
-                text:"Inexistants"
+                text:"Hors PSA"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -123,11 +131,19 @@ Item {
         }
         Image
         {
-            source:"qrc:../images/group.png"
+            source:"qrc:../images/folder.png"
             Text
             {
                 y:80
-                text:"Goals Doublons"
+                text:"Utilisateurs"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Doublon"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -143,11 +159,19 @@ Item {
         }
         Image
         {
-            source:"qrc:../images/group.png"
+            source:"qrc:../images/folder.png"
             Text
             {
                 y:80
-                text:"Goals 0 membres"
+                text:"Utilisateurs"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Expiré"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2

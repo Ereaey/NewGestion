@@ -59,7 +59,7 @@ Item {
             Text
             {
                 y:80
-                text:"Rechercher Goal"
+                text:"Rechercher Domaine"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -69,7 +69,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalSearch.qml");
+                    swipeView.replace("qrc:pages/PageDomaineSearch.qml");
                 }
             }
         }
@@ -79,7 +79,7 @@ Item {
             Text
             {
                 y:80
-                text:"Goals Vides"
+                text:"Domaines Vides"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -99,7 +99,7 @@ Item {
             Text
             {
                 y:80
-                text:"Goals"
+                text:"Domaines"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -107,47 +107,7 @@ Item {
             Text
             {
                 y:110
-                text:"Inexistants"
-                color: "white"
-                font.pointSize:16
-                x:parent.width/2 - width/2
-            }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked:
-                {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
-                }
-            }
-        }
-        Image
-        {
-            source:"qrc:../images/group.png"
-            Text
-            {
-                y:80
-                text:"Goals Doublons"
-                color: "white"
-                font.pointSize:16
-                x:parent.width/2 - width/2
-            }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked:
-                {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
-                }
-            }
-        }
-        Image
-        {
-            source:"qrc:../images/group.png"
-            Text
-            {
-                y:80
-                text:"Goals 0 membres"
+                text:"surchargés"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2

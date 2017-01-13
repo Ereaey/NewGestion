@@ -29,14 +29,14 @@ ApplicationWindow {
             text:"Support assurane qualité opérationnel sites industriels valenciennes sevelnord et douvrin - FM"
             color: "white"
             font.family: "Arial"
-            font.pointSize: 10
+            font.pointSize: 12
             //width: parent.width - 20
             //x:parent.width/2-width/2
             ButtonSt
             {
                 x:parent.width+10
                 text: "Modifier"
-                height:15
+                height:20
                 onClicked:
                 {
                     chooseCommu.open();
@@ -120,7 +120,7 @@ RowLayout
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignLeft
         id: swipeView
-        initialItem: "qrc:pages/PageGoalSearch.qml"
+        initialItem: "qrc:MainMenu.qml"
     }
 
     }

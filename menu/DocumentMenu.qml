@@ -59,7 +59,7 @@ Item {
             Text
             {
                 y:80
-                text:"Rechercher Goal"
+                text:"Rechercher Document"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -69,7 +69,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalSearch.qml");
+                    swipeView.replace("qrc:pages/PageDocumentSearch.qml");
                 }
             }
         }
@@ -79,7 +79,7 @@ Item {
             Text
             {
                 y:80
-                text:"Goals Vides"
+                text:"Documents Vides"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -99,7 +99,7 @@ Item {
             Text
             {
                 y:80
-                text:"Goals"
+                text:"Documents"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -107,7 +107,7 @@ Item {
             Text
             {
                 y:110
-                text:"Inexistants"
+                text:"surchargés"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -123,11 +123,19 @@ Item {
         }
         Image
         {
-            source:"qrc:../images/group.png"
+            source:"qrc:../images/folder.png"
             Text
             {
                 y:80
-                text:"Goals Doublons"
+                text:"Documents"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Travail +6 mois"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -143,11 +151,19 @@ Item {
         }
         Image
         {
-            source:"qrc:../images/group.png"
+            source:"qrc:../images/folder.png"
             Text
             {
                 y:80
-                text:"Goals 0 membres"
+                text:"Documents"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"à la racine"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -161,7 +177,6 @@ Item {
                 }
             }
         }
-
 
     }
 

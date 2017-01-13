@@ -63,7 +63,7 @@ Item {
         }
         Text
         {
-            text:"Recherche d'un goal"
+            text:"Recherche d'un utilisateur"
             x:parent.width/2 - width/2
             y:10
             color:"white"
@@ -86,103 +86,149 @@ Item {
 
     Rectangle
     {
+        id:dataDomaine
         width: parent.width - 100
-        height: 80
+        height: t.height + 20
 
         color: "#181A29"
         y:80
         x:50
         radius: 5
 
-        Text
+        Column
         {
-            text:"Goal en cours de recherche : G_H_DEUR"
+            id:t
             x:20
             y:10
-            color:"white"
-            font.pointSize: 12
-        }
+            spacing: 5
+            Text
+            {
+                text:"Utilisateur en cours de recherche"
+                color:"white"
+                font.pointSize: 12
+            }
+            Text
+            {
+                text:"Nom Prenom : "
+                color:"white"
+                font.pointSize: 10
+            }
+            Text
+            {
+                text:"Identifiant : "
+                color:"white"
+                font.pointSize: 10
+            }
+            Text
+            {
+                text:"Nombres de documents : "
+                color:"white"
+                font.pointSize: 10
+            }
+            Text
+            {
+                text:"Nombres de domaines responsable : "
+                color:"white"
+                font.pointSize: 10
+            }
+            Text
+            {
+                text:"Nombres de domaines gestionnaire : "
+                color:"white"
+                font.pointSize: 10
+            }
 
-        Text
-        {
-            text:"Nombres de domaines : 1204"
-            x:20
-            y:33
-            color:"white"
-            font.pointSize: 10
-        }
-        Text
-        {
-            text:"Modes de recherche : Gestionnaire"
-            x:20
-            y:50
-            color:"white"
-            font.pointSize: 10
+
+            Text
+            {
+                text:"Attention l'utilisateur n'appartient plus à la communauté"
+                color:"red"
+                font.pointSize: 10
+            }
+
         }
     }
 
     Rectangle
     {
         width: parent.width - 100
-        height: parent.height - 200
+        height: 90
 
         color: "#181A29"
-        y:180
+        y: dataDomaine.y + dataDomaine.height + 10
         x:50
         radius: 5
-
         Text
         {
-            text:"Liste des domaines séléctionés"
-            x:20
-            y:10
+            text:"Visualiser dans l'arbre"
             color:"white"
             font.pointSize: 12
-        }
-        ButtonSt
-        {
-            x:parent.width - 130
-            text: "Vider"
-            height:20
+            x:20
             y:10
-            onClicked:
-            {
-                chooseCommu.open();
-            }
         }
-        ButtonSt
-        {
-            x:parent.width - 240
-            text: "Exporter"
-            height:20
-            y:10
-            onClicked:
-            {
-                chooseCommu.open();
-            }
-        }
-        ButtonSt
-        {
-            x:parent.width - 350
-            text: "Tout copier"
-            height:20
-            y:10
-            onClicked:
-            {
-                chooseCommu.open();
-            }
-        }
+        ComboBox {
+            x:20
+            y:40
+            width: 300
+            height: 25
+            id:visuTree
+            model: [ "Domaines responsable", "Domaines gestionnaire", "Documents propriétaire" ]
+            background: Rectangle {
+                implicitWidth: 100
+                implicitHeight: 20
 
+                opacity: enabled ? 1 : 0.3
+                //color: visuTree.pressed ? (visuTree.highlighted ? "#585a5c" : "#e4e4e4") : (visuTree.highlighted ? "#353637" : "#f6f6f6")
+                border.color: visuTree.pressed ? "#26282a" : "#353637"
+                border.width: 1
+
+                radius:3
+            }
+
+
+        }
+        ButtonSt
+        {
+            x: 330
+            text: "Visualier"
+            y:40
+            height: 25
+            width: 200
+            onClicked:
+            {
+                chooseCommu.open();
+            }
+        }
+    }
+
+    Rectangle
+    {
+        width: parent.width - 100
+        height: parent.height - dataDomaine.y - dataDomaine.height - 120
+
+        color: "#181A29"
+        y: dataDomaine.y + dataDomaine.height + 110
+        x:50
+        radius: 5
+        Text
+        {
+            text:"Liste des documents: "
+            color:"white"
+            font.pointSize: 12
+            x:20
+            y:10
+        }
         ListView
         {
             ScrollBar.vertical: ScrollBar{active: true}
-            clip: true
-            spacing: 10
-            maximumFlickVelocity: 100
-            width:parent.width - 15
-            height:parent.height - 70
             y:50
             x:5
+            clip: true
+            spacing: 10
+            maximumFlickVelocity: 600
+            highlightMoveVelocity : 600
+            width:parent.width - 15
+            height:parent.height - 70
             id:autoCompletList
             model: myModel
             delegate: Rectangle
@@ -196,7 +242,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du domaine : " + model.data
+                    text:"Nom du document : " + model.data + "  (" + model.ide + ")"
                     font.pointSize: 10
                     x:10
                     y:5
@@ -205,39 +251,15 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Id du domaine : " + model.ide
+                    text:"Nom du responsable : " + model.ide
                     font.pointSize: 8
                     x:10
                     y:23
                 }
-                ButtonSt
-                {
-                    x: parent.width - 220
-                    text: "Copier"
-                    height:30
-                    y:5
-                    onClicked:
-                    {
-                        chooseCommu.open();
-                    }
-                }
-                ButtonSt
-                {
-                    x: parent.width - 110
-                    text: "Retirer"
-                    height:30
-                    y:5
-                    onClicked:
-                    {
-                        chooseCommu.open();
-                    }
-                }
             }
 
         }
-
-        }
-
+    }
 
 
 }

@@ -20,5 +20,11 @@
         <file>pages/PageDocumentList.qml</file>
         <file>pages/PageUtilisateurList.qml</file>
         <file>pages/PageDomaineSearch.qml</file>
+        <file>menu/DomaineMenu.qml</file>
+        <file>menu/DocumentMenu.qml</file>
+        <file>menu/UserMenu.qml</file>
+        <file>pages/PageUtilisateurSearch.qml</file>
+        <file>pages/PageNotation.qml</file>
+        <file>pages/PageDocumentSearch.qml</file>
     </qresource>
 </RCC>

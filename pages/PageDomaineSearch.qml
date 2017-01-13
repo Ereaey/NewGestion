@@ -120,6 +120,12 @@ Item {
             }
             Text
             {
+                text:"Attention le responsable n'appartient plus à la communauté"
+                color:"red"
+                font.pointSize: 10
+            }
+            Text
+            {
                 text:"Nom du domaine : "
                 color:"white"
                 font.pointSize: 10
@@ -132,43 +138,7 @@ Item {
             }
             Text
             {
-                text:"Propriétaire : 1204"
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Gestionnaires : "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Modificateurs : "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Lecteurs : "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Goals Gestionnaires: "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Goals Modificateurs: "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Goals Lecteurs : "
+                text:"Responsable : 1204"
                 color:"white"
                 font.pointSize: 10
             }
@@ -182,24 +152,6 @@ Item {
             Text
             {
                 text:"Niveau de confidentialité : "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Domaine asservisseur: "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Documents synchronisés: "
-                color:"white"
-                font.pointSize: 10
-            }
-            Text
-            {
-                text:"Documents masqués: "
                 color:"white"
                 font.pointSize: 10
             }
@@ -248,7 +200,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du document : " + model.data + "(" + model.ide + ")"
+                    text:"Nom du document : " + model.data + "  (" + model.ide + ")"
                     font.pointSize: 10
                     x:10
                     y:5
@@ -257,32 +209,10 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du responsable : " + model.ide
+                    text:"Nom du propriétaire : " + model.ide
                     font.pointSize: 8
                     x:10
                     y:23
-                }
-                ButtonSt
-                {
-                    x:parent.width - 110
-                    text: "Copier ID"
-                    height:30
-                    y:5
-                    onClicked:
-                    {
-                        chooseCommu.open();
-                    }
-                }
-                ButtonSt
-                {
-                    x:parent.width - 250
-                    text: "Rechercher responsable"
-                    height:30
-                    y:5
-                    onClicked:
-                    {
-                        chooseCommu.open();
-                    }
                 }
             }
 

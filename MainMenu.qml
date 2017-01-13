@@ -44,6 +44,14 @@ Item {
                 font.pointSize:16
                 x:parent.width/2 - width/2
             }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    swipeView.replace("qrc:pages/PageNotation.qml");
+                }
+            }
         }
         Image
         {
@@ -55,6 +63,14 @@ Item {
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    swipeView.replace("qrc:menu/DocumentMenu.qml");
+                }
             }
         }
         Image
@@ -73,7 +89,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageDomaineSearch.qml");
+                    swipeView.replace("qrc:menu/DomaineMenu.qml");
                 }
             }
         }
@@ -99,7 +115,8 @@ Item {
         }
         Image
         {
-            source:"qrc:images/settings.png"
+            //source:"qrc:images/settings.png"
+            /*
             Text
             {
                 y:80
@@ -107,7 +124,7 @@ Item {
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
-            }
+            }*/
         }
         Image
         {
@@ -119,6 +136,14 @@ Item {
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    swipeView.replace("qrc:menu/UserMenu.qml");
+                }
             }
         }
 
