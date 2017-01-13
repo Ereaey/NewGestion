@@ -68,6 +68,14 @@ Item {
                 font.pointSize:16
                 x:parent.width/2 - width/2
             }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    swipeView.replace("qrc:pages/PageDomaineSearch.qml");
+                }
+            }
         }
         Image
         {

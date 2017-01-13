@@ -84,6 +84,14 @@ Item {
                 font.pointSize:16
                 x:parent.width/2 - width/2
             }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                }
+            }
         }
         Image
         {
@@ -91,10 +99,26 @@ Item {
             Text
             {
                 y:80
-                text:"Goals Inexistants"
+                text:"Goals"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Inexistants"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                }
             }
         }
         Image
@@ -107,6 +131,14 @@ Item {
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                }
             }
         }
 

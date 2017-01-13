@@ -72,7 +72,7 @@ RowLayout
     {
         Layout.fillHeight: true
         Layout.alignment: Qt.AlignRight
-        color: "#181A29"
+        color: "#364150"
         id:tree
         width: 500
         visible: false

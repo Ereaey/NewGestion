@@ -63,137 +63,44 @@ Item {
         }
         Text
         {
-            text:"Recherche d'un goal"
+            text:"Goals vides"
             x:parent.width/2 - width/2
             y:10
             color:"white"
             font.pointSize: 16
 
         }
-        ButtonSt
-        {
-            x:parent.width - 210
-            text: "Nouvelle recherche"
-            y:10
-            height: 30
-            width: 200
-            onClicked:
-            {
-                chooseCommu.open();
-            }
-        }
     }
 
     Rectangle
     {
         width: parent.width - 100
-        height: 80
+        height: parent.height - 105
 
         color: "#181A29"
-        y:80
+        y:85
         x:50
         radius: 5
 
         Text
         {
-            text:"Goal en cours de recherche : G_H_DEUR"
-            x:20
-            y:10
-            color:"white"
-            font.pointSize: 12
-            ButtonSt
-            {
-                x:parent.width + 20
-                text: "Voir la fiche"
-                height:20
-                onClicked:
-                {
-                    chooseCommu.open();
-                }
-            }
-
-        }
-
-        Text
-        {
-            text:"Nombres de domaines : 1204"
-            x:20
-            y:33
-            color:"white"
-            font.pointSize: 10
-        }
-        Text
-        {
-            text:"Modes de recherche : Gestionnaire"
-            x:20
-            y:50
-            color:"white"
-            font.pointSize: 10
-        }
-    }
-
-    Rectangle
-    {
-        width: parent.width - 100
-        height: parent.height - 200
-
-        color: "#181A29"
-        y:180
-        x:50
-        radius: 5
-
-        Text
-        {
-            text:"Liste des domaines séléctionés"
+            text:"Liste des goals"
             x:20
             y:10
             color:"white"
             font.pointSize: 12
         }
-        ButtonSt
-        {
-            x:parent.width - 130
-            text: "Vider"
-            height:20
-            y:10
-            onClicked:
-            {
-                chooseCommu.open();
-            }
-        }
-        ButtonSt
-        {
-            x:parent.width - 240
-            text: "Exporter"
-            height:20
-            y:10
-            onClicked:
-            {
-                chooseCommu.open();
-            }
-        }
-        ButtonSt
-        {
-            x:parent.width - 350
-            text: "Tout copier"
-            height:20
-            y:10
-            onClicked:
-            {
-                chooseCommu.open();
-            }
-        }
-
         ListView
         {
             ScrollBar.vertical: ScrollBar{active: true}
-            clip: true
-            spacing: 10
-            maximumFlickVelocity: 100
-            width:parent.width - 15
-            height:parent.height - 70
             y:50
             x:5
+            clip: true
+            spacing: 10
+            maximumFlickVelocity: 600
+            highlightMoveVelocity : 600
+            width:parent.width - 15
+            height:parent.height - 70
             id:autoCompletList
             model: myModel
             delegate: Rectangle
@@ -207,7 +114,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du domaine : " + model.data
+                    text:"Nom du goal : " + model.data
                     font.pointSize: 10
                     x:10
                     y:5
@@ -216,37 +123,15 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Id du domaine : " + model.ide
+                    text:"Id du goal : " + model.ide
                     font.pointSize: 8
                     x:10
                     y:23
                 }
                 ButtonSt
                 {
-                    x:parent.width - 330
-                    text: "Voir la fiche"
-                    height:30
-                    y:5
-                    onClicked:
-                    {
-                        chooseCommu.open();
-                    }
-                }
-                ButtonSt
-                {
-                    x: parent.width - 220
-                    text: "Copier"
-                    height:30
-                    y:5
-                    onClicked:
-                    {
-                        chooseCommu.open();
-                    }
-                }
-                ButtonSt
-                {
-                    x: parent.width - 110
-                    text: "Retirer"
+                    x:parent.width - 150
+                    text: "Rechercher dans l'arbre"
                     height:30
                     y:5
                     onClicked:

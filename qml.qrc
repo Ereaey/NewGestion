@@ -15,5 +15,10 @@
         <file>ButtonSt.qml</file>
         <file>menu/GoalMenu.qml</file>
         <file>images/magnifying-glass.png</file>
+        <file>pages/PageGoalList.qml</file>
+        <file>pages/PageDomaineList.qml</file>
+        <file>pages/PageDocumentList.qml</file>
+        <file>pages/PageUtilisateurList.qml</file>
+        <file>pages/PageDomaineSearch.qml</file>
     </qresource>
 </RCC>
