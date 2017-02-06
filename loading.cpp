@@ -1,0 +1,250 @@
+#include "loading.h"
+#include "qdebug.h"
+
+Loading::Loading(Data *d, QObject *parent) : QThread(parent)
+{
+    m_listDrives += QFileInfo("C:/fichiersGestion");
+    m_data = d;
+}
+
+void Loading::loadFiles()
+{
+    QStringList t;
+    t.append("externalID*.csv");
+    t.append("internalID*.csv");
+    t.append("Plans_de_communautes_*.csv");
+    t.append("ssl_goal_pressi*.csv");
+    t.append("ssl_membre_pressi*.csv");
+    t.append("Audits_des_documents_*.csv");
+    t.append("Liste_de_communautés_*.csv");
+    QString file;
+    foreach(const QFileInfo& FileInfo, m_listDrives)
+    {
+         QDirIterator it(FileInfo.filePath(), t, QDir::Files, QDirIterator::Subdirectories);
+         while (it.hasNext())
+         {
+             file = it.next();
+             if (file.contains("externalID"))
+                if (m_pathMembersExternal.lastModified() < QFileInfo(file).lastModified())
+                    m_pathMembersExternal = QFileInfo(file);
+
+            if (file.contains("internalID"))
+               if (m_pathMembersInternal.lastModified() < QFileInfo(file).lastModified())
+                   m_pathMembersInternal = QFileInfo(file);
+
+            if (file.contains("Plans_de_communautes_"))
+              if (m_pathDomaines.lastModified() < QFileInfo(file).lastModified())
+                  m_pathDomaines = QFileInfo(file);
+
+            if (file.contains("Liste_de_communautés_"))
+              if (m_pathCommu.lastModified() < QFileInfo(file).lastModified())
+                  m_pathCommu = QFileInfo(file);
+
+            if (file.contains("ssl_goal_pressi"))
+             if (m_pathGoal.lastModified() < QFileInfo(file).lastModified())
+                 m_pathGoal = QFileInfo(file);
+
+             if (file.contains("ssl_membre_pressi"))
+                if (m_pathGoalMembers.lastModified() < QFileInfo(file).lastModified())
+                    m_pathGoalMembers = QFileInfo(file);
+
+            if (file.contains("Audits_des_documents_"))
+               if (m_pathDocuments.lastModified() < QFileInfo(file).lastModified())
+                   m_pathDocuments = QFileInfo(file);
+         }
+    }
+
+    m_pathDomainesCSV = new FileCSV(m_pathDomaines.absoluteFilePath(), 40, true, this);
+    m_pathMembersInternalCSV = new FileCSV(m_pathMembersInternal.absoluteFilePath(), 24, true, this);
+    m_pathMembersExternalCSV = new FileCSV(m_pathMembersExternal.absoluteFilePath(), 27, true, this);
+    m_pathGoalCSV = new FileCSV(m_pathGoal.absoluteFilePath(), 66, false, this);
+    m_pathDocumentsCSV = new FileCSV(m_pathDocuments.absoluteFilePath(), 51, true, this);
+    m_pathCommuCSV = new FileCSV(m_pathCommu.absoluteFilePath(), 61, true, this);
+    m_pathGoalMembersCSV = new FileCSV(m_pathGoalMembers.absoluteFilePath(), 3, true, this);
+
+    connect(m_pathDomainesCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadDomaine(QStringList)), Qt::DirectConnection);
+    connect(m_pathMembersInternalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadMember(QStringList)), Qt::DirectConnection);
+    connect(m_pathMembersExternalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadMember(QStringList)), Qt::DirectConnection);
+    connect(m_pathGoalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadGoal(QStringList)), Qt::DirectConnection);
+    connect(m_pathDocumentsCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadDocument(QStringList)), Qt::DirectConnection);
+    connect(m_pathCommuCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadCommu(QStringList)), Qt::DirectConnection);
+    connect(m_pathGoalMembersCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadGoalMember(QStringList)), Qt::DirectConnection);
+
+    connect(m_pathDomainesCSV, SIGNAL(finish()), this, SLOT(finishDomaine()), Qt::DirectConnection);
+    connect(m_pathMembersInternalCSV, SIGNAL(finish()), this, SLOT(finishMember()), Qt::DirectConnection);
+    //connect(m_pathMembersExternalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(finishMember()));
+    connect(m_pathGoalCSV, SIGNAL(finish()), this, SLOT(finishGoal()), Qt::DirectConnection);
+    connect(m_pathDocumentsCSV, SIGNAL(finish()), this, SLOT(finishDocument()), Qt::DirectConnection);
+    connect(m_pathCommuCSV, SIGNAL(finish()), this, SLOT(finishCommu()), Qt::DirectConnection);
+    connect(m_pathGoalMembersCSV, SIGNAL(finish()), this, SLOT(finishGoalMember()), Qt::DirectConnection);
+
+    m_current = m_pathMembersInternalCSV;
+}
+
+void Loading::setMessageLoading(QString message)
+{
+    mutex.lock();
+    m_messageLoading = message;
+    mutex.unlock();
+}
+
+QString Loading::messageLoading()
+{
+    QString m;
+    mutex.lock();
+    m = m_messageLoading;
+    mutex.unlock();
+    return m;
+}
+
+void Loading::load()
+{
+    start();
+}
+
+void Loading::loadDomaine(QStringList data)
+{
+    /*
+    addDomaine(QString nameCommu,
+               QString nameDomaine,
+               QString IdDomaine,
+               QString IdDomaineParent,
+               QStringList GOALsmodificateurs,
+               QStringList GOALsLecteurs,
+               QStringList GOALsGestionnaires,
+               QString responsable,
+               QStringList gestionnaires,
+               QStringList modificateurs,
+               QStringList lecteurs,
+               QString niveau,
+               QString asservisseur,
+               QString synchronises)
+*/
+
+    if (data.size() > 3)
+        m_data->addDomaine(data[m_pathMembersInternalCSV->getColumn("AN")], //QString nameCommu
+                data[m_pathMembersInternalCSV->getColumn("B")], // QString nameDomaine
+                data[m_pathMembersInternalCSV->getColumn("A")], // QString IdDomaine
+                data[m_pathMembersInternalCSV->getColumn("D")], // QString IdDomaineParent
+                data[m_pathMembersInternalCSV->getColumn("Z")].split(","), //QStringList GOALsmodificateurs,
+                data[m_pathMembersInternalCSV->getColumn("AD")].split(","), // QStringList GOALsLecteurs,
+                data[m_pathMembersInternalCSV->getColumn("O")].split(","), //  QStringList GOALsGestionnaires,
+                data[m_pathMembersInternalCSV->getColumn("L")], //QString responsable,
+                data[m_pathMembersInternalCSV->getColumn("M")].split(","), // QStringList gestionnaires,
+                data[m_pathMembersInternalCSV->getColumn("X")].split(","), //  QStringList modificateurs,
+                data[m_pathMembersInternalCSV->getColumn("AB")].split(","), // QStringList lecteurs,
+                data[m_pathMembersInternalCSV->getColumn("C")], // QString niveau,
+                data[m_pathMembersInternalCSV->getColumn("S")], // QString asservisseur,
+                data[m_pathMembersInternalCSV->getColumn("T")] // QString synchronises
+            );
+}
+
+void Loading::loadMember(QStringList data)
+{
+    //qDebug() << data;
+    if (data.size() > 2)
+        m_data->addUser(data[m_pathMembersInternalCSV->getColumn("A")],//Identifiant
+                data[m_pathMembersInternalCSV->getColumn("B")],//Nom
+                data[m_pathMembersInternalCSV->getColumn("C")]);//Prenom
+}
+
+void Loading::loadGoal(QStringList data)
+{
+    if (data.size() > 3)
+        m_data->addGoal(data[m_pathMembersInternalCSV->getColumn("B")],//Nom
+                data[m_pathMembersInternalCSV->getColumn("A")],//Id
+                data[m_pathMembersInternalCSV->getColumn("K")],//Responsable
+                data[m_pathMembersInternalCSV->getColumn("D")]);//Etat
+}
+
+void Loading::loadDocument(QStringList data)
+{
+    /*
+    if (data.size() > 3)
+        m_data->addDocument();*/
+
+    //qDebug() << data[m_pathMembersInternalCSV->getColumn("T")];
+
+    if (data.size() > 3)
+        m_data->addDocument(data[m_pathMembersInternalCSV->getColumn("D")],//name
+                data[m_pathMembersInternalCSV->getColumn("T")],//iddomaine
+                data[m_pathMembersInternalCSV->getColumn("B")],//version
+                data[m_pathMembersInternalCSV->getColumn("H")],//proprio
+                data[m_pathMembersInternalCSV->getColumn("A")],//id
+                data[m_pathMembersInternalCSV->getColumn("M")],//datecreation
+                data[m_pathMembersInternalCSV->getColumn("O")],//dateModif
+                data[m_pathMembersInternalCSV->getColumn("AI")],//nbPj
+                data[m_pathMembersInternalCSV->getColumn("AD")],//namePj
+                0,//nbConsult
+                data[m_pathMembersInternalCSV->getColumn("AL")],//conf
+                data[m_pathMembersInternalCSV->getColumn("C")]//status
+                    );
+}
+
+void Loading::loadCommu(QStringList data)
+{
+    if (data.size() > 1)
+    {
+        QString goals = data[m_pathMembersInternalCSV->getColumn("Y")];
+        m_data->addCommunaute(data[m_pathMembersInternalCSV->getColumn("B")],//Nom
+                goals.split(","));//Goals
+    }
+}
+
+void Loading::loadGoalMember(QStringList data)
+{
+    if (data.size() > 1)
+    {
+        m_data->addGoalMember(data[m_pathMembersInternalCSV->getColumn("A")],//idgoal
+                data[m_pathMembersInternalCSV->getColumn("C")]);//idmember
+        //qDebug() << data;
+    }
+}
+
+void Loading::finishDomaine()
+{
+    qDebug() << "Finish plan";
+    m_current = m_pathDocumentsCSV;
+    m_pathDocumentsCSV->loading();
+}
+
+void Loading::finishMember()
+{
+    qDebug() << "Finish Member";
+    m_current = m_pathGoalCSV;
+    m_pathGoalCSV->loading();
+}
+
+void Loading::finishGoal()
+{
+    qDebug() << "Finish Goal";
+    m_current = m_pathCommuCSV;
+    m_pathCommuCSV->loading();
+}
+
+void Loading::finishDocument()
+{
+    qDebug() << "Finish Documents";
+    m_data->getInfo();
+}
+
+void Loading::finishCommu()
+{
+    qDebug() << "Finish Commu";
+    m_current = m_pathGoalMembersCSV;
+    m_pathGoalMembersCSV->loading();
+}
+
+void Loading::finishGoalMember()
+{
+    qDebug() << "Finish Goal members";
+    m_current = m_pathDomainesCSV;
+    m_pathDomainesCSV->loading();
+}
+
+void Loading::run()
+{
+    loadFiles();
+    m_pathMembersExternalCSV->loading();
+    m_pathMembersInternalCSV->loading();
+}

@@ -36,6 +36,10 @@ Item {
            ListElement { data: "dqsd"; ide: 12058184 }
 
        }
+    Flickable
+    {
+        anchors.fill: parent
+        contentHeight: teee.height + 120
     Rectangle
     {
         width: parent.width - 100
@@ -57,7 +61,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:MainMenu.qml");
+                    swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
                 }
             }
         }
@@ -74,6 +78,7 @@ Item {
 
     Column
     {
+        id:teee
         y:80
         width: parent.width
         spacing: 20
@@ -317,6 +322,7 @@ Item {
                 font.pointSize: 10
             }
         }
+    }
     }
     }
 

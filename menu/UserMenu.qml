@@ -49,7 +49,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:MainMenu.qml");
+                    swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
                 }
             }
         }
@@ -59,7 +59,15 @@ Item {
             Text
             {
                 y:80
-                text:"Rechercher Utilisateur"
+                text:"Rechercher"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Utilisateurs"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -69,7 +77,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageUtilisateurSearch.qml");
+                    swipeView.replace("qrc:pages/PageUtilisateurSearch.qml", StackView.Immediate);
                 }
             }
         }
@@ -97,7 +105,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageUtilisateurList.qml", StackView.Immediate);
                 }
             }
         }
@@ -125,7 +133,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }
@@ -153,7 +161,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }
@@ -181,7 +189,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }

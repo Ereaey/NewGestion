@@ -57,7 +57,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:MainMenu.qml");
+                    swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
                 }
             }
         }

@@ -49,7 +49,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageNotation.qml");
+                    swipeView.replace("qrc:pages/PageNotation.qml", StackView.Immediate);
                 }
             }
         }
@@ -69,7 +69,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:menu/DocumentMenu.qml");
+                    swipeView.replace("qrc:menu/DocumentMenu.qml", StackView.Immediate);
                 }
             }
         }
@@ -89,7 +89,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:menu/DomaineMenu.qml");
+                    swipeView.replace("qrc:menu/DomaineMenu.qml", StackView.Immediate);
                 }
             }
         }
@@ -109,7 +109,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:menu/GoalMenu.qml");
+                    swipeView.replace("qrc:menu/GoalMenu.qml", StackView.Immediate);
                 }
             }
         }
@@ -142,7 +142,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:menu/UserMenu.qml");
+                    swipeView.replace("qrc:menu/UserMenu.qml", StackView.Immediate);
                 }
             }
         }

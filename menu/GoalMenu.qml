@@ -49,7 +49,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:MainMenu.qml");
+                    swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
                 }
             }
         }
@@ -59,7 +59,15 @@ Item {
             Text
             {
                 y:80
-                text:"Rechercher Goal"
+                text:"Rechercher"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Goal"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -69,7 +77,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalSearch.qml");
+                    swipeView.replace("qrc:pages/PageGoalSearch.qml", StackView.Immediate);
                 }
             }
         }
@@ -79,7 +87,15 @@ Item {
             Text
             {
                 y:80
-                text:"Goals Vides"
+                text:"Goals"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Vides"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -89,7 +105,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }
@@ -117,7 +133,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }
@@ -127,7 +143,15 @@ Item {
             Text
             {
                 y:80
-                text:"Goals Doublons"
+                text:"Goals"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Doublons"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -137,7 +161,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }
@@ -147,7 +171,15 @@ Item {
             Text
             {
                 y:80
-                text:"Goals 0 membres"
+                text:"Goals"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Vides"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
@@ -157,7 +189,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml");
+                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }

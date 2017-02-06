@@ -57,7 +57,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:MainMenu.qml");
+                    swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
                 }
             }
         }
@@ -237,11 +237,10 @@ Item {
                 color:"white"
                 font.pointSize: 10
                 width: parent.width
-                Row {
+                Column {
                     x:195
                     height: 60
                     y:-5
-                    spacing: 10
                     width: parent.width
 
                     CheckBox {
@@ -274,7 +273,7 @@ Item {
                             text:control.text
                             horizontalAlignment: Text.AlignHCenter
                             //verticalAlignment: Text.AlignVCenter
-                            leftPadding: control.indicator.width + 20
+                            leftPadding: control.indicator.width + 30
                             font.pointSize: 10
                             y:-20
                         }
@@ -285,6 +284,7 @@ Item {
                         id:videDocument
                         text: qsTr("Documents vide")
                         checked: false
+
                         indicator: Rectangle {
                             implicitWidth: 26
                             implicitHeight: 26
@@ -311,7 +311,7 @@ Item {
                             text:videDocument.text
                             //horizontalAlignment: Text.AlignHCenter
                             //verticalAlignment: Text.AlignVCenter
-                            leftPadding: videDocument.indicator.width + 10
+                            leftPadding: videDocument.indicator.width + 5
                             font.pointSize: 10
                             y:-20
                         }

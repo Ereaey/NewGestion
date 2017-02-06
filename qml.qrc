@@ -26,5 +26,10 @@
         <file>pages/PageUtilisateurSearch.qml</file>
         <file>pages/PageNotation.qml</file>
         <file>pages/PageDocumentSearch.qml</file>
+        <file>mainLoading.qml</file>
+        <file>mainWindow.qml</file>
+        <file>images/logo.png</file>
+        <file>images/load.gif</file>
+        <file>images/cross.png</file>
     </qresource>
 </RCC>

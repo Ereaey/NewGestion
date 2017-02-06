@@ -4,63 +4,8 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import "."
 
-ApplicationWindow {
-    visible: true
-    width: 1440
-    height: 900
-    title: qsTr("Hello World")
+Item{
 
-    background:Rectangle
-    {
-        color: "#25273C"
-    }
-
-    header:    Rectangle
-    {
-        width: parent.width
-        height: 30
-        x:0
-        y:0
-        color: "#181A29"
-        Text
-        {
-            y:5
-            x:parent.width - width - 120
-            text:"Support assurane qualité opérationnel sites industriels valenciennes sevelnord et douvrin - FM"
-            color: "white"
-            font.family: "Arial"
-            font.pointSize: 12
-            //width: parent.width - 20
-            //x:parent.width/2-width/2
-            ButtonSt
-            {
-                x:parent.width+10
-                text: "Modifier"
-                height:20
-                onClicked:
-                {
-                    chooseCommu.open();
-                }
-            }
-        }
-    }
-
-    Popup {
-        id: chooseCommu
-        x: parent.width/2 - width/2
-        y: 100
-        width: 600
-        height: parent.height - 200
-        modal: true
-        focus: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        background:Rectangle
-        {
-            color: "#181A29"
-            border.width : 2
-            border.color: "white"
-        }
-    }
 
 RowLayout
 {
