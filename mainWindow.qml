@@ -12,14 +12,11 @@ ApplicationWindow {
     id:mainWin
     flags: Qt.Window | Qt.FramelessWindowHint
 
-
-
-
     Popup {
         id: chooseCommu
         x: parent.width/2 - width/2
         y: 100
-        width: 600
+        width: 700
         height: parent.height - 200
         modal: true
         focus: true
@@ -30,6 +27,61 @@ ApplicationWindow {
             border.width : 2
             border.color: "white"
         }
+    ListView
+    {
+        ScrollBar.vertical: ScrollBar{active: true}
+        y:50
+        x:5
+        clip: true
+        spacing: 10
+        maximumFlickVelocity: 600
+        highlightMoveVelocity : 600
+        width:parent.width - 15
+        height:parent.height - 70
+        //id:autoCompletList
+        model: treatment.commu
+        delegate: Rectangle
+        {
+            width: parent.width - 20
+            x:10
+            height: 40
+            radius: 3
+            color: "#364150"
+            y:40
+            Text
+            {
+                color: "white"
+                text: model.modelData.nom
+                font.pointSize: 10
+                x:10
+                y:5
+                id:ndDomaine
+                width: parent.width - 20
+                wrapMode: Text.WordWrap
+                height: 40
+            }
+            Text
+            {
+                color: "white"
+                text:"Résultat : " + model.modelData.result
+                font.pointSize: 8
+                x:10
+                y:23
+            }
+            ButtonSt
+            {
+                x:parent.width - 150
+                text: "Rechercher dans l'arbre"
+                height:30
+                y:5
+                onClicked:
+                {
+                    chooseCommu.open();
+                }
+            }
+        }
+
+    }
     }
 
     Loader
@@ -56,9 +108,10 @@ ApplicationWindow {
         color: "#181A29"
         Text
         {
+            id:nameCommu
             y:5
             x:parent.width - width - 120
-            text:"Support assurane qualité opérationnel sites industriels valenciennes sevelnord et douvrin - FM"
+            text:treatment.currentCommu
             color: "white"
             font.family: "Arial"
             font.pointSize: 12

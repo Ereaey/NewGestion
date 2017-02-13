@@ -18,9 +18,9 @@ QString DataCommu::nom() const
     return m_nom;
 }
 
-int DataCommu::result() const
+QString DataCommu::result() const
 {
-    return m_result;
+    return QString::number(m_result);
 }
 
 void DataCommu::setResult(int result)

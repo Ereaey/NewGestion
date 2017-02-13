@@ -5,6 +5,7 @@ Loading::Loading(Data *d, QObject *parent) : QThread(parent)
 {
     m_listDrives += QFileInfo("C:/fichiersGestion");
     m_data = d;
+    m_finish = false;
 }
 
 void Loading::loadFiles()
@@ -186,8 +187,10 @@ void Loading::loadCommu(QStringList data)
     if (data.size() > 1)
     {
         QString goals = data[m_pathMembersInternalCSV->getColumn("Y")];
-        m_data->addCommunaute(data[m_pathMembersInternalCSV->getColumn("B")],//Nom
+        m_data->addCommunaute(QString(data[m_pathMembersInternalCSV->getColumn("B")]),//Nom
                 goals.split(","));//Goals
+        qDebug() << data[m_pathMembersInternalCSV->getColumn("B")];
+        //qDebug() << QString(data[m_pathMembersInternalCSV->getColumn("B")]).toUtf8();
     }
 }
 
@@ -204,20 +207,27 @@ void Loading::loadGoalMember(QStringList data)
 void Loading::finishDomaine()
 {
     qDebug() << "Finish plan";
+    m_messageLoadingGlobal = "Fichiers : 6 / 6";
+    m_messageLoading = "Chargements des documents";
     m_current = m_pathDocumentsCSV;
     m_pathDocumentsCSV->loading();
+
 }
 
 void Loading::finishMember()
 {
     qDebug() << "Finish Member";
+    m_messageLoading = "Chargements des goals";
     m_current = m_pathGoalCSV;
+    m_messageLoadingGlobal = "Fichiers : 2 / 6";
     m_pathGoalCSV->loading();
 }
 
 void Loading::finishGoal()
 {
+    m_messageLoading = "Chargements des communautés";
     qDebug() << "Finish Goal";
+    m_messageLoadingGlobal = "Fichiers : 3 / 6";
     m_current = m_pathCommuCSV;
     m_pathCommuCSV->loading();
 }
@@ -226,11 +236,15 @@ void Loading::finishDocument()
 {
     qDebug() << "Finish Documents";
     m_data->getInfo();
+    m_finish = true;
+
 }
 
 void Loading::finishCommu()
 {
+    m_messageLoadingGlobal = "Fichiers : 4 / 6";
     qDebug() << "Finish Commu";
+    m_messageLoading = "Chargements des goals membres";
     m_current = m_pathGoalMembersCSV;
     m_pathGoalMembersCSV->loading();
 }
@@ -238,13 +252,19 @@ void Loading::finishCommu()
 void Loading::finishGoalMember()
 {
     qDebug() << "Finish Goal members";
+    m_messageLoadingGlobal = "Fichiers : 5 / 6";
+    m_messageLoading = "Chargements des domaines";
     m_current = m_pathDomainesCSV;
     m_pathDomainesCSV->loading();
 }
 
 void Loading::run()
 {
+    if (m_finish == true)
+        return;
     loadFiles();
+    m_messageLoading = "Chargements des membres";
+    m_messageLoadingGlobal = "Fichiers : 1 / 6";
     m_pathMembersExternalCSV->loading();
     m_pathMembersInternalCSV->loading();
 }

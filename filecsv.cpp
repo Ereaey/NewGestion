@@ -1,6 +1,6 @@
 #include "filecsv.h"
 #include <QDebug>
-
+#include <QTextCodec>
 FileCSV::FileCSV(QString path, int nbColumn, bool version, QObject *parent) : QObject(parent)
 {
     m_nbColumn = nbColumn;
@@ -20,6 +20,7 @@ FileCSV::FileCSV(QString path, int nbColumn, bool version, QObject *parent) : QO
         }
     }
 
+    //QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
     QFileInfo file1(path);
     m_name = file1.fileName();
@@ -53,35 +54,85 @@ void FileCSV::loading()
             return;
 
     //QTextStream in(&file);
-    QString current_line = "";
-    QStringList listeData;
+    //in.setCodec();
+    QByteArray current_line = "";
+    QList<QByteArray> listeData;
     QStringList d;
 
+    //QTextCodec *codec =
     int i = 0;
     int total0 = 0;
 
     while (!file.atEnd())
     {
-        QString line = file.readLine();
-
+        QByteArray line = file.readLine();
+        //line = line.toLocal8Bit();
+        //qDebug() <<  QString::fromUtf8(line.toUtf8());
         current_line += line;
 
         if (current_line.size() > 2)
         {
             if (current_line.at(current_line.size() - 1) == QChar('\n') && (current_line.at(current_line.size() - 2) == QChar('"') || current_line.at(current_line.size() - 2) == QChar(';')))
             {
-                if(V1 == true)
-                    listeData = current_line.split("\";\"");
+                listeData.clear();
+                if(V1 == false)
+                {
+                   // listeData = current_line.split("\";\"");
+                    current_line.replace(" ;", "");
+                    current_line.replace("; ", "");
+                    listeData = current_line.split(';');
+                }
                 else
                 {
-                    listeData = current_line.remove(" ;").remove("; ").split(";");
+                    current_line.replace(" ;", "");
+                    current_line.replace("; ", "");
+                    QByteArray current;
+                    for (int i = 0; i < current_line.size(); i++)
+                    {
+                        current.append(current_line.at(i));
+                        if (current_line.at(i) == ';')
+                        {
+                            if (i == 0)
+                            {
+                                listeData.append(current);
+                                current.clear();
+                            }
+                            else if (i == current_line.size() - 2)
+                            {
+                                listeData.append(current);
+                                current.clear();
+                            }
+                            else if (i > 0 || i != current_line.size() - 2)
+                            {
+                                if (current_line.at(i - 1) == '"' && current_line.at(i + 1) == '"')
+                                {
+                                    listeData.append(current);
+                                    current.clear();
+                                }
+                            }
+                        }
+                        if (current_line.at(i) == '"' && i == current_line.size() - 2)
+                            listeData.append(current);
+                    }
+                    //listeData = current_line.split(';');
                 }
                 d.clear();
                 for (int i = 0; i < listeData.size(); i++)
                 {
-                    QString a = listeData.at(i);
+                    QByteArray h = listeData.at(i);
+                    h = h.replace('"', "");
+                    h = h.replace('\n', "");
+                    h = h.replace(';', "");
 
-                    d.push_back(a.remove(QChar('"'), Qt::CaseInsensitive).remove(QChar('\n'), Qt::CaseInsensitive));
+                    /*
+                    QByteArray eg;
+                    eg.append(h);*/
+
+                    QString de = QString::fromLatin1(h);
+                    QTextStream in(&de);
+
+                    in.setCodec("UTF-8");
+                    d.push_back(in.readAll());
                 }
 
                 if (d.size() != m_nbColumn)

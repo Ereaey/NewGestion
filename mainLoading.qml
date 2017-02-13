@@ -18,15 +18,17 @@ Item{
 
     Timer
     {
-        interval: 100; running: true; repeat: true
+        interval: 30; running: true; repeat: true
         onTriggered:
         {
 
-            progressLoad.value = loading.progress / 100
+            //progressLoad.value = loading.progress / 100
+            //loadFile.text = loading.messageLoadingGlobal
+            //preciseLoad.text = loading.messageLoading
             //console.log(progressLoad.value)
             //console.log(progressLoad.value, progressLoad.to)
-            /*
-            if (progressLoad.value + 0.1 >= 1.0)
+
+            if (loading.finish === true)
             {
                 console.log("Chargement terminé")
                 mainWin.flags = Qt.Window
@@ -36,7 +38,8 @@ Item{
                 mainWin.height = 600
                 headerBar.visible = true
                 mainWin.showMaximized()
-            }*/
+                treatment.load();
+            }
         }
     }
 
@@ -119,13 +122,15 @@ Item{
     }
     Text
     {
+        id:preciseLoad
         color: "white"
         x:2
         y:238
-        text:"Chargement des documents : 0 /1000"
+        text:"Chargement des documents"
     }
     Text
     {
+        id : loadFile
         color: "white"
         x:2
         y:253

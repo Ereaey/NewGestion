@@ -16,7 +16,9 @@ void Treatment::load()
     foreach (QString key, m_data->getCommus().keys()) {
         m_commu.append(new DataCommu(key, 0));
         setCommu(key);
+        qDebug() << key;
     }
+    emit refreshCommu();
 }
 
 void Treatment::searchUser(QString name, int type)
@@ -204,7 +206,7 @@ void Treatment::setCommu(QString name)
     m_currentCommu = name;
     m_data->setCurrentCommu(name);
     emit commuChanged();
-    start();
+    //start();
 }
 
 void Treatment::exportPlan(QString idDomaine, QString path)
@@ -270,6 +272,11 @@ QString Treatment::generatePlan(QString idDomaine)
     return d;
 }
 
+
+void Treatment::loadCara()
+{
+    emit commuChanged();
+}
 
 void Treatment::run()
 {

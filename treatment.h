@@ -34,7 +34,14 @@ class Treatment : public QThread
         QVariant result() const{return QVariant::fromValue(m_result);}
         QVariant descriptionResult() const{return QVariant::fromValue(m_descriptionResult);}
         QVariant commu() const{return QVariant::fromValue(m_commu);}
-        QString currentCommu() const{return m_currentCommu;}
+        QString currentCommu()
+        {
+            /*
+            if (m_currentCommu.isEmpty() && m_data->getCommus().size() > 0)
+                m_currentCommu = m_data->getCommus().keys()[0];
+*/
+            return m_currentCommu;
+        }
         QString currentAction() const{return m_currentAction;}
         Q_INVOKABLE void setCommu(QString name);
         Q_INVOKABLE void load();
@@ -55,6 +62,7 @@ class Treatment : public QThread
         Q_INVOKABLE void searchUserPerime(bool resp);
         Q_INVOKABLE void exportPlan(QString idDomaine, QString path);
         Q_INVOKABLE void searchUserId(QString name, int type);
+        Q_INVOKABLE void loadCara();
 
 
     private:

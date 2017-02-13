@@ -328,7 +328,7 @@ void Data::addDocument(QString name, QString idDomaine, QString version, QString
     {
         if (id.isEmpty())
         {
-            qDebug() << "id";
+            //qDebug() << "id";
             return;
         }
         if (version.isEmpty())
@@ -668,4 +668,7 @@ void Data::getInfo()
     qDebug() << userId.size();
     qDebug() << goalId.size();
     qDebug() << domaines.size();
+    foreach (QString name, communautes.keys()) {
+        qDebug() << communautes[name]->name;
+    }
 }

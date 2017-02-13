@@ -15,8 +15,8 @@ class DataCommu : public QObject
         Q_PROPERTY(QString id READ id)
         QString id() const;
 
-        Q_PROPERTY(int result READ result NOTIFY resultM)
-        int result() const;
+        Q_PROPERTY(QString result READ result NOTIFY resultM)
+        QString result() const;
 
         void setResult(int result);
 
