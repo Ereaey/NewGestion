@@ -205,7 +205,7 @@ void Treatment::setCommu(QString name)
 {
     m_currentCommu = name;
     m_data->setCurrentCommu(name);
-    //emit commuChanged();
+    emit commuChanged();
     //start();
 }
 

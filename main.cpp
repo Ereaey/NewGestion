@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     Treatment *tre = new Treatment(d);
     //QQuickStyle::setStyle("Material");
 
-    qDebug() << "ééé";
+    //qDebug() << "ééé";
 
 
     QQmlApplicationEngine engine;

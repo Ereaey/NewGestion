@@ -18,6 +18,7 @@ class Loading : public QThread
     Q_PROPERTY(QString messageLoadingGlobal READ messageLoadingGlobal NOTIFY currentMessageChanged)
     Q_PROPERTY(float progress READ progress)
     Q_PROPERTY(bool finish READ finish NOTIFY finishChanged)
+    Q_PROPERTY(bool ready READ ready)
 
 public:
     explicit Loading(Data *d, QObject *parent = 0);
@@ -31,6 +32,10 @@ public:
     bool finish() const
     {
         return m_finish;
+    }
+    bool ready() const
+    {
+        return m_ready;
     }
     float progress()
     {
@@ -68,7 +73,7 @@ protected:
 
 private:
     void loadFiles();
-
+    bool m_ready;
     QMutex mutex;
     QFileInfoList m_listDrives;
     Data *m_data;

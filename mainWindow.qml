@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.0
 import "."
 
 ApplicationWindow {
@@ -11,6 +12,11 @@ ApplicationWindow {
     visible:true
     id:mainWin
     flags: Qt.Window | Qt.FramelessWindowHint
+
+    Component.onCompleted: {
+        setX(Screen.width / 2 - width / 2);
+        setY(Screen.height / 2 - height / 2);
+    }
 
     Popup {
         id: chooseCommu
@@ -56,7 +62,7 @@ ApplicationWindow {
                 x:10
                 y:5
                 id:ndDomaine
-                width: parent.width - 20
+                width: parent.width - 190
                 height: 40
                 wrapMode: Text.WrapAnywhere
 
@@ -71,10 +77,11 @@ ApplicationWindow {
             }
             ButtonSt
             {
-                x:parent.width - 150
-                text: "Rechercher dans l'arbre"
+                x:parent.width - 170
+                text: "Selectionner"
+                width: 160
                 height:30
-                y:5
+                y:15
                 onClicked:
                 {
                     chooseCommu.open();
@@ -126,7 +133,6 @@ ApplicationWindow {
                 onClicked:
                 {
                     chooseCommu.open();
-                    treatment.load();
                 }
             }
         }

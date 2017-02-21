@@ -195,7 +195,7 @@ void Data::addDomaine(QString nameCommu, QString nameDomaine, QString IdDomaine,
     }
     if (!communautes.contains(nameCommu))
     {
-        qDebug() << "bug commu";
+        qDebug() << "bug commu" << nameCommu;
         QStringList l;
         addCommunaute(nameCommu, l);
     }
@@ -657,6 +657,8 @@ QVector<int> Data::getDomaineGoalInexistant(QString goal)
 
 void Data::setCurrentCommu(QString name)
 {
+    if (!communautes.contains(name))
+        return;
     c_actu = communautes[name];
     commuChanged();
     treeMo->setRoot(c_actu->root->t);

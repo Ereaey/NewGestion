@@ -3,13 +3,16 @@
 
 Loading::Loading(Data *d, QObject *parent) : QThread(parent)
 {
-    m_listDrives += QFileInfo("C:/fichiersGestion");
+    m_listDrives += QFileInfo("/home/etudiant/Bureau/fichiersGestion");
     m_data = d;
+    m_ready = false;
     m_finish = false;
+    qDebug() << "t";
 }
 
 void Loading::loadFiles()
 {
+    qDebug() << "e";
     QStringList t;
     t.append("externalID*.csv");
     t.append("internalID*.csv");
@@ -18,12 +21,14 @@ void Loading::loadFiles()
     t.append("ssl_membre_pressi*.csv");
     t.append("Audits_des_documents_*.csv");
     t.append("Liste_de_communautés_*.csv");
+    qDebug() << "easy";
     QString file;
     foreach(const QFileInfo& FileInfo, m_listDrives)
     {
          QDirIterator it(FileInfo.filePath(), t, QDir::Files, QDirIterator::Subdirectories);
          while (it.hasNext())
          {
+             qDebug() << "ok";
              file = it.next();
              if (file.contains("externalID"))
                 if (m_pathMembersExternal.lastModified() < QFileInfo(file).lastModified())
@@ -80,6 +85,7 @@ void Loading::loadFiles()
     connect(m_pathGoalMembersCSV, SIGNAL(finish()), this, SLOT(finishGoalMember()), Qt::DirectConnection);
 
     m_current = m_pathMembersInternalCSV;
+    m_ready = true;
 }
 
 void Loading::setMessageLoading(QString message)
@@ -186,7 +192,10 @@ void Loading::loadCommu(QStringList data)
 {
     if (data.size() > 1)
     {
+        if (QString(data[m_pathMembersInternalCSV->getColumn("B")]) == "Nom de la communaute")
+            return;
         QString goals = data[m_pathMembersInternalCSV->getColumn("Y")];
+        if (goals.isEmpty())
         m_data->addCommunaute(QString(data[m_pathMembersInternalCSV->getColumn("B")]),//Nom
                 goals.split(","));//Goals
         qDebug() << data[m_pathMembersInternalCSV->getColumn("B")];

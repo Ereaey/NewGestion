@@ -9,10 +9,11 @@ Item{
     anchors.fill: parent
 
     Timer {
-        interval: 10; running: true; repeat: false
+        interval: 1; running: true; repeat: false
         onTriggered:
         {
             loading.load();
+            t.start();
         }
     }
 
@@ -22,13 +23,6 @@ Item{
         interval: 30; running: true; repeat: true
         onTriggered:
         {
-
-            //
-            //
-            //
-            //console.log(progressLoad.value)
-            //console.log(progressLoad.value, progressLoad.to)
-
             if (loading.finish === true)
             {
                 t.repeat = false;
@@ -36,19 +30,16 @@ Item{
                 mainWin.flags = Qt.Window
                 mainLoader.source = "main.qml"
                 mainWin.width = 800
-
                 mainWin.height = 600
                 headerBar.visible = true
                 mainWin.showMaximized()
-                ///treatment.load();
+                treatment.load();
             }
-            else
+            else if (loading.finish !== true && loading.ready === true)
             {
-
                 progressLoad.value = loading.progress / 100
                 loadFile.text = loading.messageLoadingGlobal
                 preciseLoad.text = loading.messageLoading
-
             }
         }
     }

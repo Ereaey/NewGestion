@@ -36,10 +36,6 @@ class Treatment : public QThread
         QVariant commu() const{return QVariant::fromValue(m_commu);}
         QString currentCommu()
         {
-            /*
-            if (m_currentCommu.isEmpty() && m_data->getCommus().size() > 0)
-                m_currentCommu = m_data->getCommus().keys()[0];
-*/
             return m_currentCommu;
         }
         QString currentAction() const{return m_currentAction;}

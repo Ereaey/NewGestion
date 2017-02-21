@@ -2,7 +2,7 @@ QT += qml quick quickcontrols2 widgets
 
 CONFIG += c++11
 
-QMAKE_LFLAGS += -Wl,--large-address-aware
+#QMAKE_LFLAGS += -Wl,--large-address-aware
 
 SOURCES += main.cpp \
     filecsv.cpp \
