@@ -44,7 +44,7 @@ ApplicationWindow {
         {
             width: parent.width - 20
             x:10
-            height: 40
+            height: 60
             radius: 3
             color: "#364150"
             y:40
@@ -57,8 +57,9 @@ ApplicationWindow {
                 y:5
                 id:ndDomaine
                 width: parent.width - 20
-                wrapMode: Text.WordWrap
                 height: 40
+                wrapMode: Text.WrapAnywhere
+
             }
             Text
             {
@@ -66,7 +67,7 @@ ApplicationWindow {
                 text:"Résultat : " + model.modelData.result
                 font.pointSize: 8
                 x:10
-                y:23
+                y:43
             }
             ButtonSt
             {
@@ -125,7 +126,7 @@ ApplicationWindow {
                 onClicked:
                 {
                     chooseCommu.open();
-                    loading.load();
+                    treatment.load();
                 }
             }
         }

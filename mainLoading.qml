@@ -18,18 +18,20 @@ Item{
 
     Timer
     {
+        id:t
         interval: 30; running: true; repeat: true
         onTriggered:
         {
 
-            //progressLoad.value = loading.progress / 100
-            //loadFile.text = loading.messageLoadingGlobal
-            //preciseLoad.text = loading.messageLoading
+            //
+            //
+            //
             //console.log(progressLoad.value)
             //console.log(progressLoad.value, progressLoad.to)
 
             if (loading.finish === true)
             {
+                t.repeat = false;
                 console.log("Chargement terminé")
                 mainWin.flags = Qt.Window
                 mainLoader.source = "main.qml"
@@ -38,7 +40,15 @@ Item{
                 mainWin.height = 600
                 headerBar.visible = true
                 mainWin.showMaximized()
-                treatment.load();
+                ///treatment.load();
+            }
+            else
+            {
+
+                progressLoad.value = loading.progress / 100
+                loadFile.text = loading.messageLoadingGlobal
+                preciseLoad.text = loading.messageLoading
+
             }
         }
     }
