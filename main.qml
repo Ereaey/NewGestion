@@ -1,10 +1,10 @@
-import QtQuick 2.6
 import QtQuick.Window 2.2
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-//import Qt.labs.controls 1.0
 import QtQuick.Layouts 1.3
+
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.0
+import QtQuick.Controls.Styles 1.4
 import "."
 
 Item{
@@ -25,20 +25,16 @@ RowLayout
         width: 500
         visible: false
         height: parent.height
-        ScrollView
+
+        ListView
         {
-            y:30
-            width: parent.width
-            height: parent.height - 30
-            ListView
-            {
-                anchors.fill: parent
-                maximumFlickVelocity: 100
-                id:testTree
-                model: treet.tree
-                focus: true
-                delegate: ItemView{}
-            }
+            ScrollBar.vertical: ScrollBar{active: true}
+            anchors.fill: parent
+            maximumFlickVelocity: 100
+            id:testTree
+            model: treet.tree
+            focus: true
+            delegate: ItemView{}
         }
         border.width: 1
         border.color: "black"

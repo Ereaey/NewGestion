@@ -85,7 +85,10 @@ ApplicationWindow {
                 onClicked:
                 {
                     treatment.setCommu(model.modelData.nom);
+                    console.log(model.modelData.nom);
+                    //testTree.model = treet.tree
                     //chooseCommu.open();
+                    //treet.refreshTree();
                 }
             }
         }
@@ -133,9 +136,9 @@ ApplicationWindow {
                 height:20
                 onClicked:
                 {
-                    treet.refreshTree();
+                    //
                     chooseCommu.open();
-                    testTree.model = treet.tree
+                    //testTree.model = treet.tree
                 }
             }
         }

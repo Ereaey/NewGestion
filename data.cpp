@@ -660,7 +660,8 @@ void Data::setCurrentCommu(QString name)
     if (!communautes.contains(name))
         return;
     c_actu = communautes[name];
-    commuChanged();
+    //commuChanged();
+    qDebug() << "Data : " << c_actu->root->nom;
     treeMo->setRoot(c_actu->root->t);
 }
 

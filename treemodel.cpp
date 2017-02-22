@@ -1,10 +1,11 @@
 #include "treemodel.h"
 #include "treeitem.h"
-
+#include "QtDebug"
 const int number = 100;
 
 TreeItem *createTreeItem(){
-    /*auto res = new TreeItem(QString::number(qrand() % number));
+    /*
+    auto res = new TreeItem(QString::number(qrand() % number));
     while(qrand() % 2)
         res->addChildItem(createTreeItem());
     return res;*/
@@ -24,8 +25,11 @@ Model::Model(QObject *parent) :
 
 void Model::setRoot(TreeItem *item)
 {
+    qDebug() << "Racine:" << item->content();
     m_tree.clear();
+    qDebug() << "Racine:" << item->content();
     m_tree.append(item);
+    qDebug() << "Racine:" << item->content();
     emit treeChanged();
 }
 

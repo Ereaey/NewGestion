@@ -34,6 +34,7 @@ Item{
                 headerBar.visible = true
                 mainWin.showMaximized()
                 treatment.load();
+                //data.generateTree();
             }
             else if (loading.finish !== true && loading.ready === true)
             {

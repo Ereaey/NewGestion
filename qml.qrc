@@ -32,5 +32,9 @@
         <file>images/load.gif</file>
         <file>images/cross.png</file>
         <file>ItemView.qml</file>
+        <file>TreeItemsList.qml</file>
+        <file>Empty.qml</file>
+        <file>images/previous.png</file>
+        <file>images/down-arrow.png</file>
     </qresource>
 </RCC>

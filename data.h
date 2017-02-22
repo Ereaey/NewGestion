@@ -169,9 +169,10 @@ class Data : public QObject
         QVector<int> getDomaineGoalInexistant(QString goal);
         int e;
         void getInfo();
+        Q_INVOKABLE void generateTree();
 
     public slots:
-        void generateTree();
+
         void generateData();
         void drawTree(QString goal, bool modif, bool lecteur, bool gestionnaire);
         void drawTree(QString domaine);

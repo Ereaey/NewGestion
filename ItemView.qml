@@ -6,14 +6,16 @@ import QtQuick.Layouts 1.1
 
 Row{
     id: itemView
+    x:2
     Image
     {
         width: 15
         height: 15
         x:3
+        y:4
         source:
         {
-            modelData.hasChild? modelData.isOpen ? "down-arrow.png" : "right-arrow.png" : ""
+            modelData.hasChild? modelData.isOpen ? "images/down-arrow.png" : "images/previous.png" : ""
         }
         MouseArea{
             anchors.fill: parent
@@ -44,7 +46,7 @@ Row{
                 onClicked:
                 {
                     console.log(modelData.content)
-                    listDomaine.addDomaine(modelData.content, modelData.id);
+                    //listDomaine.addDomaine(modelData.content, modelData.id);
                 }
             }
         }

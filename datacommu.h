@@ -9,10 +9,10 @@ class DataCommu : public QObject
 
     public:
         explicit DataCommu(QString nom, QString id, QObject *parent = 0);
-        Q_PROPERTY(QString nom READ nom)
+        Q_PROPERTY(QString nom READ nom NOTIFY nomM)
         QString nom() const;
 
-        Q_PROPERTY(QString id READ id)
+        Q_PROPERTY(QString id READ id NOTIFY idM)
         QString id() const;
 
         Q_PROPERTY(QString result READ result NOTIFY resultM)
@@ -22,6 +22,8 @@ class DataCommu : public QObject
 
     Q_SIGNALS:
         void resultM();
+        void nomM();
+        void idM();
 
     private:
         QString m_id;

@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     qDebug() << "codecForLocale:"   << QTextCodec::codecForLocale()->name();
 
     QThread *thread = new QThread;
-    Model *m = new Model();
+    Model *m = new Model;
     Data *d = new Data(m);
     Loading *l = new Loading(d);
     l->moveToThread(thread);
@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("loading", l);
     engine.rootContext()->setContextProperty("treatment", tre);
     engine.rootContext()->setContextProperty("treet", m);
+    engine.rootContext()->setContextProperty("data", d);
     engine.load(QUrl(QLatin1String("qrc:/mainWindow.qml")));
 
     return app.exec();
