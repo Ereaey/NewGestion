@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("loading", l);
     engine.rootContext()->setContextProperty("treatment", tre);
-
+    engine.rootContext()->setContextProperty("treet", m);
     engine.load(QUrl(QLatin1String("qrc:/mainWindow.qml")));
 
     return app.exec();

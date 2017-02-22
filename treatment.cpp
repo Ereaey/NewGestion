@@ -15,7 +15,7 @@ void Treatment::load()
 {
     foreach (QString key, m_data->getCommus().keys()) {
         m_commu.append(new DataCommu(key, 0));
-        setCommu(key);
+        //setCommu(key);
         qDebug() << key;
     }
     emit refreshCommu();

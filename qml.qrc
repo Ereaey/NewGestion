@@ -31,5 +31,6 @@
         <file>images/logo.png</file>
         <file>images/load.gif</file>
         <file>images/cross.png</file>
+        <file>ItemView.qml</file>
     </qresource>
 </RCC>

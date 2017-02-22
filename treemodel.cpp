@@ -26,6 +26,7 @@ void Model::setRoot(TreeItem *item)
 {
     m_tree.clear();
     m_tree.append(item);
+    emit treeChanged();
 }
 
 const QList<TreeItem *> &Model::tree() const{

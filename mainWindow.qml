@@ -84,7 +84,8 @@ ApplicationWindow {
                 y:15
                 onClicked:
                 {
-                    chooseCommu.open();
+                    treatment.setCommu(model.modelData.nom);
+                    //chooseCommu.open();
                 }
             }
         }
@@ -132,7 +133,9 @@ ApplicationWindow {
                 height:20
                 onClicked:
                 {
+                    treet.refreshTree();
                     chooseCommu.open();
+                    testTree.model = treet.tree
                 }
             }
         }

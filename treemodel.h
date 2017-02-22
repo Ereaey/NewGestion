@@ -15,6 +15,11 @@ public:
     const QList<TreeItem*> &tree() const;
     const QList<QObject*> treeAsQObjects() const;
     void setRoot(TreeItem* item);
+    void refreshTree()
+    {
+        emit treeChanged();
+    }
+
 signals:
     void treeChanged();
 public slots:
