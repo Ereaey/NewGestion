@@ -1,11 +1,12 @@
 #include "filecsv.h"
 #include <QDebug>
 #include <QTextCodec>
-FileCSV::FileCSV(QString path, int nbColumn, bool version, QObject *parent) : QObject(parent)
+FileCSV::FileCSV(QString path, int nbColumn, bool version, QObject *parent) : QThread(parent)
 {
     m_nbColumn = nbColumn;
     m_mutex = new QMutex();
     m_path = path;
+    m_finish = false;
 
     QString chaine;
     for (int it = 0; it < 5; it++)
@@ -41,14 +42,16 @@ FileCSV::~FileCSV()
     //qDeleteAll(lines);
 }
 
-/*
+
 void FileCSV::loading()
 {
     start();
 }
-*/
-void FileCSV::loading()
+
+void FileCSV::run()
 {
+    if (m_finish == true)
+        return;
     QFile file(m_path);
     if (!file.open(QIODevice::ReadOnly))
             return;
@@ -155,6 +158,7 @@ void FileCSV::loading()
         }
     }
 
+    m_finish = true;
     emit finish();
     qDebug() << m_path << QString::number(i) << QString::number(total0) << QString::number(m_size);
 }

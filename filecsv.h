@@ -11,7 +11,7 @@
 #include <QMutex>
 #include <QObject>
 
-class FileCSV  : public QObject
+class FileCSV  : public QThread
 {
     Q_OBJECT
     public:
@@ -28,6 +28,7 @@ class FileCSV  : public QObject
         QMutex *m_mutex, *m_mutexProgress;
         double m_size, m_nbColumn, V1;
         float m_progress;
+        bool m_finish;
 
     signals:
         void dataLine(QStringList data);
