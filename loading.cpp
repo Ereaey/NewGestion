@@ -60,13 +60,13 @@ void Loading::loadFiles()
          }
     }
 
-    m_pathDomainesCSV = new FileCSV(m_pathDomaines.absoluteFilePath(), 40, true, this);
-    m_pathMembersInternalCSV = new FileCSV(m_pathMembersInternal.absoluteFilePath(), 24, true, this);
-    m_pathMembersExternalCSV = new FileCSV(m_pathMembersExternal.absoluteFilePath(), 27, true, this);
-    m_pathGoalCSV = new FileCSV(m_pathGoal.absoluteFilePath(), 66, false, this);
-    m_pathDocumentsCSV = new FileCSV(m_pathDocuments.absoluteFilePath(), 51, true, this);
-    m_pathCommuCSV = new FileCSV(m_pathCommu.absoluteFilePath(), 61, true, this);
-    m_pathGoalMembersCSV = new FileCSV(m_pathGoalMembers.absoluteFilePath(), 3, true, this);
+    m_pathDomainesCSV = new FileCSV(m_pathDomaines.absoluteFilePath(), 40, true);
+    m_pathMembersInternalCSV = new FileCSV(m_pathMembersInternal.absoluteFilePath(), 24, true);
+    m_pathMembersExternalCSV = new FileCSV(m_pathMembersExternal.absoluteFilePath(), 27, true);
+    m_pathGoalCSV = new FileCSV(m_pathGoal.absoluteFilePath(), 66, false);
+    m_pathDocumentsCSV = new FileCSV(m_pathDocuments.absoluteFilePath(), 51, true);
+    m_pathCommuCSV = new FileCSV(m_pathCommu.absoluteFilePath(), 61, true);
+    m_pathGoalMembersCSV = new FileCSV(m_pathGoalMembers.absoluteFilePath(), 3, true);
 
     connect(m_pathDomainesCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadDomaine(QStringList)), Qt::DirectConnection);
     connect(m_pathMembersInternalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadMember(QStringList)), Qt::DirectConnection);
@@ -83,6 +83,21 @@ void Loading::loadFiles()
     connect(m_pathDocumentsCSV, SIGNAL(finish()), this, SLOT(finishDocument()), Qt::DirectConnection);
     connect(m_pathCommuCSV, SIGNAL(finish()), this, SLOT(finishCommu()), Qt::DirectConnection);
     connect(m_pathGoalMembersCSV, SIGNAL(finish()), this, SLOT(finishGoalMember()), Qt::DirectConnection);
+
+    QThread *thread = new QThread;
+    m_pathDomainesCSV->moveToThread(thread);
+
+    QThread *thread1 = new QThread;
+    m_pathGoalCSV->moveToThread(thread1);
+
+    QThread *thread2 = new QThread;
+    m_pathDocumentsCSV->moveToThread(thread2);
+
+    QThread *thread3 = new QThread;
+    m_pathCommuCSV->moveToThread(thread3);
+
+    QThread *thread4 = new QThread;
+    m_pathGoalMembersCSV->moveToThread(thread4);
 
     m_current = m_pathMembersInternalCSV;
     m_ready = true;
@@ -274,6 +289,10 @@ void Loading::run()
     loadFiles();
     m_messageLoading = "Chargements des membres";
     m_messageLoadingGlobal = "Fichiers : 1 / 6";
+    QThread *thread = new QThread;
+    m_pathMembersExternalCSV->moveToThread(thread);
     m_pathMembersExternalCSV->loading();
+    QThread *thread2 = new QThread;
+    m_pathMembersInternalCSV->moveToThread(thread2);
     m_pathMembersInternalCSV->loading();
 }

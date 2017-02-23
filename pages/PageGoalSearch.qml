@@ -6,36 +6,116 @@ import "qrc:/"
 
 Item {
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
+    Popup {
+        id: chooseCommu
+        x: mainWin.width/2 - width/2
+        y: 100
+        width: 700
+        height: idDocument.length < 3 ? 75 : parent.height - 200
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        background:Rectangle
+        {
+            color: "#181A29"
+            border.width : 2
+            border.color: "white"
+        }
+        Rectangle
+        {
+            width:600
+            height: 35
+            x:40
+            radius: 3
+            color: "#364150"
+            y:10
+            Text
+            {
+                text:"Recherche via identifiant : "
+                color:"white"
+                font.pointSize: 10
+                width: 200
+                height: 25
+                y:8
+                x:5
+            }
+            TextField {
+                id:idDocument
+                x:300
+                height: 25
+                y:5
+                width: 295
+                placeholderText: qsTr("")
+                color: "black"
+                background: Rectangle {
+                    implicitWidth: 150
+                    implicitHeight: 20
 
-       }
+                    opacity: enabled ? 1 : 0.3
+                    border.color: idDocument.pressed ? "#26282a" : "#353637"
+                    border.width: 1
+
+                    radius:3
+                }
+            }
+        }
+        ListView
+        {
+            ScrollBar.vertical: ScrollBar{active: true}
+            y:100
+            x:5
+            clip: true
+            spacing: 10
+            maximumFlickVelocity: 600
+            highlightMoveVelocity : 600
+            width:parent.width - 15
+            height:parent.height - 110
+            //id:autoCompletList
+            model: myModel
+            delegate: Rectangle
+            {
+                width: parent.width - 20
+                x:10
+                height: 40
+                radius: 3
+                color: "#364150"
+                y:40
+                Text
+                {
+                    color: "white"
+                    text: model.data
+                    font.pointSize: 10
+                    x:10
+                    y:5
+                    id:ndDomaine
+                    width: parent.width - 190
+                    height: 40
+                    wrapMode: Text.WrapAnywhere
+
+                }
+                ButtonSt
+                {
+                    x:parent.width - 170
+                    text: "Selectionner"
+                    width: 160
+                    height:30
+                    y:5
+                    onClicked:
+                    {
+                        //treatment.setCommu(model.data);
+                        //console.log(model.modelData.nom);
+                        //testTree.model = treet.tree
+                        //chooseCommu.open();
+                        //treet.refreshTree();
+                        treatment.searchGoal(model.data);
+                    }
+                }
+            }
+
+        }
+
+    }
+
     Rectangle
     {
         width: parent.width - 100
@@ -113,10 +193,34 @@ Item {
         }
         Text
         {
-            text:"Modes de recherche : Gestionnaire"
+            text:"Modes de recherche :"
             x:20
             y:50
             color:"white"
+            font.pointSize: 10
+        }
+        Text
+        {
+            text:"Gestionnaire"
+            x:180
+            y:51
+            color:"red"
+            font.pointSize: 10
+        }
+        Text
+        {
+            text:"Responsable"
+            x:280
+            y:51
+            color:"blue"
+            font.pointSize: 10
+        }
+        Text
+        {
+            text:"Lecteur"
+            x:380
+            y:51
+            color:"green"
             font.pointSize: 10
         }
     }

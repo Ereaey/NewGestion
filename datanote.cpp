@@ -9,9 +9,9 @@ DataNote::DataNote(Data *d, QObject *parent) : QObject(parent)
 void DataNote::test()
 {
     emit noteChanged();
-    emit  nbUserChanged();
-    emit  nbDomaineChanged();
-    emit  nbDocumentChanged();
+    emit nbUserChanged();
+    emit nbDomaineChanged();
+    emit nbDocumentChanged();
     emit nbGoalChanged();
     emit niveauChanged();
 
