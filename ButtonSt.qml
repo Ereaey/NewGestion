@@ -27,8 +27,4 @@ Button
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
-    onClicked:
-    {
-        chooseCommu.open();
-    }
 }

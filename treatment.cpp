@@ -17,9 +17,10 @@ void Treatment::load()
     m_data->generateTree();
     foreach (QString key, m_data->getCommus().keys()) {
         m_commu.append(new DataCommu(key, 0));
-        setCommu(key);
+
         qDebug() << key;
     }
+    setCommu(m_data->getCommus().lastKey());
     emit refreshCommu();
 }
 
@@ -208,7 +209,7 @@ void Treatment::setCommu(QString name)
     m_currentCommu = name;
     m_data->setCurrentCommu(name);
     emit commuChanged();
-    //start();
+    start();
 }
 
 void Treatment::exportPlan(QString idDomaine, QString path)

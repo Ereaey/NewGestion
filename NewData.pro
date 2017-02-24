@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     datadomaines.cpp \
     datagoal.cpp \
     datanote.cpp \
-    datauser.cpp
+    datauser.cpp \
+    autocompletgoal.cpp
 
 RESOURCES += qml.qrc
 
@@ -42,7 +43,8 @@ HEADERS += \
     datadomaines.h \
     datagoal.h \
     datanote.h \
-    datauser.h
+    datauser.h \
+    autocompletgoal.h
 
 DISTFILES += \
     config.json

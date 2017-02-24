@@ -5,13 +5,29 @@ import QtQuick.Controls.Styles 1.4
 import "qrc:/"
 
 Item {
-    id:mainview
+    id:mainview2
+    property string valueGoal: ""
+    Timer
+    {
+        interval: 500;
+        running: true;
+        repeat: true
+        onTriggered:
+        {
+            if (valueGoal != idGoal.text && idGoal.length > 3)
+            {
+                valueGoal = idGoal.text
+                goals.search(idGoal.text);
+
+            }
+        }
+    }
     Popup {
-        id: chooseCommu
-        x: mainWin.width/2 - width/2
+        id: chooseGoal
+        x: tree.visible ?  mainWin.width/2 - width/2  - tree.width : mainWin.width/2 - width/2
         y: 100
         width: 700
-        height: idDocument.length < 3 ? 75 : parent.height - 200
+        height: idGoal.length < 3 ? 75 : parent.height - 200
         modal: true
         focus: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
@@ -37,11 +53,11 @@ Item {
                 width: 200
                 height: 25
                 y:8
-                x:5
+                x:15
             }
             TextField {
-                id:idDocument
-                x:300
+                id:idGoal
+                x:280
                 height: 25
                 y:5
                 width: 295
@@ -71,7 +87,7 @@ Item {
             width:parent.width - 15
             height:parent.height - 110
             //id:autoCompletList
-            model: myModel
+            model: goals.result
             delegate: Rectangle
             {
                 width: parent.width - 20
@@ -83,7 +99,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text: model.data
+                    text: modelData
                     font.pointSize: 10
                     x:10
                     y:5
@@ -102,12 +118,8 @@ Item {
                     y:5
                     onClicked:
                     {
-                        //treatment.setCommu(model.data);
-                        //console.log(model.modelData.nom);
-                        //testTree.model = treet.tree
-                        //chooseCommu.open();
-                        //treet.refreshTree();
-                        treatment.searchGoal(model.data);
+                        chooseGoal.close();
+                        treatment.searchGoal(idGoal.text, true, true, false);
                     }
                 }
             }
@@ -159,7 +171,7 @@ Item {
             width: 200
             onClicked:
             {
-                chooseCommu.open();
+                 chooseGoal.open();
             }
         }
     }
@@ -304,7 +316,7 @@ Item {
                     font.pointSize: 10
                     x:10
                     y:5
-                    id:ndDomaine
+                    id:idDomaine
                 }
                 Text
                 {

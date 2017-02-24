@@ -8,7 +8,7 @@
 #include "treatment.h"
 #include <QTextCodec>
 #include <QDebug>
-
+#include "autocompletgoal.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,9 +21,10 @@ int main(int argc, char *argv[])
     qDebug() << "codecForLocale:"   << QTextCodec::codecForLocale()->name();
 
     QThread *thread = new QThread;
+    autoCompletGoal *g = new autoCompletGoal;
     Model *m = new Model;
     Data *d = new Data(m);
-    Loading *l = new Loading(d);
+    Loading *l = new Loading(d, g);
     l->moveToThread(thread);
     Treatment *tre = new Treatment(d);
     //QQuickStyle::setStyle("Material");
@@ -37,6 +38,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("treatment", tre);
     engine.rootContext()->setContextProperty("treet", m);
     engine.rootContext()->setContextProperty("data", d);
+    engine.rootContext()->setContextProperty("goals", g);
     engine.load(QUrl(QLatin1String("qrc:/mainWindow.qml")));
 
     return app.exec();

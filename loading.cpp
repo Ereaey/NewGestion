@@ -1,13 +1,14 @@
 #include "loading.h"
 #include "qdebug.h"
 
-Loading::Loading(Data *d, QObject *parent) : QThread(parent)
+Loading::Loading(Data *d, autoCompletGoal *g, QObject *parent) : QThread(parent)
 {
     m_listDrives += QFileInfo("C:/fichiersGestion");
     m_data = d;
     m_ready = false;
     m_finish = false;
     qDebug() << "t";
+    m_g = g;
 }
 
 void Loading::loadFiles()
@@ -173,10 +174,13 @@ void Loading::loadMember(QStringList data)
 void Loading::loadGoal(QStringList data)
 {
     if (data.size() > 3)
+    {
         m_data->addGoal(data[m_pathMembersInternalCSV->getColumn("B")],//Nom
                 data[m_pathMembersInternalCSV->getColumn("A")],//Id
                 data[m_pathMembersInternalCSV->getColumn("K")],//Responsable
                 data[m_pathMembersInternalCSV->getColumn("D")]);//Etat
+        m_g->addGoal(data[m_pathMembersInternalCSV->getColumn("B")]);
+    }
 }
 
 void Loading::loadDocument(QStringList data)

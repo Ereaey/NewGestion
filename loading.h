@@ -7,7 +7,7 @@
 #include <QDate>
 #include <QDebug>
 #include <QFileInfo>
-
+#include "autocompletgoal.h"
 #include "filecsv.h"
 #include "data.h"
 
@@ -21,7 +21,7 @@ class Loading : public QThread
     Q_PROPERTY(bool ready READ ready)
 
 public:
-    explicit Loading(Data *d, QObject *parent = 0);
+    explicit Loading(Data *d, autoCompletGoal *g, QObject *parent = 0);
     void setMessageLoading(QString message);
 
     QString messageLoading();
@@ -99,6 +99,7 @@ private:
     bool m_finish;
     QString m_messageLoading;
     QString m_messageLoadingGlobal;
+    autoCompletGoal *m_g;
 };
 
 #endif // LOADING_H

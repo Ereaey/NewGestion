@@ -519,6 +519,7 @@ void Data::drawTree(QString goal, bool modif, bool lecteur, bool gestionnaire)
                 recursiveOpen(c_actu->domainesGoalLecteurs[goal][i]->id_parent);
         }
     }
+    treeMo->refreshTree();
 }
 
 void Data::drawTree(QString domaine)
