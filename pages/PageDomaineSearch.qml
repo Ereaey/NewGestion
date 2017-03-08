@@ -1,9 +1,11 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
+import QtQuick 2.8
+import QtQuick.Controls 2.1
+import QtQuick.Window 2.0
+import Qt.labs.platform 1.0
 import QtQuick.Controls.Styles 1.4
-import "qrc:/"
-import QtQuick.Dialogs 1.0
+
+import QtQuick.Layouts 1.0
+import "qrc:/mycomponent"
 
 Item {
     FileDialog {
@@ -17,7 +19,7 @@ Item {
         onRejected: {
             console.log("Canceled")
         }
-        selectExisting: false
+        //selectExisting: false
         nameFilters: [ "CSV(*.csv)" ]
         //Component.onCompleted: visible = true
     }

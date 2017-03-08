@@ -15,7 +15,7 @@ Row{
         y:4
         source:
         {
-            modelData.hasChild? modelData.isOpen ? "qrc:/images/down-arrow.png" : "qrc:/images/previous.png" : ""
+            modelData.hasChild? modelData.isOpen ? "qrc:images/down-arrow.png" : "qrc:images/previous.png" : ""
         }
         MouseArea{
             anchors.fill: parent
@@ -38,8 +38,8 @@ Row{
             color: "transparent"
         }
         Text{
-            clip: true
-            width: 300
+            //clip: true
+            //width: 300
             text: modelData.content
             font.pointSize: 10
             font.family: "Helvetica"

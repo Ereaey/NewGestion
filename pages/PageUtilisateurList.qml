@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
-import "qrc:/"
+import "qrc:/mycomponent"
 
 Item {
     id:mainview
@@ -33,7 +33,7 @@ Item {
         }
         Text
         {
-            text:"Utilisateurs"
+            text:treatment.currentAction
             x:parent.width/2 - width/2
             y:10
             color:"white"

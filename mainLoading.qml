@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
-import "."
+import "qrc:/mycomponent"
 
 Item{
     id:windowLoad
@@ -49,14 +49,14 @@ Item{
         source:"images/logo.png"
         //x:-100
        //y:-300
-        y:-30
+        y:0
     }
     Image
     {
         source:"images/cross.png"
         //x:-100
        //y:-300
-        y:-17
+        y:07
         x:parent.width - width - 10
         width: 20
         height: 20

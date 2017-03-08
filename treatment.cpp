@@ -68,7 +68,7 @@ void Treatment::searchDocument(QString name)
 
 void Treatment::searchDocumentSurchage()
 {
-    m_currentAction = "Rechercher des documents avec plus de 50 documents";
+    m_currentAction = "Rechercher des documents avec plus de 50 fichiers";
     emit currentActionChanged();
     m_type = SEARCH_DOCUMENT_SURCHARGE;
     start();
@@ -76,7 +76,7 @@ void Treatment::searchDocumentSurchage()
 
 void Treatment::searchUserHorsPSA()
 {
-    m_currentAction = "Rechercher des utilisateurs absent de l'annuaire PSA";
+    m_currentAction = "Rechercher des utilisateurs hors PSA";
     emit currentActionChanged();
     m_type = SEARCH_USER_HORS_PSA;
     start();
@@ -131,7 +131,7 @@ void Treatment::noteGlobale()
 
 void Treatment::searchGoalsVide()
 {
-    m_currentAction = "Rechercher un goal vide";
+    m_currentAction = "Rechercher les goals vides";
     emit currentActionChanged();
     m_type = SEARCH_GOAL_VIDE;
     start();
@@ -165,7 +165,7 @@ void Treatment::searchUserPerime(bool resp)
 
 void Treatment::searchGoalsProbleme()
 {
-    m_currentAction = "Rechercher un goal inexistants / périmés";
+    m_currentAction = "Rechercher les goals inexistants";
     emit currentActionChanged();
     m_type = SEARCH_GOAL_PROBLEME;
     start();

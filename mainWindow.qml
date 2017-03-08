@@ -3,11 +3,11 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.0
-import "."
+import "qrc:/mycomponent"
 
 ApplicationWindow {
     width: 600
-    height: 300
+    height: 270
     title: qsTr("Gestion des communautés")
     visible:true
     id:mainWin
@@ -108,6 +108,7 @@ ApplicationWindow {
     background:Rectangle
     {
         color: "#25273C"
+        //color: "#181A29"
     }
 
     header:    Rectangle
@@ -123,7 +124,7 @@ ApplicationWindow {
         {
             id:nameCommu
             y:5
-            x:parent.width - width - 120
+            x:0
             text:treatment.currentCommu
             color: "white"
             font.family: "Arial"

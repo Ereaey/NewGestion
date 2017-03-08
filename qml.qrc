@@ -12,7 +12,6 @@
         <file>images/question-list.png</file>
         <file>images/play-button.png</file>
         <file>pages/PageGoalSearch.qml</file>
-        <file>ButtonSt.qml</file>
         <file>menu/GoalMenu.qml</file>
         <file>images/magnifying-glass.png</file>
         <file>pages/PageGoalList.qml</file>
@@ -36,5 +35,6 @@
         <file>mycomponent/Empty.qml</file>
         <file>mycomponent/ItemView.qml</file>
         <file>mycomponent/TreeItemsList.qml</file>
+        <file>mycomponent/ButtonSt.qml</file>
     </qresource>
 </RCC>
