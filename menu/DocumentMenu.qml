@@ -77,6 +77,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchDocument("");
                     swipeView.replace("qrc:pages/PageDocumentSearch.qml", StackView.Immediate);
                 }
             }
@@ -105,7 +106,8 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
+                    treatment.searchDocumentVide();
+                    swipeView.replace("qrc:pages/PageDocumentList.qml", StackView.Immediate);
                 }
             }
         }
@@ -133,10 +135,12 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
+                    treatment.searchDocumentSurchage();
+                    swipeView.replace("qrc:pages/PageDocumentList.qml", StackView.Immediate);;
                 }
             }
         }
+        /*
         Image
         {
             source:"qrc:../images/folder.png"
@@ -165,6 +169,7 @@ Item {
                 }
             }
         }
+        /*
         Image
         {
             source:"qrc:../images/folder.png"
@@ -192,7 +197,7 @@ Item {
                     swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
-        }
+        }*/
 
     }
 

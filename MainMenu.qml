@@ -115,16 +115,16 @@ Item {
         }
         Image
         {
-            //source:"qrc:images/settings.png"
-            /*
+            source:"qrc:images/settings.png"
+
             Text
             {
                 y:80
-                text:"Paramètres"
+                text:"Procédures"
                 color: "white"
                 font.pointSize:16
                 x:parent.width/2 - width/2
-            }*/
+            }
         }
         Image
         {

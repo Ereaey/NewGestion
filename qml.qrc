@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>maininter.qml</file>
         <file>images/file.png</file>
         <file>images/folder.png</file>
         <file>images/group.png</file>
@@ -31,10 +31,10 @@
         <file>images/logo.png</file>
         <file>images/load.gif</file>
         <file>images/cross.png</file>
-        <file>ItemView.qml</file>
-        <file>TreeItemsList.qml</file>
-        <file>Empty.qml</file>
         <file>images/previous.png</file>
         <file>images/down-arrow.png</file>
+        <file>mycomponent/Empty.qml</file>
+        <file>mycomponent/ItemView.qml</file>
+        <file>mycomponent/TreeItemsList.qml</file>
     </qresource>
 </RCC>

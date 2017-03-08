@@ -20,7 +20,7 @@ Item{
     Timer
     {
         id:t
-        interval: 30; running: true; repeat: true
+        interval: 1; running: true; repeat: true
         onTriggered:
         {
             if (loading.finish === true)
@@ -28,13 +28,12 @@ Item{
                 t.repeat = false;
                 console.log("Chargement terminé")
                 mainWin.flags = Qt.Window
-                mainLoader.source = "main.qml"
+                mainLoader.source = "maininter.qml"
                 mainWin.width = 800
                 mainWin.height = 600
                 headerBar.visible = true
                 mainWin.showMaximized()
                 treatment.load();
-                //data.generateTree();
             }
             else if (loading.finish !== true && loading.ready === true)
             {

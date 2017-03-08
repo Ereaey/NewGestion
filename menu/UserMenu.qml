@@ -105,6 +105,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchUserAbsent();
                     swipeView.replace("qrc:pages/PageUtilisateurList.qml", StackView.Immediate);
                 }
             }
@@ -133,10 +134,12 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
+                    treatment.searchUserHorsPSA();
+                    swipeView.replace("qrc:pages/PageUtilisateurList.qml", StackView.Immediate);
                 }
             }
         }
+        /*
         Image
         {
             source:"qrc:../images/folder.png"
@@ -193,7 +196,7 @@ Item {
                 }
             }
         }
-
+       */
 
     }
 

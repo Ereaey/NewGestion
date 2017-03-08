@@ -9,18 +9,22 @@ Treatment::Treatment(Data *d)
     m_goal = "";
     m_domaine = "";
     m_descriptionResult = new DataDomaine("", "");
+    m_domaineexit = false;
 }
 
 void Treatment::load()
 {
+    qDebug() << "generateData";
     m_data->generateData();
+    qDebug() << "generateTree";
     m_data->generateTree();
+    qDebug() << "generateCom";
     foreach (QString key, m_data->getCommus().keys()) {
         m_commu.append(new DataCommu(key, 0));
-
-        qDebug() << key;
+        //qDebug() << key;
     }
     setCommu(m_data->getCommus().lastKey());
+    qDebug() << "fin load";
     emit refreshCommu();
 }
 
@@ -82,6 +86,10 @@ void Treatment::searchGoal(QString goal, bool modificateur, bool lecteur, bool g
 {
     m_goal = goal;
     m_currentAction = "Rechercher un goal > " + goal;
+    gestionnaire = false;
+    modificateur = true;
+    lecteur = true;
+    /*
     if (gestionnaire == true)
     {
         m_type = SEARCH_GOAL_GEST;
@@ -103,13 +111,13 @@ void Treatment::searchGoal(QString goal, bool modificateur, bool lecteur, bool g
         m_currentAction += " (M/L)";
     }
     else
-    {
+    {*/
         m_type = SEARCH_GOAL;
         m_currentAction = "Rechercher un goal";
-        m_goal = "";
-    }
+        //m_goal = "";
+    //}
     emit currentActionChanged();
-
+    emit currentGoalChanged();
     start();
 }
 
@@ -301,6 +309,8 @@ void Treatment::run()
         /*
         m_data->drawTree(m_goal, true, true);
         */
+        m_selectuser = new DataUserU(m_data->getCurrentCommu()->users[m_user]);
+        emit selectUserRefresh();
         m_data->drawTreeUserId(m_user, m_typeUser);
 
         for (int i = 0; i < m_commu.size(); i++)
@@ -314,15 +324,11 @@ void Treatment::run()
                 }
                 else if (m_typeUser == 1)
                 {
-                    ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->users[m_user]->domainesModificateur.size());
+                    ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->users[m_user]->domainesGestionnaire.size());
                 }
                 else if (m_typeUser == 2)
                 {
-                    ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->users[m_user]->domainesGestionnaire.size());
-                }
-                else if (m_typeUser == 3)
-                {
-                    ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->users[m_user]->domainesLecteur.size());
+                    ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->users[m_user]->documentsResponsable.size());
                 }
             }
             else
@@ -368,20 +374,21 @@ void Treatment::run()
     }
     else if (m_type == SEARCH_GOAL_VIDE)
     {
-        m_result.clear();
+        m_listgoals.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->goalsVides.size());
         }
         for (int i = 0; i < m_data->getCurrentCommu()->goalsVides.size(); i++)
         {
-            m_result.append(new DataGoal(m_data->getCurrentCommu()->goalsVides[i]->nom, m_data->getCurrentCommu()->goalsVides[i]->ID));
+            m_listgoals.append(new DataGoal(m_data->getCurrentCommu()->goalsVides[i]->nom, m_data->getCurrentCommu()->goalsVides[i]->ID));
         }
-        emit refreshResult();
+        emit listGoalRefresh();
     }
     else if (m_type == SEARCH_DOMAINE)
     {
         m_data->drawTree(m_domaine);
+        m_domaineexit = false;
         for (int i = 0; i < m_commu.size(); i++)
         {
             if (m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->domainesKey.contains(m_domaine))
@@ -390,110 +397,131 @@ void Treatment::run()
                 setCommu(((DataCommu*)m_commu[i])->nom());
                 m_data->drawTree(m_domaine);
                 Domaine *g = m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->domainesKey[m_domaine];
-                DataDomaine *d = new DataDomaine(g->nom, QString::number(g->id), g->responsable->user->nom + " " + g->responsable->user->prenom);
-                m_descriptionResult = d;
+                //DataDomaine *d = new DataDomaine(g->nom, QString::number(g->id), g->responsable->user->nom + " " + g->responsable->user->prenom);
+
+                //m_descriptionResult = d;
+
+                m_selectdomaine = new DataDomaineU(g);
+                m_domaineexit = true;
             }
             else
                 ((DataCommu*)(m_commu[i]))->setResult(0);
         }
-        emit refreshDescriptionResult();
-        emit refreshResult();
+        emit selectDomaineRefresh();
     }
     else if (m_type == SEARCH_DOMAINE_VIDE)
     {
-        m_result.clear();
+        m_listdoms.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->domainesVides.size());
         }
         for (int i = 0; i < m_data->getCurrentCommu()->domainesVides.size(); i++)
         {
-            m_result.append(new DataDomaine(m_data->getCurrentCommu()->domainesVides[i]->nom, QString::number(m_data->getCurrentCommu()->domainesVides[i]->id)));
+            m_listdoms.append(new DataDomaine(m_data->getCurrentCommu()->domainesVides[i]->nom,
+                                              QString::number(m_data->getCurrentCommu()->domainesVides[i]->id),
+                                                              m_data->getCurrentCommu()->domainesVides[i]->responsable->user->nom + " " + m_data->getCurrentCommu()->domainesVides[i]->responsable->user->prenom,
+                                                              m_data->getCurrentCommu()->domainesVides[i]->responsable->user->ID));
         }
-        emit refreshResult();
+        emit listDomRefresh();
     }
     else if (m_type == SEARCH_GOAL_DOUBLON)
     {
-        m_result.clear();
+        m_listgoals.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->domainesDoublon.size());
         }
         for (int i = 0; i < m_data->getCurrentCommu()->domainesDoublon.size(); i++)
         {
-            m_result.append(new DataDomaine(m_data->getCurrentCommu()->domainesDoublon[i]->nom, QString::number(m_data->getCurrentCommu()->domainesDoublon[i]->id)));
+            //!!!!!!!!!!!!!! probléme doublon domaine
+            m_listgoals.append(new DataDomaine(m_data->getCurrentCommu()->domainesDoublon[i]->nom, QString::number(m_data->getCurrentCommu()->domainesDoublon[i]->id)));
         }
-        emit refreshResult();
+        emit listGoalRefresh();
     }
     else if (m_type == SEARCH_DOMAINE_FULL)
     {
-        m_result.clear();
+        m_listdoms.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->domainesPlein.size());
         }
         for (int i = 0; i < m_data->getCurrentCommu()->domainesPlein.size(); i++)
         {
-            m_result.append(new DataDomaine(m_data->getCurrentCommu()->domainesPlein[i]->nom, QString::number(m_data->getCurrentCommu()->domainesPlein[i]->id)));
+            m_listdoms.append(new DataDomaine(m_data->getCurrentCommu()->domainesPlein[i]->nom,
+                                              QString::number(m_data->getCurrentCommu()->domainesPlein[i]->id),
+                                              m_data->getCurrentCommu()->domainesPlein[i]->responsable->user->nom + " " + m_data->getCurrentCommu()->domainesPlein[i]->responsable->user->prenom,
+                                              m_data->getCurrentCommu()->domainesPlein[i]->responsable->user->ID
+                                                              ));
         }
-        emit refreshResult();
+        emit listDomRefresh();
     }
     else if (m_type == SEARCH_GOAL_PROBLEME)
     {
-        m_result.clear();
+        m_listgoals.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->goalsInexistants.size());
         }
         for (int i = 0; i < m_data->getCurrentCommu()->goalsInexistants.size(); i++)
         {
-            QString d;
-            QVector<int> data = m_data->getDomaineGoalInexistant(m_data->getCurrentCommu()->goalsInexistants[i]->nom);
+            //QString d;
+            //QVector<int> data = m_data->getDomaineGoalInexistant(m_data->getCurrentCommu()->goalsInexistants[i]->nom);
 
             /*if (m_data->getParentInexistant(m_data->getCurrentCommu()->domainesGoal[m_data->getCurrentCommu()->goalsInexistants[i]->nom][e], m_data->getCurrentCommu()->goalsInexistants[i]->nom) == false)
             {
                 qDebug() << "A" << QString::number(m_data->getCurrentCommu()->domainesGoal[m_data->getCurrentCommu()->goalsInexistants[i]->nom][e]->id);
                 d.append(" - " + QString::number(m_data->getCurrentCommu()->domainesGoal[m_data->getCurrentCommu()->goalsInexistants[i]->nom][e]->id));
             }*/
-            for (int g = 0; g < data.size(); g++)
-            {
-                d.append(" - " + QString::number(data[g]));
-            }
-            qDebug() << "Nb Do" <<  QString::number(m_data->getCurrentCommu()->domainesGoal[m_data->getCurrentCommu()->goalsInexistants[i]->nom].size());
-            m_result.append(new DataGoal(m_data->getCurrentCommu()->goalsInexistants[i]->nom, m_data->getCurrentCommu()->goalsInexistants[i]->ID + d, m_data->getCurrentCommu()->goalsInexistants[i]->etat));
+            //for (int g = 0; g < data.size(); g++)
+            //{
+            //    d.append(" - " + QString::number(data[g]));
+            //}
+            //qDebug() << "Nb Do" <<  QString::number(m_data->getCurrentCommu()->domainesGoal[m_data->getCurrentCommu()->goalsInexistants[i]->nom].size());
+            m_listgoals.append(new DataGoal(m_data->getCurrentCommu()->goalsInexistants[i]->nom,  m_data->getCurrentCommu()->goalsInexistants[i]->ID, m_data->getCurrentCommu()->goalsInexistants[i]->etat));
 
         }
-        emit refreshResult();
+        emit listGoalRefresh();
     }
     else if (m_type == SEARCH_DOCUMENT_VIDE)
     {
-        m_result.clear();
+        m_listdocs.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->documentsVide.size());
         }
         for (int i = 0; i < m_data->getCurrentCommu()->documentsVide.size(); i++)
         {
-            m_result.append(new DataDocument(m_data->getCurrentCommu()->documentsVide[i]->nom, m_data->getCurrentCommu()->documentsVide[i]->id, m_data->getCurrentCommu()->documentsVide[i]->domaine->id));
+            m_listdocs.append(new DataDocument(m_data->getCurrentCommu()->documentsVide[i]->nom,
+                                               m_data->getCurrentCommu()->documentsVide[i]->id,
+                                               m_data->getCurrentCommu()->documentsVide[i]->domaine->id,
+                                               m_data->getCurrentCommu()->documentsVide[i]->proprietaire->user->nom +  " " +
+                                               m_data->getCurrentCommu()->documentsVide[i]->proprietaire->user->prenom,
+                                               m_data->getCurrentCommu()->documentsVide[i]->proprietaire->user->ID));
         }
-        emit refreshResult();
+        emit listDocRefresh();
     }
     else if (m_type == SEARCH_DOCUMENT_SURCHARGE)
     {
-        m_result.clear();
+        m_listdocs.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->documentsSurcharge.size());
         }
         for (int i = 0; i < m_data->getCurrentCommu()->documentsSurcharge.size(); i++)
         {
-            m_result.append(new DataDocument(m_data->getCurrentCommu()->documentsSurcharge[i]->nom, m_data->getCurrentCommu()->documentsSurcharge[i]->id, m_data->getCurrentCommu()->documentsSurcharge[i]->domaine->id));
+            m_listdocs.append(new DataDocument(m_data->getCurrentCommu()->documentsSurcharge[i]->nom,
+                                               m_data->getCurrentCommu()->documentsSurcharge[i]->id,
+                                               m_data->getCurrentCommu()->documentsSurcharge[i]->domaine->id,
+                                               m_data->getCurrentCommu()->documentsSurcharge[i]->proprietaire->user->nom +  " " +
+                                               m_data->getCurrentCommu()->documentsSurcharge[i]->proprietaire->user->prenom,
+                                               m_data->getCurrentCommu()->documentsSurcharge[i]->proprietaire->user->ID));
         }
-        emit refreshResult();
+        emit listDocRefresh();
     }
     else if (m_type == SEARCH_DOCUMENT)
     {
-        m_result.clear();
+        m_listdocs.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             if (m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->documents.contains(m_document))
@@ -501,14 +529,18 @@ void Treatment::run()
                 qDebug() << "salut";
                 ((DataCommu*)(m_commu[i]))->setResult(1);
                 setCommu(((DataCommu*)m_commu[i])->nom());
-                m_result.append(new DataDocument(m_data->getCurrentCommu()->documents[m_document]->nom, m_data->getCurrentCommu()->documents[m_document]->id, m_data->getCurrentCommu()->documents[m_document]->domaine->id));
+                 m_listdocs.append(new DataDocument(m_data->getCurrentCommu()->documents[m_document]->nom,
+                                                 m_data->getCurrentCommu()->documents[m_document]->id,
+                                                 m_data->getCurrentCommu()->documents[m_document]->domaine->id,
+                                                 m_data->getCurrentCommu()->documents[m_document]->domaine->responsable->user->nom + " " + m_data->getCurrentCommu()->documents[m_document]->domaine->responsable->user->prenom,
+                                                 m_data->getCurrentCommu()->documents[m_document]->domaine->responsable->user->ID));
 
             }
             else
                 ((DataCommu*)(m_commu[i]))->setResult(0);
         }
 
-        emit refreshResult();
+        emit listDocRefresh();
     }
     else if (m_type == NOTE_GLOBALE)
     {
@@ -522,7 +554,7 @@ void Treatment::run()
     }
     else if (m_type == SEARCH_USER_ABSENT)
     {
-        m_result.clear();
+        m_listusers.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->usersInconnu.size());
@@ -530,9 +562,10 @@ void Treatment::run()
 
         for (int i = 0; i < m_data->getCurrentCommu()->usersInconnu.size(); i++)
         {
-            m_result.append(new DataUser(m_data->getCurrentCommu()->usersInconnu[i]->user->nom + " " + m_data->getCurrentCommu()->usersInconnu[i]->user->prenom, m_data->getCurrentCommu()->usersInconnu[i]->user->ID));
+            m_listusers.append(new DataUser(m_data->getCurrentCommu()->usersInconnu[i]->user->nom + " " + m_data->getCurrentCommu()->usersInconnu[i]->user->prenom, m_data->getCurrentCommu()->usersInconnu[i]->user->ID));
+            //m_listgoals.append(new DataGoal(m_data->getCurrentCommu()->goalsVides[i]->nom, m_data->getCurrentCommu()->goalsVides[i]->ID));
         }
-        emit refreshResult();
+        emit listUserRefresh();
     }
     else if (m_type == SEARCH_USER_DOUBLON)
     {
@@ -590,7 +623,7 @@ void Treatment::run()
     }
     else if (m_type == SEARCH_USER_HORS_PSA)
     {
-        m_result.clear();
+        m_listusers.clear();
         for (int i = 0; i < m_commu.size(); i++)
         {
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->usersNonTrouve.size());
@@ -598,9 +631,9 @@ void Treatment::run()
 
         for (int i = 0; i < m_data->getCurrentCommu()->usersNonTrouve.size(); i++)
         {
-            m_result.append(new DataUser(m_data->getCurrentCommu()->usersNonTrouve[i]->user->nom + " " + m_data->getCurrentCommu()->usersNonTrouve[i]->user->prenom, m_data->getCurrentCommu()->usersNonTrouve[i]->user->ID));
+            m_listusers.append(new DataUser(m_data->getCurrentCommu()->usersNonTrouve[i]->user->nom + " " + m_data->getCurrentCommu()->usersNonTrouve[i]->user->prenom, m_data->getCurrentCommu()->usersNonTrouve[i]->user->ID));
         }
-        emit refreshResult();
+        emit listUserRefresh();
     }
     else if (m_type == SEARCH_USER)
     {

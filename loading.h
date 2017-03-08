@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include "autocompletgoal.h"
+#include "autocompletuser.h"
 #include "filecsv.h"
 #include "data.h"
 
@@ -21,7 +22,7 @@ class Loading : public QThread
     Q_PROPERTY(bool ready READ ready)
 
 public:
-    explicit Loading(Data *d, autoCompletGoal *g, QObject *parent = 0);
+    explicit Loading(Data *d, autoCompletGoal *g, autoCompletUser *user, QObject *parent = 0);
     void setMessageLoading(QString message);
 
     QString messageLoading();
@@ -40,7 +41,10 @@ public:
     float progress()
     {
         //qDebug() << QString::number(m_current->getProgress());
-        return m_current->getProgress();
+        double value = 0;
+        for (int i = 0; i < m_current.size(); i++)
+            value += m_current[i]->getProgress();
+        return value / m_current.size();
     }
 
 signals:
@@ -74,32 +78,36 @@ protected:
 private:
     void loadFiles();
     bool m_ready;
+    int fileDocuments;
+    int fileDomaines;
+
     QMutex mutex;
     QFileInfoList m_listDrives;
     Data *m_data;
-    QFileInfo m_pathDomaines;
+    QVector<QFileInfo> m_pathDomaines;
     QFileInfo m_pathMembersInternal;
     QFileInfo m_pathMembersExternal;
     QFileInfo m_pathGoal;
-    QFileInfo m_pathDocuments;
+    QVector<QFileInfo> m_pathDocuments;
     QFileInfo m_pathCommu;
     //QFileInfo m_pathFiles;
     QFileInfo m_pathGoalMembers;
 
-    FileCSV * m_pathDomainesCSV;
+    QVector<FileCSV *> m_pathDomainesCSV;
     FileCSV * m_pathMembersInternalCSV;
     FileCSV * m_pathMembersExternalCSV;
     FileCSV * m_pathGoalCSV;
-    FileCSV * m_pathDocumentsCSV;
+    QVector<FileCSV *> m_pathDocumentsCSV;
     FileCSV * m_pathCommuCSV;
     FileCSV * m_pathGoalMembersCSV;
 
-    FileCSV * m_current;
+    QVector<FileCSV *> m_current;
 
     bool m_finish;
     QString m_messageLoading;
     QString m_messageLoadingGlobal;
     autoCompletGoal *m_g;
+    autoCompletUser *m_user;
 };
 
 #endif // LOADING_H

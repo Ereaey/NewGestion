@@ -10,7 +10,9 @@
 #include "qfile.h"
 #include "datadocument.h"
 #include "datauser.h"
+#include "datauseru.h"
 #include "datanote.h"
+#include "datadomaineu.h"
 
 class Treatment : public QThread
 {
@@ -21,6 +23,14 @@ class Treatment : public QThread
     Q_PROPERTY(QVariant descriptionResult READ descriptionResult NOTIFY refreshDescriptionResult)
     Q_PROPERTY(QString currentCommu READ currentCommu NOTIFY commuChanged)
     Q_PROPERTY(QString currentAction READ currentAction NOTIFY currentActionChanged)
+    Q_PROPERTY(QString goal READ currentGoal NOTIFY currentGoalChanged)
+    Q_PROPERTY(QVariant listGoal READ listGoal NOTIFY listGoalRefresh)
+    Q_PROPERTY(QVariant listUser READ listUser NOTIFY listUserRefresh)
+    Q_PROPERTY(QVariant listDoc READ listDoc NOTIFY listDocRefresh)
+    Q_PROPERTY(QVariant listDom READ listDom NOTIFY listDomRefresh)
+    Q_PROPERTY(QVariant selectDomaine READ selectDomaine NOTIFY selectDomaineRefresh)
+    Q_PROPERTY(QVariant selectUser READ selectUser NOTIFY selectUserRefresh)
+    Q_PROPERTY(bool domaineexist READ domaineexit NOTIFY selectDomaineRefresh)
 
     enum t{SEARCH_GOAL_MODIF, SEARCH_GOAL_LECT, SEARCH_GOAL, SEARCH_GOAL_VIDE, SEARCH_DOMAINE, SEARCH_GOAL_PROBLEME, SEARCH_DOMAINE_VIDE, SEARCH_DOMAINE_FULL,
           EXPORT_PLAN, SEARCH_DOCUMENT_VIDE, SEARCH_DOCUMENT_SURCHARGE, SEARCH_DOCUMENT, SEARCH_USER, SEARCH_USER_ABSENT, NOTE_GLOBALE, SEARCH_USER_HORS_PSA,
@@ -34,10 +44,28 @@ class Treatment : public QThread
         QVariant result() const{return QVariant::fromValue(m_result);}
         QVariant descriptionResult() const{return QVariant::fromValue(m_descriptionResult);}
         QVariant commu() const{return QVariant::fromValue(m_commu);}
+        QVariant listGoal() const{return QVariant::fromValue(m_listgoals);}
+        QVariant listUser() const{return QVariant::fromValue(m_listusers);}
+        QVariant listDoc() const{return QVariant::fromValue(m_listdocs);}
+        QVariant listDom() const{return QVariant::fromValue(m_listdoms);}
+        QVariant selectDomaine() const{return QVariant::fromValue(m_selectdomaine);}
         QString currentCommu()
         {
             return m_currentCommu;
         }
+        QString currentGoal()
+        {
+            return m_goal;
+        }
+        QVariant selectUser()
+        {
+            return QVariant::fromValue(m_selectuser);
+        }
+        bool domaineexit()
+        {
+            return m_domaineexit;
+        }
+
         QString currentAction() const{return m_currentAction;}
         Q_INVOKABLE void setCommu(QString name);
         Q_INVOKABLE void load();
@@ -78,6 +106,13 @@ class Treatment : public QThread
         QString m_file1, m_file2;
         QString m_user;
         QString generatePlan(QString idDomaine);
+        QList<QObject*> m_listgoals;
+        QList<QObject*> m_listusers;
+        QList<QObject*> m_listdocs;
+        QList<QObject*> m_listdoms;
+        QObject* m_selectuser;
+        QObject* m_selectdomaine;
+        bool m_domaineexit;
 
     Q_SIGNALS:
         void finishChanged();
@@ -86,6 +121,13 @@ class Treatment : public QThread
         void commuChanged();
         void currentActionChanged();
         void refreshDescriptionResult();
+        void currentGoalChanged();
+        void listGoalRefresh();
+        void listUserRefresh();
+        void selectUserRefresh();
+        void listDocRefresh();
+        void listDomRefresh();
+        void selectDomaineRefresh();
 
     public slots:
 

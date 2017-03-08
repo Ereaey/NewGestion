@@ -25,6 +25,16 @@ void DataDomaines::deleteDomaine(QString id)
     }
 }
 
+void DataDomaines::allCopy()
+{
+    QString text;
+    for (unsigned int i = 0; i < m_domaines.size(); i++)
+    {
+        text += ((DataDomaine*)m_domaines[i])->iddomaine() + "\n";
+    }
+    QApplication::clipboard()->setText(text);
+}
+
 void DataDomaines::copy(QString id)
 {
     QApplication::clipboard()->setText(id);

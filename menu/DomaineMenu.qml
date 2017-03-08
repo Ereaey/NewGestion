@@ -77,6 +77,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchDomaine("");
                     swipeView.replace("qrc:pages/PageDomaineSearch.qml", StackView.Immediate);
                 }
             }
@@ -105,6 +106,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchDomaineVide();
                     swipeView.replace("qrc:pages/PageDomaineList.qml", StackView.Immediate);
                 }
             }
@@ -133,7 +135,8 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
+                    treatment.searchDomaineFull();
+                    swipeView.replace("qrc:pages/PageDomaineList.qml", StackView.Immediate);
                 }
             }
         }

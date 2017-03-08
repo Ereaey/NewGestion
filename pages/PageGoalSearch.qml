@@ -3,8 +3,24 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import "qrc:/"
+import QtQuick.Dialogs 1.0
 
 Item {
+    FileDialog {
+        id: fileSave
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            console.log("You chose: " + fileSave.fileUrls)
+            listDomaine.exportList(fileSave.fileUrls);
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        selectExisting: false
+        nameFilters: [ "CSV(*.csv)" ]
+        //Component.onCompleted: visible = true
+    }
     id:mainview2
     property string valueGoal: ""
     Timer
@@ -119,7 +135,7 @@ Item {
                     onClicked:
                     {
                         chooseGoal.close();
-                        treatment.searchGoal(idGoal.text, true, true, false);
+                        treatment.searchGoal(modelData, true, true, false);
                     }
                 }
             }
@@ -188,13 +204,14 @@ Item {
 
         Text
         {
-            text:"Goal en cours de recherche : G_H_DEUR"
+            text:"Goal en cours de recherche : " + treatment.goal
             x:20
             y:10
             color:"white"
             font.pointSize: 12
         }
 
+    /*
         Text
         {
             text:"Nombres de domaines : 1204"
@@ -202,39 +219,40 @@ Item {
             y:33
             color:"white"
             font.pointSize: 10
-        }
+        }*/
         Text
         {
             text:"Modes de recherche :"
             x:20
-            y:50
+            y:41
             color:"white"
             font.pointSize: 10
         }
         Text
         {
-            text:"Gestionnaire"
+            text:"Modificateur et Lecteur"
             x:180
-            y:51
+            y:42
             color:"red"
             font.pointSize: 10
         }
+    /*
         Text
         {
             text:"Responsable"
             x:280
-            y:51
+            y:42
             color:"blue"
             font.pointSize: 10
-        }
+        }/*
         Text
         {
             text:"Lecteur"
             x:380
-            y:51
+            y:42
             color:"green"
             font.pointSize: 10
-        }
+        }*/
     }
 
     Rectangle
@@ -249,7 +267,7 @@ Item {
 
         Text
         {
-            text:"Liste des domaines séléctionés"
+            text:"Liste des domaines séléctionnés"
             x:20
             y:10
             color:"white"
@@ -263,7 +281,7 @@ Item {
             y:10
             onClicked:
             {
-                chooseCommu.open();
+                listDomaine.clear();
             }
         }
         ButtonSt
@@ -274,7 +292,7 @@ Item {
             y:10
             onClicked:
             {
-                chooseCommu.open();
+                fileSave.open();
             }
         }
         ButtonSt
@@ -285,7 +303,7 @@ Item {
             y:10
             onClicked:
             {
-                chooseCommu.open();
+                listDomaine.allCopy();
             }
         }
 
@@ -299,8 +317,8 @@ Item {
             height:parent.height - 70
             y:50
             x:5
-            id:autoCompletList
-            model: myModel
+            id:aze
+            model: listDomaine.domaines
             delegate: Rectangle
             {
                 width: parent.width - 40
@@ -312,7 +330,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du domaine : " + model.data
+                    text:"Nom du domaine : " + model.modelData.nom
                     font.pointSize: 10
                     x:10
                     y:5
@@ -321,7 +339,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Id du domaine : " + model.ide
+                    text:"Id du domaine : " + model.modelData.iddomaine
                     font.pointSize: 8
                     x:10
                     y:23
@@ -334,7 +352,7 @@ Item {
                     y:5
                     onClicked:
                     {
-                        chooseCommu.open();
+                        listDomaine.copy(model.modelData.iddomaine);
                     }
                 }
                 ButtonSt
@@ -345,7 +363,7 @@ Item {
                     y:5
                     onClicked:
                     {
-                        chooseCommu.open();
+                        listDomaine.deleteDomaine(model.modelData.iddomaine);
                     }
                 }
             }

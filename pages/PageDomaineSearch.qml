@@ -3,39 +3,25 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import "qrc:/"
+import QtQuick.Dialogs 1.0
 
 Item {
+    FileDialog {
+        id: fileSave
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            console.log("You chose: " + fileSave.fileUrls)
+            treatment.exportPlan(treatment.selectDomaine.id, fileSave.fileUrls)
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        selectExisting: false
+        nameFilters: [ "CSV(*.csv)" ]
+        //Component.onCompleted: visible = true
+    }
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-
-       }
     Rectangle
     {
         width: parent.width - 100
@@ -70,6 +56,7 @@ Item {
             font.pointSize: 16
 
         }
+        /*
         ButtonSt
         {
             x:parent.width - 210
@@ -81,6 +68,61 @@ Item {
             {
                 chooseCommu.open();
             }
+        }*/
+    }
+
+    Rectangle
+    {
+        //id:dataDomaine
+        width: parent.width - 100
+        height: t2.height + 20
+
+        color: "#181A29"
+        y:85
+        x:50
+        radius: 5
+        ButtonSt
+        {
+            x:parent.width - 110
+            text: "Rechercher"
+            height:25
+            y:6
+            onClicked:
+            {
+                treatment.searchDomaine(idDomaine.text);
+            }
+        }
+        Column
+        {
+            id:t2
+            x:20
+            y:10
+            spacing: 5
+            Text
+            {
+                text:"Identifiant du domaine : "
+                color:"white"
+                font.pointSize: 12
+                TextField {
+                    id:idDomaine
+                    x:200
+                    height: 25
+                    y:-3
+                    width: 295
+                    placeholderText: qsTr("")
+                    color: "black"
+                    background: Rectangle {
+                        implicitWidth: 150
+                        implicitHeight: 20
+
+                        opacity: enabled ? 1 : 0.3
+                        border.color: idDocument.pressed ? "#26282a" : "#353637"
+                        border.width: 1
+
+                        radius:3
+                    }
+                }
+            }
         }
     }
 
@@ -91,9 +133,10 @@ Item {
         height: t.height + 20
 
         color: "#181A29"
-        y:80
+        y:t2.height + 20+95
         x:50
         radius: 5
+        visible:treatment.domaineexist
 
         ButtonSt
         {
@@ -103,7 +146,7 @@ Item {
             y:10
             onClicked:
             {
-                chooseCommu.open();
+                fileSave.open();
             }
         }
         Column
@@ -118,47 +161,48 @@ Item {
                 color:"white"
                 font.pointSize: 12
             }
+            /*
             Text
             {
                 text:"Attention le responsable n'appartient plus à la communauté"
                 color:"red"
                 font.pointSize: 10
-            }
+            }*/
             Text
             {
-                text:"Nom du domaine : "
+                text:"Nom du domaine : "  + treatment.selectDomaine.nom
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Identifiant : "
+                text:"Identifiant : " + treatment.selectDomaine.id
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Responsable : 1204"
+                text:"Responsable : " + treatment.selectDomaine.responsable
                 color:"white"
                 font.pointSize: 10
             }
 
             Text
             {
-                text:"Nombre total de sous-domaines dans l'arborescence : "
+                text:"Nombre total de sous-domaines dans l'arborescence : " + treatment.selectDomaine.nbEnfant
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Niveau de confidentialité : "
+                text:"Nombre de documents : " + treatment.selectDomaine.nbDocument
                 color:"white"
                 font.pointSize: 10
             }
 
         }
     }
-
+/*
     Rectangle
     {
         width: parent.width - 100
@@ -217,7 +261,7 @@ Item {
             }
 
         }
-    }
+    }*/
 
 
 }

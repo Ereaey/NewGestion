@@ -6,36 +6,6 @@ import "qrc:/"
 
 Item {
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-
-       }
     Rectangle
     {
         width: parent.width - 100
@@ -63,7 +33,7 @@ Item {
         }
         Text
         {
-            text:"Goals vides"
+            text:"Domaines vides"
             x:parent.width/2 - width/2
             y:10
             color:"white"
@@ -84,7 +54,7 @@ Item {
 
         Text
         {
-            text:"Liste des goals"
+            text:"Liste des domaines"
             x:20
             y:10
             color:"white"
@@ -102,7 +72,7 @@ Item {
             width:parent.width - 15
             height:parent.height - 70
             id:autoCompletList
-            model: myModel
+            model: treatment.listDom
             delegate: Rectangle
             {
                 width: parent.width - 40
@@ -114,7 +84,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du goal : " + model.data
+                    text:"Nom du domaine : " + model.modelData.nom + "     (" + model.modelData.iddomaine +")"
                     font.pointSize: 10
                     x:10
                     y:5
@@ -123,22 +93,36 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Id du goal : " + model.ide
+                    text:"Responsable : " + model.modelData.responsable + "  " + model.modelData.idresponsable
                     font.pointSize: 8
                     x:10
                     y:23
                 }
                 ButtonSt
                 {
-                    x:parent.width - 150
+                    x:parent.width - 220
+                    text: "Voir responsable"
+                    height:30
+                    y:5
+                    onClicked:
+                    {
+                        treatment.searchUserId(model.modelData.idresponsable, 0);
+                        swipeView.replace("qrc:pages/PageUtilisateurSearch.qml", StackView.Immediate);
+                    }
+                }
+                ButtonSt
+                {
+                    x:parent.width - 110
                     text: "Localiser"
                     height:30
                     y:5
                     onClicked:
                     {
-                        chooseCommu.open();
+                        treatment.searchDomaine(model.modelData.iddomaine);
+                        swipeView.replace("qrc:pages/PageDomaineSearch.qml", StackView.Immediate);
                     }
                 }
+
             }
 
         }

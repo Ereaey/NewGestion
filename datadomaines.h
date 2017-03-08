@@ -22,6 +22,7 @@ class DataDomaines : public QObject
         Q_INVOKABLE void copy(QString id);
         Q_INVOKABLE void exportList(QString path);
         Q_INVOKABLE void clear();
+        Q_INVOKABLE void allCopy();
 
     signals:
         void refreshDomaine();

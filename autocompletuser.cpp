@@ -14,8 +14,10 @@ void autoCompletUser::searchUser(QString nom)
 
 void autoCompletUser::addUser(QString nom, QString id)
 {
+    m_m.lock();
     DataUser *u = new DataUser(nom, id);
     m_users.push_back(u);
+    m_m.unlock();
 }
 
 void autoCompletUser::run()

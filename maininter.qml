@@ -1,11 +1,11 @@
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
-
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
-import "."
+
+import "qrc:/mycomponent"
 
 Item{
 
@@ -29,12 +29,15 @@ RowLayout
         ListView
         {
             ScrollBar.vertical: ScrollBar{active: true}
+            ScrollBar.horizontal: ScrollBar{active: true}
+
             anchors.fill: parent
             maximumFlickVelocity: 100
             id:testTree
             model: treet.tree
             focus: true
             delegate: ItemView{}
+            //delegate: Component { Loader { source: "ItemView.qml"} }
         }
         border.width: 1
         border.color: "black"

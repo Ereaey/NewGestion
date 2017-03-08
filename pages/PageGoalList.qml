@@ -6,36 +6,6 @@ import "qrc:/"
 
 Item {
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-
-       }
     Rectangle
     {
         width: parent.width - 100
@@ -102,7 +72,7 @@ Item {
             width:parent.width - 15
             height:parent.height - 70
             id:autoCompletList
-            model: myModel
+            model: treatment.listGoal
             delegate: Rectangle
             {
                 width: parent.width - 40
@@ -114,7 +84,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du goal : " + model.data
+                    text:"Nom du goal : " + model.modelData.nom
                     font.pointSize: 10
                     x:10
                     y:5
@@ -123,7 +93,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Id du goal : " + model.ide
+                    text:"Id du goal : " + model.modelData.idgoal
                     font.pointSize: 8
                     x:10
                     y:23
@@ -136,7 +106,8 @@ Item {
                     y:5
                     onClicked:
                     {
-                        chooseCommu.open();
+                        treatment.searchGoal(model.modelData.nom, true, true, false);
+                        swipeView.replace("qrc:pages/PageGoalSearch.qml", StackView.Immediate);
                     }
                 }
             }

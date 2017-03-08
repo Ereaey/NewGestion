@@ -6,36 +6,6 @@ import "qrc:/"
 
 Item {
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-
-       }
     Rectangle
     {
         width: parent.width - 100
@@ -123,7 +93,7 @@ Item {
                         radius:3
                     }
                 }
-            }
+            }/*
             Text
             {
                 height: 25
@@ -203,7 +173,7 @@ Item {
                         radius:3
                     }
                 }
-            }
+            }*//*
             Text
             {
                 height: 25
@@ -319,7 +289,7 @@ Item {
                         width: 150
                     }
                 }
-            }
+            }*/
 
             Rectangle
             {
@@ -330,6 +300,10 @@ Item {
                 {
                     x:parent.width - 100
                     text:"Rechercher"
+                    onClicked:
+                    {
+                        treatment.searchDocument(idDocument.text);
+                    }
                 }
                 ButtonSt
                 {
@@ -350,6 +324,7 @@ Item {
         y: dataDomaine.y + dataDomaine.height + 10
         x:50
         radius: 5
+
         Text
         {
             text:"Liste des documents: "
@@ -370,7 +345,7 @@ Item {
             width:parent.width - 15
             height:parent.height - 70
             id:autoCompletList
-            model: myModel
+            model: treatment.listDoc
             delegate: Rectangle
             {
                 width: parent.width - 40
@@ -382,7 +357,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du document : " + model.data + "  (" + model.ide + ")"
+                    text:"Nom du document : " + model.modelData.nom + "("+ model.modelData.id +")"
                     font.pointSize: 10
                     x:10
                     y:5
@@ -391,10 +366,34 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du propriétaire : " + model.ide
+                    text:"Nom du propriétaire : " + model.modelData.proprio
                     font.pointSize: 8
                     x:10
                     y:23
+                }
+                ButtonSt
+                {
+                    x:parent.width - 110
+                    text: "Voir le domaine"
+                    height:30
+                    y:5
+                    onClicked:
+                    {
+                        treatment.searchDomaine(model.modelData.iddomaine);
+                        swipeView.replace("qrc:pages/PageDomaineSearch.qml", StackView.Immediate);
+                    }
+                }
+                ButtonSt
+                {
+                    x:parent.width - 220
+                    text: "Voir propriétaire"
+                    height:30
+                    y:5
+                    onClicked:
+                    {
+                        treatment.searchUserId(model.modelData.idproprio);
+                        swipeView.replace("qrc:pages/PageUtilisateurSearch.qml", StackView.Immediate);
+                    }
                 }
             }
 

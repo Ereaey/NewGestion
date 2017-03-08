@@ -7,6 +7,7 @@
 #include <QList>
 #include <QVariant>
 #include "datauser.h"
+#include <QMutex>
 
 class autoCompletUser : public QThread
 {
@@ -31,6 +32,7 @@ class autoCompletUser : public QThread
         bool m_finish;
         QList<QObject*> m_result;
         QString m_user;
+        QMutex m_m;
 
     protected:
         void run();

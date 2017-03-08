@@ -6,36 +6,6 @@ import "qrc:/"
 
 Item {
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-
-       }
     Rectangle
     {
         width: parent.width - 100
@@ -71,7 +41,7 @@ Item {
 
         }
     }
-
+/*
     Rectangle
     {
         width: parent.width - 100
@@ -83,7 +53,7 @@ Item {
         ComboBox {
             x:20
             y:12
-            width: parent.width - 380
+            width: parent.width - 40
             height: 25
             id:visuTree
             model: [ "Responsables", "Gestionnaires", "Propriétaires" ]
@@ -101,19 +71,7 @@ Item {
 
 
         }
-        ButtonSt
-        {
-            x: parent.width - 320
-            text: "Filtrer les résultats"
-            y:12
-            height: 25
-            width: 300
-            onClicked:
-            {
-                chooseCommu.open();
-            }
-        }
-    }
+    }*/
 
     Rectangle
     {
@@ -145,7 +103,7 @@ Item {
             width:parent.width - 15
             height:parent.height - 70
             id:autoCompletList
-            model: myModel
+            model: treatment.listUser
             delegate: Rectangle
             {
                 width: parent.width - 40
@@ -157,7 +115,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du goal : " + model.data
+                    text:"Nom de l'utilisateur : " + model.modelData.nom
                     font.pointSize: 10
                     x:10
                     y:5
@@ -166,20 +124,21 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Id du goal : " + model.ide
+                    text:"Identifiant : " + model.modelData.id
                     font.pointSize: 8
                     x:10
                     y:23
                 }
                 ButtonSt
                 {
-                    x:parent.width - 150
-                    text: "Rechercher dans l'arbre"
+                    x:parent.width - 110
+                    text: "Rechercher"
                     height:30
                     y:5
                     onClicked:
                     {
-                        chooseCommu.open();
+                        treatment.searchUserId(model.modelData.id, 0);
+                        swipeView.replace("qrc:pages/PageUtilisateurSearch.qml", StackView.Immediate);
                     }
                 }
             }

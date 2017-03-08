@@ -18,7 +18,10 @@ SOURCES += main.cpp \
     datagoal.cpp \
     datanote.cpp \
     datauser.cpp \
-    autocompletgoal.cpp
+    autocompletgoal.cpp \
+    datauseru.cpp \
+    datadomaineu.cpp \
+    autocompletuser.cpp
 
 RESOURCES += qml.qrc
 
@@ -26,9 +29,9 @@ RESOURCES += qml.qrc
 QML_IMPORT_PATH =
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
     filecsv.h \
@@ -44,7 +47,10 @@ HEADERS += \
     datagoal.h \
     datanote.h \
     datauser.h \
-    autocompletgoal.h
+    autocompletgoal.h \
+    datauseru.h \
+    datadomaineu.h \
+    autocompletuser.h
 
 DISTFILES += \
     config.json

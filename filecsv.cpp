@@ -138,9 +138,9 @@ void FileCSV::run()
                     d.push_back(in.readAll());
                 }
 
-                if (d.size() != m_nbColumn)
+                /*if (d.size() != m_nbColumn)
                     qDebug() << m_path << " problem : " << QString::number(d.size()) << QString::number(i);
-
+*/
                 emit dataLine(d);
                 //lines.push_back(d);
                 total0 += current_line.size();
@@ -159,8 +159,9 @@ void FileCSV::run()
     }
 
     m_finish = true;
+    //qDebug() << m_path << QString::number(i) << QString::number(total0) << QString::number(m_size);
+
     emit finish();
-    qDebug() << m_path << QString::number(i) << QString::number(total0) << QString::number(m_size);
 }
 
 QString FileCSV::getName()

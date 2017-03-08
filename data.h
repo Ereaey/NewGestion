@@ -7,6 +7,7 @@
 #include <QDate>
 #include "treeitem.h"
 #include "treemodel.h"
+#include <QMutex>
 
 struct UserCommu;
 struct Domaine;
@@ -15,6 +16,7 @@ struct User
 {
     QString ID;
     QString nom, prenom;
+    bool psa = true;
 };
 
 struct Goal
@@ -45,6 +47,7 @@ struct UserCommu
 {
     User *user;
 
+    bool absent;
     QVector<Domaine*> domainesDoublon;
     //QVector<Domaine*> domainesPerimee;
 
@@ -56,6 +59,9 @@ struct UserCommu
     QVector<Domaine*> domainesModificateurGOAL;//via goal
     QVector<Domaine*> domainesLecteurGOAL;//via goal
 
+    QVector<Document*> documentsResponsable;
+
+    QVector<Domaine*> domainesavecdocPro;
 };
 
 struct Communaute;
@@ -197,6 +203,7 @@ class Data : public QObject
         QVector<Domaine*> domainesV;
 
         Model* treeMo;
+        QMutex dataD;
 };
 
 #endif // DATA_H

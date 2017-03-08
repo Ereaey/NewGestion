@@ -25,9 +25,7 @@ Model::Model(QObject *parent) :
 
 void Model::setRoot(TreeItem *item)
 {
-    qDebug() << "Racine:" << item->content();
     m_tree.clear();
-    qDebug() << "Racine:" << item->content();
     m_tree.append(item);
     qDebug() << "Racine:" << item->content();
     emit treeChanged();

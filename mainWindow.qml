@@ -36,6 +36,7 @@ ApplicationWindow {
     ListView
     {
         ScrollBar.vertical: ScrollBar{active: true}
+        ScrollBar.horizontal: ScrollBar{active: true}
         y:50
         x:5
         clip: true

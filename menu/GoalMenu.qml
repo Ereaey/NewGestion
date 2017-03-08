@@ -77,6 +77,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchGoal("", true, true, false);
                     swipeView.replace("qrc:pages/PageGoalSearch.qml", StackView.Immediate);
                 }
             }
@@ -105,6 +106,7 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchGoalsVide();
                     swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
@@ -133,10 +135,12 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchGoalsProbleme();
                     swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
         }
+        /*
         Image
         {
             source:"qrc:../images/group.png"
@@ -161,38 +165,11 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    treatment.searchGoalDoublon();
                     swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
-        }
-        Image
-        {
-            source:"qrc:../images/group.png"
-            Text
-            {
-                y:80
-                text:"Goals"
-                color: "white"
-                font.pointSize:16
-                x:parent.width/2 - width/2
-            }
-            Text
-            {
-                y:110
-                text:"Vides"
-                color: "white"
-                font.pointSize:16
-                x:parent.width/2 - width/2
-            }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked:
-                {
-                    swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
-                }
-            }
-        }
+        }*/
 
 
     }

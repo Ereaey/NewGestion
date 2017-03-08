@@ -6,36 +6,126 @@ import "qrc:/"
 
 Item {
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
+    property string valueUser: ""
+    Timer
+    {
+        interval: 500;
+        running: true;
+        repeat: true
+        onTriggered:
+        {
+            if (valueUser != idUser12.text && idUser12.length > 3)
+            {
+                valueUser = idUser12.text
+                users.searchUser(idUser12.text);
 
-       }
+            }
+        }
+    }
+    Popup {
+        id: chooseUser
+        x: tree.visible ?  mainWin.width/2 - width/2  - tree.width : mainWin.width/2 - width/2
+        y: 100
+        width: 700
+        height: idUser12.length < 3 ? 75 : parent.height - 200
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        background:Rectangle
+        {
+            color: "#181A29"
+            border.width : 2
+            border.color: "white"
+        }
+        Rectangle
+        {
+            width:600
+            height: 35
+            x:40
+            radius: 3
+            color: "#364150"
+            y:10
+            Text
+            {
+                text:"Recherche via identifiant : "
+                color:"white"
+                font.pointSize: 10
+                width: 200
+                height: 25
+                y:8
+                x:15
+            }
+            TextField {
+                id:idUser12
+                x:280
+                height: 25
+                y:5
+                width: 295
+                placeholderText: qsTr("")
+                color: "black"
+                background: Rectangle {
+                    implicitWidth: 150
+                    implicitHeight: 20
+
+                    opacity: enabled ? 1 : 0.3
+                    border.color: idUser12.pressed ? "#26282a" : "#353637"
+                    border.width: 1
+
+                    radius:3
+                }
+            }
+        }
+        ListView
+        {
+            ScrollBar.vertical: ScrollBar{active: true}
+            y:100
+            x:5
+            clip: true
+            spacing: 10
+            maximumFlickVelocity: 600
+            highlightMoveVelocity : 600
+            width:parent.width - 15
+            height:parent.height - 110
+            //id:autoCompletList
+            model: users.result
+            delegate: Rectangle
+            {
+                width: parent.width - 20
+                x:10
+                height: 40
+                radius: 3
+                color: "#364150"
+                y:40
+                Text
+                {
+                    color: "white"
+                    text: model.modelData.nom + " " + model.modelData.id
+                    font.pointSize: 10
+                    x:10
+                    y:5
+                    width: parent.width - 190
+                    height: 40
+                    wrapMode: Text.WrapAnywhere
+
+                }
+                ButtonSt
+                {
+                    x:parent.width - 170
+                    text: "Selectionner"
+                    width: 160
+                    height:30
+                    y:5
+                    onClicked:
+                    {
+                        chooseUser.close();
+                        treatment.searchUserId(model.modelData.id, visuTree.currentIndex);
+                    }
+                }
+            }
+
+        }
+
+    }
     Rectangle
     {
         width: parent.width - 100
@@ -79,7 +169,7 @@ Item {
             width: 200
             onClicked:
             {
-                chooseCommu.open();
+                chooseUser.open();
             }
         }
     }
@@ -109,31 +199,31 @@ Item {
             }
             Text
             {
-                text:"Nom Prenom : "
+                text:"Nom Prenom : " + treatment.selectUser.nom
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Identifiant : "
+                text:"Identifiant : " + treatment.selectUser.id
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Nombres de documents : "
+                text:"Nombres de documents : " + treatment.selectUser.nbDocument
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Nombres de domaines responsable : "
+                text:"Nombres de domaines responsable : " + treatment.selectUser.nbDomainesResp
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Nombres de domaines gestionnaire : "
+                text:"Nombres de domaines gestionnaire : " + treatment.selectUser.nbDomainesGest
                 color:"white"
                 font.pointSize: 10
             }
@@ -141,7 +231,7 @@ Item {
 
             Text
             {
-                text:"Attention l'utilisateur n'appartient plus à la communauté"
+                text: treatment.selectUser.abs
                 color:"red"
                 font.pointSize: 10
             }
@@ -169,7 +259,7 @@ Item {
         ComboBox {
             x:20
             y:40
-            width: 300
+            width: parent.width - 40
             height: 25
             id:visuTree
             model: [ "Domaines responsable", "Domaines gestionnaire", "Documents propriétaire" ]
@@ -184,20 +274,12 @@ Item {
 
                 radius:3
             }
-
-
-        }
-        ButtonSt
-        {
-            x: 330
-            text: "Visualier"
-            y:40
-            height: 25
-            width: 200
-            onClicked:
+            onCurrentIndexChanged:
             {
-                chooseCommu.open();
+                treatment.searchUserId(treatment.selectUser.id, visuTree.currentIndex)
             }
+
+
         }
     }
 
@@ -210,27 +292,61 @@ Item {
         y: dataDomaine.y + dataDomaine.height + 110
         x:50
         radius: 5
+
         Text
         {
-            text:"Liste des documents: "
-            color:"white"
-            font.pointSize: 12
+            text:"Liste des domaines séléctionnés"
             x:20
             y:10
+            color:"white"
+            font.pointSize: 12
         }
+        ButtonSt
+        {
+            x:parent.width - 130
+            text: "Vider"
+            height:20
+            y:10
+            onClicked:
+            {
+                listDomaine.clear();
+            }
+        }
+        ButtonSt
+        {
+            x:parent.width - 240
+            text: "Exporter"
+            height:20
+            y:10
+            onClicked:
+            {
+                fileSave.open();
+            }
+        }
+        ButtonSt
+        {
+            x:parent.width - 350
+            text: "Tout copier"
+            height:20
+            y:10
+            onClicked:
+            {
+                listDomaine.allCopy();
+            }
+        }
+
         ListView
         {
             ScrollBar.vertical: ScrollBar{active: true}
-            y:50
-            x:5
             clip: true
             spacing: 10
-            maximumFlickVelocity: 600
-            highlightMoveVelocity : 600
+            maximumFlickVelocity: 100
             width:parent.width - 15
             height:parent.height - 70
-            id:autoCompletList
-            model: myModel
+            y:50
+            x:5
+            id:aze
+            model: listDomaine.domaines
             delegate: Rectangle
             {
                 width: parent.width - 40
@@ -242,19 +358,41 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du document : " + model.data + "  (" + model.ide + ")"
+                    text:"Nom du domaine : " + model.modelData.nom
                     font.pointSize: 10
                     x:10
                     y:5
-                    id:ndDomaine
+                    id:idDomaine
                 }
                 Text
                 {
                     color: "white"
-                    text:"Nom du responsable : " + model.ide
+                    text:"Id du domaine : " + model.modelData.iddomaine
                     font.pointSize: 8
                     x:10
                     y:23
+                }
+                ButtonSt
+                {
+                    x: parent.width - 220
+                    text: "Copier"
+                    height:30
+                    y:5
+                    onClicked:
+                    {
+                        listDomaine.copy(model.modelData.iddomaine);
+                    }
+                }
+                ButtonSt
+                {
+                    x: parent.width - 110
+                    text: "Retirer"
+                    height:30
+                    y:5
+                    onClicked:
+                    {
+                        listDomaine.deleteDomaine(model.modelData.iddomaine);
+                    }
                 }
             }
 

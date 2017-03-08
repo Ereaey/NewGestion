@@ -1,15 +1,18 @@
 #include "loading.h"
 #include "qdebug.h"
 
-Loading::Loading(Data *d, autoCompletGoal *g, QObject *parent) : QThread(parent)
+Loading::Loading(Data *d, autoCompletGoal *g, autoCompletUser *user, QObject *parent) : QThread(parent)
 {
     m_listDrives += QFileInfo("C:/fichiersGestion");
-    m_listDrives += QFileInfo("/home/etudiant/Bureau/");
+    //m_listDrives += QFileInfo("/home/etudiant/Bureau/");
     m_data = d;
     m_ready = false;
     m_finish = false;
     qDebug() << "t";
     m_g = g;
+    fileDocuments = 0;
+    fileDomaines = 0;
+    m_user = user;
 }
 
 void Loading::loadFiles()
@@ -41,8 +44,7 @@ void Loading::loadFiles()
                    m_pathMembersInternal = QFileInfo(file);
 
             if (file.contains("Plans_de_communautes_"))
-              if (m_pathDomaines.lastModified() < QFileInfo(file).lastModified())
-                  m_pathDomaines = QFileInfo(file);
+                m_pathDomaines.push_back(QFileInfo(file));
 
             if (file.contains("Liste_de_communautés_"))
               if (m_pathCommu.lastModified() < QFileInfo(file).lastModified())
@@ -57,43 +59,52 @@ void Loading::loadFiles()
                     m_pathGoalMembers = QFileInfo(file);
 
             if (file.contains("Audits_des_documents_"))
-               if (m_pathDocuments.lastModified() < QFileInfo(file).lastModified())
-                   m_pathDocuments = QFileInfo(file);
+                m_pathDocuments.push_back(QFileInfo(file));
          }
     }
 
-    m_pathDomainesCSV = new FileCSV(m_pathDomaines.absoluteFilePath(), 40, true);
     m_pathMembersInternalCSV = new FileCSV(m_pathMembersInternal.absoluteFilePath(), 24, true);
     m_pathMembersExternalCSV = new FileCSV(m_pathMembersExternal.absoluteFilePath(), 27, true);
     m_pathGoalCSV = new FileCSV(m_pathGoal.absoluteFilePath(), 66, false);
-    m_pathDocumentsCSV = new FileCSV(m_pathDocuments.absoluteFilePath(), 51, true);
-    m_pathCommuCSV = new FileCSV(m_pathCommu.absoluteFilePath(), 61, true);
+    m_pathCommuCSV = new FileCSV(m_pathCommu.absoluteFilePath(), 62, true);
     m_pathGoalMembersCSV = new FileCSV(m_pathGoalMembers.absoluteFilePath(), 3, true);
 
-    connect(m_pathDomainesCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadDomaine(QStringList)), Qt::DirectConnection);
+    for (int i = 0; i < m_pathDocuments.size(); i++)
+    {
+        m_pathDocumentsCSV.push_back(new FileCSV(m_pathDocuments[i].absoluteFilePath(), 52, true));
+        connect(m_pathDocumentsCSV[i], SIGNAL(dataLine(QStringList)), this, SLOT(loadDocument(QStringList)), Qt::DirectConnection);
+        connect(m_pathDocumentsCSV[i], SIGNAL(finish()), this, SLOT(finishDocument()), Qt::DirectConnection);
+        QThread *thread2 = new QThread;
+        m_pathDocumentsCSV[i]->moveToThread(thread2);
+    }
+
+    for (int i = 0; i < m_pathDomaines.size(); i++)
+    {
+        m_pathDomainesCSV.push_back(new FileCSV(m_pathDomaines[i].absoluteFilePath(), 40, true));
+        connect(m_pathDomainesCSV[i], SIGNAL(dataLine(QStringList)), this, SLOT(loadDomaine(QStringList)), Qt::DirectConnection);
+        connect(m_pathDomainesCSV[i], SIGNAL(finish()), this, SLOT(finishDomaine()), Qt::DirectConnection);
+        QThread *thread = new QThread;
+        m_pathDomainesCSV[i]->moveToThread(thread);
+    }
+
     connect(m_pathMembersInternalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadMember(QStringList)), Qt::DirectConnection);
     connect(m_pathMembersExternalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadMember(QStringList)), Qt::DirectConnection);
     connect(m_pathGoalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadGoal(QStringList)), Qt::DirectConnection);
-    connect(m_pathDocumentsCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadDocument(QStringList)), Qt::DirectConnection);
     connect(m_pathCommuCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadCommu(QStringList)), Qt::DirectConnection);
     connect(m_pathGoalMembersCSV, SIGNAL(dataLine(QStringList)), this, SLOT(loadGoalMember(QStringList)), Qt::DirectConnection);
 
-    connect(m_pathDomainesCSV, SIGNAL(finish()), this, SLOT(finishDomaine()), Qt::DirectConnection);
     connect(m_pathMembersInternalCSV, SIGNAL(finish()), this, SLOT(finishMember()), Qt::DirectConnection);
     //connect(m_pathMembersExternalCSV, SIGNAL(dataLine(QStringList)), this, SLOT(finishMember()));
     connect(m_pathGoalCSV, SIGNAL(finish()), this, SLOT(finishGoal()), Qt::DirectConnection);
-    connect(m_pathDocumentsCSV, SIGNAL(finish()), this, SLOT(finishDocument()), Qt::DirectConnection);
     connect(m_pathCommuCSV, SIGNAL(finish()), this, SLOT(finishCommu()), Qt::DirectConnection);
     connect(m_pathGoalMembersCSV, SIGNAL(finish()), this, SLOT(finishGoalMember()), Qt::DirectConnection);
 
-    QThread *thread = new QThread;
-    m_pathDomainesCSV->moveToThread(thread);
+
 
     QThread *thread1 = new QThread;
     m_pathGoalCSV->moveToThread(thread1);
 
-    QThread *thread2 = new QThread;
-    m_pathDocumentsCSV->moveToThread(thread2);
+
 
     QThread *thread3 = new QThread;
     m_pathCommuCSV->moveToThread(thread3);
@@ -101,7 +112,8 @@ void Loading::loadFiles()
     QThread *thread4 = new QThread;
     m_pathGoalMembersCSV->moveToThread(thread4);
 
-    m_current = m_pathMembersInternalCSV;
+    m_current.push_back(m_pathMembersInternalCSV);
+    m_current.push_back(m_pathMembersExternalCSV);
     m_ready = true;
 }
 
@@ -146,6 +158,10 @@ void Loading::loadDomaine(QStringList data)
 */
 
     if (data.size() > 3)
+    {
+        if (data[m_pathMembersInternalCSV->getColumn("A")] == "Identifiant du domaine")
+            return;
+
         m_data->addDomaine(data[m_pathMembersInternalCSV->getColumn("AN")], //QString nameCommu
                 data[m_pathMembersInternalCSV->getColumn("B")], // QString nameDomaine
                 data[m_pathMembersInternalCSV->getColumn("A")], // QString IdDomaine
@@ -161,21 +177,39 @@ void Loading::loadDomaine(QStringList data)
                 data[m_pathMembersInternalCSV->getColumn("S")], // QString asservisseur,
                 data[m_pathMembersInternalCSV->getColumn("T")] // QString synchronises
             );
+    }
 }
 
 void Loading::loadMember(QStringList data)
 {
     //qDebug() << data;
     if (data.size() > 2)
+    {
+        /*
+        if (data[m_pathMembersInternalCSV->getColumn("A")] == "Identifiant PSA" || data[m_pathMembersInternalCSV->getColumn("B")] != "")
+            return;*/
+        m_user->addUser(data[m_pathMembersInternalCSV->getColumn("B")] + " " +
+                data[m_pathMembersInternalCSV->getColumn("C")],
+                data[m_pathMembersInternalCSV->getColumn("A")]);
+
+        m_user->addUser(data[m_pathMembersInternalCSV->getColumn("C")] + " " +
+                data[m_pathMembersInternalCSV->getColumn("B")],
+                data[m_pathMembersInternalCSV->getColumn("A")]);
+
         m_data->addUser(data[m_pathMembersInternalCSV->getColumn("A")],//Identifiant
                 data[m_pathMembersInternalCSV->getColumn("B")],//Nom
                 data[m_pathMembersInternalCSV->getColumn("C")]);//Prenom
+
+    }
 }
 
 void Loading::loadGoal(QStringList data)
 {
-    if (data.size() > 3)
+    if (data.size() > 2)
     {
+        /*
+        if (data[m_pathMembersInternalCSV->getColumn("A")] == "Identifiant du GOAL" || data[m_pathMembersInternalCSV->getColumn("B")] != "")
+            return;*/
         m_data->addGoal(data[m_pathMembersInternalCSV->getColumn("B")],//Nom
                 data[m_pathMembersInternalCSV->getColumn("A")],//Id
                 data[m_pathMembersInternalCSV->getColumn("K")],//Responsable
@@ -193,6 +227,9 @@ void Loading::loadDocument(QStringList data)
     //qDebug() << data[m_pathMembersInternalCSV->getColumn("T")];
 
     if (data.size() > 3)
+    {
+        /*if (data[m_pathMembersInternalCSV->getColumn("A")] == "Référence")
+            return;*/
         m_data->addDocument(data[m_pathMembersInternalCSV->getColumn("D")],//name
                 data[m_pathMembersInternalCSV->getColumn("T")],//iddomaine
                 data[m_pathMembersInternalCSV->getColumn("B")],//version
@@ -206,6 +243,7 @@ void Loading::loadDocument(QStringList data)
                 data[m_pathMembersInternalCSV->getColumn("AL")],//conf
                 data[m_pathMembersInternalCSV->getColumn("C")]//status
                     );
+    }
 }
 
 void Loading::loadCommu(QStringList data)
@@ -215,10 +253,10 @@ void Loading::loadCommu(QStringList data)
         if (QString(data[m_pathMembersInternalCSV->getColumn("B")]) == "Nom de la communaute")
             return;
         QString goals = data[m_pathMembersInternalCSV->getColumn("Y")];
-        if (goals.isEmpty())
+
         m_data->addCommunaute(QString(data[m_pathMembersInternalCSV->getColumn("B")]),//Nom
                 goals.split(","));//Goals
-        qDebug() << data[m_pathMembersInternalCSV->getColumn("B")];
+        //qDebug() << data[m_pathMembersInternalCSV->getColumn("B")];
         //qDebug() << QString(data[m_pathMembersInternalCSV->getColumn("B")]).toUtf8();
     }
 }
@@ -227,6 +265,9 @@ void Loading::loadGoalMember(QStringList data)
 {
     if (data.size() > 1)
     {
+        /*
+        if (data[m_pathMembersInternalCSV->getColumn("A")] == "Identifiant de GOAL")
+            return;*/
         m_data->addGoalMember(data[m_pathMembersInternalCSV->getColumn("A")],//idgoal
                 data[m_pathMembersInternalCSV->getColumn("C")]);//idmember
         //qDebug() << data;
@@ -235,11 +276,21 @@ void Loading::loadGoalMember(QStringList data)
 
 void Loading::finishDomaine()
 {
-    qDebug() << "Finish plan";
-    m_messageLoadingGlobal = "Fichiers : 6 / 6";
-    m_messageLoading = "Chargements des documents";
-    m_current = m_pathDocumentsCSV;
-    m_pathDocumentsCSV->loading();
+
+    fileDomaines++;
+    if (m_pathDomainesCSV.size() == fileDomaines)
+    {
+        qDebug() << "Finish plan";
+        m_messageLoadingGlobal = "Fichiers : 6 / 6";
+        m_messageLoading = "Chargements des documents";
+        m_current.clear();
+        for (int i = 0; i < m_pathDocumentsCSV.size(); i++)
+        {
+            m_current.push_back(m_pathDocumentsCSV[i]);
+            m_pathDocumentsCSV[i]->loading();
+        }
+        //finishDocument();
+    }
 
 }
 
@@ -247,44 +298,57 @@ void Loading::finishMember()
 {
     qDebug() << "Finish Member";
     m_messageLoading = "Chargements des goals";
-    m_current = m_pathGoalCSV;
+    m_current.clear();
+    m_current.push_back(m_pathGoalCSV);
     m_messageLoadingGlobal = "Fichiers : 2 / 6";
     m_pathGoalCSV->loading();
 }
 
 void Loading::finishGoal()
 {
-    m_messageLoading = "Chargements des communautés";
+    m_messageLoading = "Chargements des membres goals";
     qDebug() << "Finish Goal";
     m_messageLoadingGlobal = "Fichiers : 3 / 6";
-    m_current = m_pathCommuCSV;
-    m_pathCommuCSV->loading();
+    m_current.clear();
+    m_current.push_back(m_pathGoalMembersCSV);
+    m_pathGoalMembersCSV->loading();
 }
 
 void Loading::finishDocument()
 {
-    qDebug() << "Finish Documents";
-    m_data->getInfo();
-    m_finish = true;
-
+    fileDocuments++;
+    if (m_pathDocuments.size() == fileDocuments)
+    {
+        qDebug() << "Finish Documents";
+        m_data->getInfo();
+        m_finish = true;
+    }
 }
 
 void Loading::finishCommu()
 {
-    m_messageLoadingGlobal = "Fichiers : 4 / 6";
+    m_messageLoadingGlobal = "Fichiers : 5 / 6";
     qDebug() << "Finish Commu";
-    m_messageLoading = "Chargements des goals membres";
-    m_current = m_pathGoalMembersCSV;
-    m_pathGoalMembersCSV->loading();
+    m_messageLoading = "Chargements des domaines";
+    m_current.clear();
+
+    for (int i = 0; i < m_pathDomainesCSV.size(); i++)
+    {
+        m_current.push_back(m_pathDomainesCSV[i]);
+        m_pathDomainesCSV[i]->loading();
+    }
+
+
 }
 
 void Loading::finishGoalMember()
 {
     qDebug() << "Finish Goal members";
-    m_messageLoadingGlobal = "Fichiers : 5 / 6";
-    m_messageLoading = "Chargements des domaines";
-    m_current = m_pathDomainesCSV;
-    m_pathDomainesCSV->loading();
+    m_messageLoadingGlobal = "Fichiers : 4 / 6";
+    m_messageLoading = "Chargements des communautés";
+    m_current.clear();
+    m_current.push_back(m_pathCommuCSV);
+    m_pathCommuCSV->loading();
 }
 
 void Loading::run()

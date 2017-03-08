@@ -6,36 +6,6 @@ import "qrc:/"
 
 Item {
     id:mainview
-    ListModel {
-           id: myModel
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-           ListElement { data: "dqsd"; ide: 12058184 }
-
-       }
     Flickable
     {
         anchors.fill: parent
@@ -94,7 +64,7 @@ Item {
             {
                 x:20
                 y:5
-                text:"Note de la communauté : 25 / 100"
+                text:"Note de la communauté : " + note.note + " / 100"
                 color:"white"
                 font.pointSize: 12
                 font.bold: true
@@ -125,26 +95,26 @@ Item {
             }
             Text
             {
-                text:"Nb de membres de la communauté via GOALs (doublons exclus) : "
+                text:"Nb de membres de la communauté via GOALs (doublons exclus) : " + note.nbUser
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Nb de documents : "
+                text:"Nb de documents : " + note.nbDocument
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"Nb de domaines (avec la racine) : 1204"
+                text:"Nb de domaines (avec la racine) : " + note.nbDomaine
                 color:"white"
                 font.pointSize: 10
             }
 
             Text
             {
-                text:"Nb de niveaux de domaines dans la communauté : "
+                text:"Nb de niveaux de domaines dans la communauté : "  + note.niveau
                 color:"white"
                 font.pointSize: 10
             }
@@ -229,13 +199,13 @@ Item {
             }
             Text
             {
-                text:"% documents publiés : "
+                text:"% documents publiés : " + note.documentsP
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"% docs en version de travail depuis plus de 6 mois : "
+                text:"% docs en version de travail depuis plus de 6 mois : " + note.doct6mois
                 color:"white"
                 font.pointSize: 10
             }
@@ -247,7 +217,7 @@ Item {
             }
             Text
             {
-                text:"% docs avec trop de PJ : 1204"
+                text:"% docs avec trop de PJ : " + note.documentsFull
                 color:"white"
                 font.pointSize: 10
             }
@@ -276,13 +246,13 @@ Item {
             }
             Text
             {
-                text:"nb de Goals inexistants utilisés : "
+                text:"nb de Goals inexistants utilisés : " + note.goalsInexistant
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"nb de Goals avec 0 membre utilisés : "
+                text:"nb de Goals avec 0 membre utilisés : " + note.goalsVide
                 color:"white"
                 font.pointSize: 10
             }
@@ -311,13 +281,13 @@ Item {
             }
             Text
             {
-                text:"% domaines vides (sans document ni sous-domaine) : "
+                text:"% domaines vides (sans document ni sous-domaine) : " + note.domaineVide
                 color:"white"
                 font.pointSize: 10
             }
             Text
             {
-                text:"% domaines avec un nombre de documents trop important : "
+                text:"% domaines avec un nombre de documents trop important : " + note.domaineFull
                 color:"white"
                 font.pointSize: 10
             }
