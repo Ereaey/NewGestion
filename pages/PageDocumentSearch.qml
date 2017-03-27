@@ -357,7 +357,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du document : " + model.modelData.nom + "("+ model.modelData.id +")"
+                    text:"Nom du document : " + model.modelData.nom + " ("+ model.modelData.id +")"
                     font.pointSize: 10
                     x:10
                     y:5

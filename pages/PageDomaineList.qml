@@ -3,12 +3,12 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
 import "qrc:/mycomponent"
-
 Item {
     id:mainview
+
     function showDomaine(idd)
     {
-        var iddomaineespace = idd.substring(0, 3) + " " + idd.substring(3, 6) + " " + idd.substring(6, 9);
+        var iddomaineespace = idd.substring(0, 4) + " " + idd.substring(4, 7) + " " + idd.substring(7, 10);
         return iddomaineespace;
     }
 
@@ -90,7 +90,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du domaine : " + model.modelData.nom + "     (" + showDomaine(model.modelData.iddomaine) +")"
+                    text:"Nom du domaine : " + model.modelData.nom + " (" + showDomaine(model.modelData.iddomaine) +")"
                     font.pointSize: 10
                     x:10
                     y:5

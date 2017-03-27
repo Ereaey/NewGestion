@@ -3,11 +3,16 @@ import QtQuick.Controls 2.1
 import QtQuick.Window 2.0
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Styles 1.4
-
 import QtQuick.Layouts 1.0
 import "qrc:/mycomponent"
 
 Item {
+    function showDomaine(idd)
+    {
+        var iddomaineespace = idd.substring(0, 4) + " " + idd.substring(4, 7) + " " + idd.substring(7, 10);
+        return iddomaineespace;
+    }
+
     FileDialog {
         id: fileSave
         title: "Please choose a file"
@@ -178,7 +183,7 @@ Item {
             }
             Text
             {
-                text:"Identifiant : " + treatment.selectDomaine.id
+                text:"Identifiant : " + showDomaine(treatment.selectDomaine.id)
                 color:"white"
                 font.pointSize: 10
             }

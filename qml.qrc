@@ -37,5 +37,6 @@
         <file>mycomponent/TreeItemsList.qml</file>
         <file>mycomponent/ButtonSt.qml</file>
         <file>index.html</file>
+        <file>mycomponent/functionGeneral.js</file>
     </qresource>
 </RCC>
