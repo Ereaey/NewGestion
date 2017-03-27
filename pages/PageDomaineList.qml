@@ -6,6 +6,12 @@ import "qrc:/mycomponent"
 
 Item {
     id:mainview
+    function showDomaine(idd)
+    {
+        var iddomaineespace = idd.substring(0, 3) + " " + idd.substring(3, 6) + " " + idd.substring(6, 9);
+        return iddomaineespace;
+    }
+
     Rectangle
     {
         width: parent.width - 100
@@ -84,7 +90,7 @@ Item {
                 Text
                 {
                     color: "white"
-                    text:"Nom du domaine : " + model.modelData.nom + "     (" + model.modelData.iddomaine +")"
+                    text:"Nom du domaine : " + model.modelData.nom + "     (" + showDomaine(model.modelData.iddomaine) +")"
                     font.pointSize: 10
                     x:10
                     y:5

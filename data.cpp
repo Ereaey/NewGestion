@@ -538,7 +538,7 @@ void Data::drawTree(QString goal, bool modif, bool lecteur, bool gestionnaire)
 
     for(int i = 0; i < c_actu->domainesGoalModificateurs[goal].size(); i++)
     {
-        c_actu->domainesGoalModificateurs[goal][i]->t->setColor("blue");
+        c_actu->domainesGoalModificateurs[goal][i]->t->setColor("#FACC2E");
         c_actu->domainesGoalModificateurs[goal][i]->t->setIsSelect(true);
 
         if (c_actu->domainesGoalModificateurs[goal][i]->id_parent != 0)
@@ -548,9 +548,9 @@ void Data::drawTree(QString goal, bool modif, bool lecteur, bool gestionnaire)
     for(int i = 0; i < c_actu->domainesGoalLecteurs[goal].size(); i++)
     {
         if (c_actu->domainesGoalLecteurs[goal][i]->t->isSelect() == true)
-            c_actu->domainesGoalLecteurs[goal][i]->t->setColor("red");
+            c_actu->domainesGoalLecteurs[goal][i]->t->setColor("#FA5858");
         else
-            c_actu->domainesGoalLecteurs[goal][i]->t->setColor("green");
+            c_actu->domainesGoalLecteurs[goal][i]->t->setColor("#F4FA58");
 
         c_actu->domainesGoalLecteurs[goal][i]->t->setIsSelect(true);
         if (c_actu->domainesGoalLecteurs[goal][i]->id_parent != 0)

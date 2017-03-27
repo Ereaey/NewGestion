@@ -238,7 +238,7 @@ Item {
             text:"Modificateur et Lecteur"
             x:160
             y:42
-            color:"red"
+            color:"#FA5858"
             font.pointSize: 10
         }
 
@@ -247,7 +247,7 @@ Item {
             text:"Modificateur"
             x:303
             y:42
-            color:"blue"
+            color:"#FACC2E"
             font.pointSize: 10
         }
         Text
@@ -255,7 +255,7 @@ Item {
             text:"Lecteur"
             x:390
             y:42
-            color:"green"
+            color:"#F4FA58"
             font.pointSize: 10
         }
     }

@@ -4,6 +4,7 @@
 Loading::Loading(Data *d, autoCompletGoal *g, autoCompletUser *user, QObject *parent) : QThread(parent)
 {
     m_listDrives += QFileInfo("C:/fichiersGestion");
+    m_listDrives += QFileInfo("D:/");
     //m_listDrives += QFileInfo("/home/etudiant/Bureau/");
     m_data = d;
     m_ready = false;
