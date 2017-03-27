@@ -6,13 +6,14 @@ import QtQuick.Layouts 1.1
 Row{
     id: itemView
     x:2
+    //y:3
     //clip: true
     Image
     {
         width: 15
         height: 15
         x:3
-        y:4
+        //y:4
         source:
         {
             modelData.hasChild? modelData.isOpen ? "qrc:images/down-arrow.png" : "qrc:images/previous.png" : ""
@@ -27,7 +28,7 @@ Row{
     }
     Column{
         x:3
-        y:1
+        //y:3
         Row
         {
             //clip: true
@@ -43,7 +44,7 @@ Row{
             text: modelData.content
             font.pointSize: 10
             font.family: "Helvetica"
-            color: modelData.isSelect ? "#FFC53C" : "white"
+            color: modelData.isSelect ? modelData.color : "white"
             MouseArea{
                 anchors.fill: parent
                 onClicked:
@@ -62,7 +63,7 @@ Row{
         }
         Loader{
             x:7
-            y:8
+            //y:3
             source: modelData.isOpen ? "TreeItemsList.qml" : "Empty.qml"
         }
     }

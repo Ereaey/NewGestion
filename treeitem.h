@@ -34,12 +34,20 @@ public:
 
     Q_PROPERTY(bool hasChild READ hasChild NOTIFY hasChildChanged)
     bool hasChild() const;
+
+    Q_PROPERTY(QString color READ getColor WRITE setColor NOTIFY colorChanged)
+    void setColor(QString color);
+    QString getColor() const;
+
+
 signals:
     void contentChanged();
     void childItemsChanged();
     void isOpenChanged();
     void isSelectChanged();
     void hasChildChanged();
+    void colorChanged();
+
 public slots:
 private:
     QString m_content;
@@ -48,6 +56,7 @@ private:
     bool m_isSelect;
     int m_id;
     bool m_problem;
+    QString m_color;
 };
 
 #endif // TREEITEM_H

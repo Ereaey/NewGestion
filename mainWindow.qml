@@ -124,7 +124,7 @@ ApplicationWindow {
         {
             id:nameCommu
             y:5
-            x:0
+            x:10
             text:treatment.currentCommu
             color: "white"
             font.family: "Arial"

@@ -176,6 +176,7 @@ class Data : public QObject
         int e;
         void getInfo();
         Q_INVOKABLE void generateTree();
+        QMap<QString, User*> userId;
 
     public slots:
 
@@ -189,7 +190,7 @@ class Data : public QObject
         int addDomaineUser(Domaine *d, QString user, int grade);
         void addDomaineGoal(Domaine *d, Goal *g, int grade);
         void recursiveOpen(int id);
-        QMap<QString, User*> userId;
+
         QMap<QString, QVector <User*>> userPrenomNom;
         QMap<QString, QVector<User*>> userNomPrenom;
 

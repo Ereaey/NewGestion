@@ -8,6 +8,7 @@ TreeItem::TreeItem(QString content, int id, bool problem, QObject *parent) :
     m_id(id)
 {
     m_problem = problem;
+    m_color = "#FFC53C";
 }
 
 const QString &TreeItem::content() const{
@@ -49,6 +50,15 @@ void TreeItem::setIsOpen(bool isOpen){
         m_isOpen = isOpen;
         emit isOpenChanged();
     }
+}
+
+void TreeItem::setColor(QString color){
+    m_color = color;
+    emit colorChanged();
+}
+
+QString TreeItem::getColor() const{
+    return m_color;
 }
 
 bool TreeItem::isSelect() const{

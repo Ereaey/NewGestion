@@ -13,14 +13,14 @@ Item {
         title: "Please choose a file"
         folder: shortcuts.home
         onAccepted: {
-            console.log("You chose: " + fileSave.fileUrls)
-            treatment.exportPlan(treatment.selectDomaine.id, fileSave.fileUrls)
+            console.log("You chose: " + fileSave.file)
+            treatment.exportPlan(treatment.selectDomaine.id, fileSave.file)
         }
         onRejected: {
             console.log("Canceled")
         }
-        //selectExisting: false
-        nameFilters: [ "CSV(*.csv)" ]
+        fileMode: FileDialog.SaveFile
+        nameFilters: [ "html(*.html)" ]
         //Component.onCompleted: visible = true
     }
     id:mainview

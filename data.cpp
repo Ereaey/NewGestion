@@ -126,7 +126,7 @@ int Data::addDomaineUser(Domaine *d, QString user, int grade)
         d->commu->users[id] = uc;
 
         //qDebug() << id;
-        if (userId[id]->psa == false)
+        if (userId[id]->psa == false && grade != MODIFICATEURS_GOAL && grade != LECTEURS_GOAL)
             d->commu->usersNonTrouve.push_back(uc);
         else if (grade != MODIFICATEURS_GOAL && grade != LECTEURS_GOAL)
             d->commu->usersInconnu.push_back(uc);
@@ -535,12 +535,38 @@ void Data::drawTree(QString goal, bool modif, bool lecteur, bool gestionnaire)
     }
     if (modif == true && lecteur == true)
     {*/
-        for(int i = 0; i < c_actu->domainesGoal[goal].size(); i++)
-        {
-            c_actu->domainesGoal[goal][i]->t->setIsSelect(true);
-            if (c_actu->domainesGoal[goal][i]->id_parent != 0)
-                recursiveOpen(c_actu->domainesGoal[goal][i]->id_parent);
-        }/*
+
+    for(int i = 0; i < c_actu->domainesGoalModificateurs[goal].size(); i++)
+    {
+        c_actu->domainesGoalModificateurs[goal][i]->t->setColor("blue");
+        c_actu->domainesGoalModificateurs[goal][i]->t->setIsSelect(true);
+
+        if (c_actu->domainesGoalModificateurs[goal][i]->id_parent != 0)
+            recursiveOpen(c_actu->domainesGoalModificateurs[goal][i]->id_parent);
+    }
+
+    for(int i = 0; i < c_actu->domainesGoalLecteurs[goal].size(); i++)
+    {
+        if (c_actu->domainesGoalLecteurs[goal][i]->t->isSelect() == true)
+            c_actu->domainesGoalLecteurs[goal][i]->t->setColor("red");
+        else
+            c_actu->domainesGoalLecteurs[goal][i]->t->setColor("green");
+
+        c_actu->domainesGoalLecteurs[goal][i]->t->setIsSelect(true);
+        if (c_actu->domainesGoalLecteurs[goal][i]->id_parent != 0)
+            recursiveOpen(c_actu->domainesGoalLecteurs[goal][i]->id_parent);
+    }
+
+/*
+    for(int i = 0; i < c_actu->domainesGoal[goal].size(); i++)
+    {
+        c_actu->domainesGoal[goal][i]->t->setIsSelect(true);
+        if (c_actu->domainesGoal[goal][i]->id_parent != 0)
+            recursiveOpen(c_actu->domainesGoal[goal][i]->id_parent);
+    }*/
+
+
+        /*
     }
     else if (modif == true && lecteur == false)
     {
@@ -574,6 +600,7 @@ void Data::drawTree(QString domaine)
         return;
     if (c_actu->domainesKey.contains(domaine))
     {
+        c_actu->domainesKey[domaine]->t->setColor("#FFC53C");
         c_actu->domainesKey[domaine]->t->setIsSelect(true);
         if (c_actu->domainesKey[domaine]->id_parent != 0)
             recursiveOpen(c_actu->domainesKey[domaine]->id_parent);
@@ -596,6 +623,7 @@ void Data::drawTreeUserId(QString user, int type)
     {
         for (int i = 0; i < c_actu->users[user]->domainesResponsable.size(); i++)
         {
+            c_actu->users[user]->domainesResponsable[i]->t->setColor("#FFC53C");
             c_actu->users[user]->domainesResponsable[i]->t->setIsSelect(true);
             if (c_actu->users[user]->domainesResponsable[i]->id_parent != 0)
                 recursiveOpen(c_actu->users[user]->domainesResponsable[i]->id_parent);
@@ -605,6 +633,7 @@ void Data::drawTreeUserId(QString user, int type)
     {
         for (int i = 0; i < c_actu->users[user]->domainesGestionnaire.size(); i++)
         {
+            c_actu->users[user]->domainesGestionnaire[i]->t->setColor("#FFC53C");
             c_actu->users[user]->domainesGestionnaire[i]->t->setIsSelect(true);
             if (c_actu->users[user]->domainesGestionnaire[i]->id_parent != 0)
                 recursiveOpen(c_actu->users[user]->domainesGestionnaire[i]->id_parent);
@@ -614,6 +643,7 @@ void Data::drawTreeUserId(QString user, int type)
     {
         for (int i = 0; i < c_actu->users[user]->domainesavecdocPro.size(); i++)
         {
+            c_actu->users[user]->domainesavecdocPro[i]->t->setColor("#FFC53C");
             c_actu->users[user]->domainesavecdocPro[i]->t->setIsSelect(true);
             if (c_actu->users[user]->domainesavecdocPro[i]->id_parent != 0)
                 recursiveOpen(c_actu->users[user]->domainesavecdocPro[i]->id_parent);

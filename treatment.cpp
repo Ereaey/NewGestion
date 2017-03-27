@@ -301,7 +301,7 @@ void Treatment::run()
             ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->domainesGoal[m_goal].size());
             if (m_goal.isEmpty())
                 ((DataCommu*)(m_commu[i]))->setResult(0);
-            qDebug() << QString::number(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->domainesGoal[m_goal].size());
+            //qDebug() << m_goal << " : " << QString::number(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->goals[m_goal]->users.size());
         }
     }
     else if (m_type == SEARCH_USER_ID)
@@ -309,7 +309,11 @@ void Treatment::run()
         /*
         m_data->drawTree(m_goal, true, true);
         */
-        m_selectuser = new DataUserU(m_data->getCurrentCommu()->users[m_user]);
+        if (m_data->getCurrentCommu()->users.contains(m_user))
+            m_selectuser = new DataUserU(m_data->getCurrentCommu()->users[m_user]->user, m_data->getCurrentCommu()->users[m_user], false);
+        else
+            m_selectuser = new DataUserU(m_data->userId[m_user], NULL, true);
+
         emit selectUserRefresh();
         m_data->drawTreeUserId(m_user, m_typeUser);
 
@@ -562,7 +566,12 @@ void Treatment::run()
 
         for (int i = 0; i < m_data->getCurrentCommu()->usersInconnu.size(); i++)
         {
-            m_listusers.append(new DataUser(m_data->getCurrentCommu()->usersInconnu[i]->user->nom + " " + m_data->getCurrentCommu()->usersInconnu[i]->user->prenom, m_data->getCurrentCommu()->usersInconnu[i]->user->ID));
+            m_listusers.append(new DataUser(m_data->getCurrentCommu()->usersInconnu[i]->user->nom + " " + m_data->getCurrentCommu()->usersInconnu[i]->user->prenom, m_data->getCurrentCommu()->usersInconnu[i]->user->ID,
+                                            QString::number(m_data->getCurrentCommu()->usersInconnu[i]->documentsResponsable.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersInconnu[i]->domainesResponsable.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersInconnu[i]->domainesGestionnaire.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersInconnu[i]->domainesLecteur.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersInconnu[i]->domainesModificateur.size())));
             //m_listgoals.append(new DataGoal(m_data->getCurrentCommu()->goalsVides[i]->nom, m_data->getCurrentCommu()->goalsVides[i]->ID));
         }
         emit listUserRefresh();
@@ -631,7 +640,12 @@ void Treatment::run()
 
         for (int i = 0; i < m_data->getCurrentCommu()->usersNonTrouve.size(); i++)
         {
-            m_listusers.append(new DataUser(m_data->getCurrentCommu()->usersNonTrouve[i]->user->nom + " " + m_data->getCurrentCommu()->usersNonTrouve[i]->user->prenom, m_data->getCurrentCommu()->usersNonTrouve[i]->user->ID));
+            m_listusers.append(new DataUser(m_data->getCurrentCommu()->usersNonTrouve[i]->user->nom + " " + m_data->getCurrentCommu()->usersNonTrouve[i]->user->prenom, m_data->getCurrentCommu()->usersNonTrouve[i]->user->ID,
+                                            QString::number(m_data->getCurrentCommu()->usersNonTrouve[i]->documentsResponsable.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersNonTrouve[i]->domainesResponsable.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersNonTrouve[i]->domainesGestionnaire.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersNonTrouve[i]->domainesLecteur.size()),
+                                            QString::number(m_data->getCurrentCommu()->usersNonTrouve[i]->domainesModificateur.size())));
         }
         emit listUserRefresh();
     }

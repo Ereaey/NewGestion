@@ -71,15 +71,15 @@ Item {
 
 
         }
-    }*/
-
+    }
+*/
     Rectangle
     {
         width: parent.width - 100
-        height: parent.height - 165
+        height: parent.height - 115
 
         color: "#181A29"
-        y:145
+        y:85
         x:50
         radius: 5
 
@@ -108,7 +108,7 @@ Item {
             {
                 width: parent.width - 40
                 x:20
-                height: 40
+                height: 85
                 radius: 3
                 color: "#364150"
                 y:40
@@ -127,14 +127,56 @@ Item {
                     text:"Identifiant : " + model.modelData.id
                     font.pointSize: 8
                     x:10
-                    y:23
+                    y:17
                 }
+                Text
+                {
+                    //color: "white"
+                    text:"Documents propriétaire : " + model.modelData.nbDocument
+                    font.pointSize: 8
+                    x:10
+                    y:27
+                    color: model.modelData.nbDocument > 0 ? "red" : "white"
+                }
+                Text
+                {
+                    color: model.modelData.nbDomaineRespon > 0 ? "red" : "white"
+                    text:"Domaine responsable : " + model.modelData.nbDomaineRespon
+                    font.pointSize: 8
+                    x:10
+                    y:37
+                }
+                Text
+                {
+                    color: model.modelData.nbDomaineGest > 0 ? "red" : "white"
+                    text:"Domaine gestionnaire : " + model.modelData.nbDomaineGest
+                    font.pointSize: 8
+                    x:10
+                    y:47
+                }
+                Text
+                {
+                    color: model.modelData.nbDomaineLect > 0 ? "red" : "white"
+                    text:"Domaine lecteur : " + model.modelData.nbDomaineLect
+                    font.pointSize: 8
+                    x:10
+                    y:57
+                }
+                Text
+                {
+                    color: model.modelData.nbDomaineModif > 0 ? "red" : "white"
+                    text:"Domaine modificateur : " + model.modelData.nbDomaineModif
+                    font.pointSize: 8
+                    x:10
+                    y:67
+                }
+
                 ButtonSt
                 {
                     x:parent.width - 110
                     text: "Rechercher"
-                    height:30
-                    y:5
+                    height:50
+                    y:12
                     onClicked:
                     {
                         treatment.searchUserId(model.modelData.id, 0);

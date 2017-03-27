@@ -15,7 +15,7 @@ void autoCompletUser::searchUser(QString nom)
 void autoCompletUser::addUser(QString nom, QString id)
 {
     m_m.lock();
-    DataUser *u = new DataUser(nom, id);
+    DataUser *u = new DataUser(nom, id, "0", "0", "0", "0", "0");
     m_users.push_back(u);
     m_m.unlock();
 }
@@ -33,7 +33,7 @@ void autoCompletUser::run()
         {
             //qDebug() << m_users[i]->getNom();
 
-            if (m_users[i]->getNom().indexOf(m_user) == 0)
+            if (m_users[i]->nom().indexOf(m_user) == 0)
             {
                 m_result.append(m_users[i]);
                 qDebug() << "ok";

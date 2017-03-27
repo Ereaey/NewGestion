@@ -14,8 +14,8 @@ Item {
         title: "Please choose a file"
         folder: shortcuts.home
         onAccepted: {
-            console.log("You chose: " + fileSave.fileUrls)
-            listDomaine.exportList(fileSave.fileUrls);
+            console.log("You chose: " + fileSave.file)
+            listDomaine.exportList(fileSave.file);
         }
         onRejected: {
             console.log("Canceled")
@@ -44,7 +44,8 @@ Item {
     }
     Popup {
         id: chooseGoal
-        x: tree.visible ?  mainWin.width/2 - width/2  - tree.width : mainWin.width/2 - width/2
+        //x: tree.visible ?  mainWin.width/2 - width/2  - tree.width : mainWin.width/2 - width/2
+        x:mainWin.width/2 - width/2
         y: 100
         width: 700
         height: idGoal.length < 3 ? 75 : parent.height - 200
@@ -67,7 +68,7 @@ Item {
             y:10
             Text
             {
-                text:"Recherche via identifiant : "
+                text:"Recherche via nom : "
                 color:"white"
                 font.pointSize: 10
                 width: 200
@@ -235,28 +236,28 @@ Item {
         Text
         {
             text:"Modificateur et Lecteur"
-            x:180
+            x:160
             y:42
             color:"red"
             font.pointSize: 10
         }
-    /*
+
         Text
         {
-            text:"Responsable"
-            x:280
+            text:"Modificateur"
+            x:303
             y:42
             color:"blue"
             font.pointSize: 10
-        }/*
+        }
         Text
         {
             text:"Lecteur"
-            x:380
+            x:390
             y:42
             color:"green"
             font.pointSize: 10
-        }*/
+        }
     }
 
     Rectangle
