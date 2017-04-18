@@ -14,9 +14,10 @@ Loading::Loading(Data *d, autoCompletGoal *g, autoCompletUser *user, QObject *pa
     fileDocuments = 0;
     fileDomaines = 0;
     m_user = user;
+    m_error = false;
 }
 
-void Loading::loadFiles()
+bool Loading::loadFiles()
 {
     qDebug() << "e";
     QStringList t;
@@ -63,6 +64,21 @@ void Loading::loadFiles()
                 m_pathDocuments.push_back(QFileInfo(file));
          }
     }
+
+    if (!m_pathMembersExternal.isReadable() ||
+            !m_pathMembersInternal.isReadable() ||
+            !m_pathCommu.isReadable() ||
+            !m_pathGoal.isReadable() ||
+            !m_pathGoalMembers.isReadable() ||
+            m_pathDocuments.size() == 0 ||
+            m_pathDomaines.size() == 0)
+    {
+        qDebug() << "problem fichiers";
+        m_error = true;
+        //m_finish = true;
+        return false;
+    }
+
 
     m_pathMembersInternalCSV = new FileCSV(m_pathMembersInternal.absoluteFilePath(), 24, true);
     m_pathMembersExternalCSV = new FileCSV(m_pathMembersExternal.absoluteFilePath(), 27, true);
@@ -116,6 +132,8 @@ void Loading::loadFiles()
     m_current.push_back(m_pathMembersInternalCSV);
     m_current.push_back(m_pathMembersExternalCSV);
     m_ready = true;
+
+    return true;
 }
 
 void Loading::setMessageLoading(QString message)
@@ -356,13 +374,22 @@ void Loading::run()
 {
     if (m_finish == true)
         return;
-    loadFiles();
-    m_messageLoading = "Chargements des membres";
-    m_messageLoadingGlobal = "Fichiers : 1 / 6";
-    QThread *thread = new QThread;
-    m_pathMembersExternalCSV->moveToThread(thread);
-    m_pathMembersExternalCSV->loading();
-    QThread *thread2 = new QThread;
-    m_pathMembersInternalCSV->moveToThread(thread2);
-    m_pathMembersInternalCSV->loading();
+    if (loadFiles() == true)
+    {
+        m_messageLoading = "Chargements des membres";
+        m_messageLoadingGlobal = "Fichiers : 1 / 6";
+        QThread *thread = new QThread;
+        m_pathMembersExternalCSV->moveToThread(thread);
+        m_pathMembersExternalCSV->loading();
+        QThread *thread2 = new QThread;
+        m_pathMembersInternalCSV->moveToThread(thread2);
+        m_pathMembersInternalCSV->loading();
+    }
+    else
+    {
+        m_messageLoading = "Impossible de trouver les fichiers";
+        m_messageLoadingGlobal = "Les fichiers doivent étre dans le répertoire C:/fichiersGestion";
+        emit currentMessageChanged();
+        emit currentActionChanged();
+    }
 }

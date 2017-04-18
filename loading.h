@@ -20,6 +20,7 @@ class Loading : public QThread
     Q_PROPERTY(float progress READ progress)
     Q_PROPERTY(bool finish READ finish NOTIFY finishChanged)
     Q_PROPERTY(bool ready READ ready)
+    Q_PROPERTY(bool error READ error)
 
 public:
     explicit Loading(Data *d, autoCompletGoal *g, autoCompletUser *user, QObject *parent = 0);
@@ -37,6 +38,10 @@ public:
     bool ready() const
     {
         return m_ready;
+    }
+    bool error() const
+    {
+        return m_error;
     }
     float progress()
     {
@@ -76,8 +81,9 @@ protected:
     void run();
 
 private:
-    void loadFiles();
+    bool loadFiles();
     bool m_ready;
+    bool m_error;
     int fileDocuments;
     int fileDomaines;
 

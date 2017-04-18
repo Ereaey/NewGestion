@@ -38,7 +38,6 @@ Item {
             y:10
             color:"white"
             font.pointSize: 16
-
         }
     }
 /*
@@ -73,6 +72,8 @@ Item {
         }
     }
 */
+
+
     Rectangle
     {
         width: parent.width - 100
@@ -102,7 +103,7 @@ Item {
             highlightMoveVelocity : 600
             width:parent.width - 15
             height:parent.height - 70
-            id:autoCompletList
+            id:listUserD
             model: treatment.listUser
             delegate: Rectangle
             {

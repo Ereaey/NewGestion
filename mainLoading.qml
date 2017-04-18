@@ -23,7 +23,14 @@ Item{
         interval: 1; running: true; repeat: true
         onTriggered:
         {
-            if (loading.finish === true)
+            if (loading.error === true)
+            {
+                loadFile.text = loading.messageLoadingGlobal
+                loadFile.color = "red"
+                preciseLoad.text = loading.messageLoading
+                progressLoad.value = 0
+            }
+            else if (loading.finish === true)
             {
                 t.repeat = false;
                 console.log("Chargement terminé")
@@ -35,7 +42,7 @@ Item{
                 mainWin.showMaximized()
                 treatment.load();
             }
-            else if (loading.finish !== true && loading.ready === true)
+            else if (loading.finish !== true && (loading.ready === true))
             {
                 progressLoad.value = loading.progress / 100
                 loadFile.text = loading.messageLoadingGlobal
