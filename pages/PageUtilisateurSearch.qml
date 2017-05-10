@@ -146,7 +146,10 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
+                    if (swipeView.depth === 0)
+                        swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
+                    else
+                        swipeView.pop(StackView.Immediate);
                 }
             }
         }
@@ -175,6 +178,7 @@ Item {
 
     Rectangle
     {
+
         id:dataDomaine
         width: parent.width - 100
         height: t.height + 20
@@ -236,6 +240,7 @@ Item {
             }
 
         }
+
     }
 
     Rectangle

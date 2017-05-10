@@ -77,6 +77,8 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
+                    console.log("ok");
+                    treatment.searchUserId("", 0);
                     swipeView.replace("qrc:pages/PageUtilisateurSearch.qml", StackView.Immediate);
                 }
             }

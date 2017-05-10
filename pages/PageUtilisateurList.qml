@@ -40,7 +40,7 @@ Item {
             font.pointSize: 16
         }
     }
-/*
+
     Rectangle
     {
         width: parent.width - 100
@@ -54,8 +54,8 @@ Item {
             y:12
             width: parent.width - 40
             height: 25
-            id:visuTree
-            model: [ "Responsables", "Gestionnaires", "Propriétaires" ]
+            id:comboRole
+            model: [ "Responsables", "Gestionnaires", "Propriétaires", "Tous"]
             background: Rectangle {
                 implicitWidth: 100
                 implicitHeight: 20
@@ -71,16 +71,16 @@ Item {
 
         }
     }
-*/
+
 
 
     Rectangle
     {
         width: parent.width - 100
-        height: parent.height - 115
+        height: parent.height - 165
 
         color: "#181A29"
-        y:85
+        y:145
         x:50
         radius: 5
 
@@ -98,7 +98,7 @@ Item {
             y:50
             x:5
             clip: true
-            spacing: 10
+            spacing: 0
             maximumFlickVelocity: 600
             highlightMoveVelocity : 600
             width:parent.width - 15
@@ -107,12 +107,20 @@ Item {
             model: treatment.listUser
             delegate: Rectangle
             {
-                width: parent.width - 40
-                x:20
-                height: 85
+                property bool vis:  model.modelData.nbDomaineRespon > 0 && comboRole.currentIndex === 0 ? true : model.modelData.nbDomaineGest > 0 && comboRole.currentIndex === 1 ? true : model.modelData.nbDocument > 0 && comboRole.currentIndex === 2 ? true : comboRole.currentIndex === 3 ? true : false
+                width: vis ? parent.width - 40 : 0
+                x:vis ? 20 : 0
+                height: vis ? 95 : 0
+                radius: vis ? 3 : 0
+                visible: vis
+                y: vis ? 40 : 0
+                color: "transparent"
+                Rectangle
+                {
                 radius: 3
                 color: "#364150"
-                y:40
+                width :parent.width
+                height:parent.height - 10
                 Text
                 {
                     color: "white"
@@ -132,48 +140,53 @@ Item {
                 }
                 Text
                 {
-                    //color: "white"
+                    color: "white"
                     text:"Documents propriétaire : " + model.modelData.nbDocument
                     font.pointSize: 8
                     x:10
-                    y:27
-                    color: model.modelData.nbDocument > 0 ? "red" : "white"
+                    y:30
+                    //visible: model.modelData.nbDocument > 0 ? true : false
                 }
                 Text
                 {
-                    color: model.modelData.nbDomaineRespon > 0 ? "red" : "white"
+                    color: "white"
+                    //visible: model.modelData.nbDomaineRespon > 0 ?  true : false
                     text:"Domaine responsable : " + model.modelData.nbDomaineRespon
                     font.pointSize: 8
                     x:10
-                    y:37
+                    y:40
                 }
                 Text
                 {
-                    color: model.modelData.nbDomaineGest > 0 ? "red" : "white"
+                    color: "white"
+                    //visible: model.modelData.nbDomaineGest > 0 ?  true : false
                     text:"Domaine gestionnaire : " + model.modelData.nbDomaineGest
                     font.pointSize: 8
                     x:10
-                    y:47
+                    y:50
                 }
                 Text
                 {
-                    color: model.modelData.nbDomaineLect > 0 ? "red" : "white"
+                    color: "white"
+                    //visible: model.modelData.nbDomaineLect > 0 ?  true : false
                     text:"Domaine lecteur : " + model.modelData.nbDomaineLect
                     font.pointSize: 8
                     x:10
-                    y:57
+                    y:60
                 }
                 Text
                 {
-                    color: model.modelData.nbDomaineModif > 0 ? "red" : "white"
+                    color: "white"
+                    //visible: model.modelData.nbDomaineModif > 0 ?  true : false
                     text:"Domaine modificateur : " + model.modelData.nbDomaineModif
                     font.pointSize: 8
                     x:10
-                    y:67
+                    y:70
                 }
 
                 ButtonSt
                 {
+                    visible: vis
                     x:parent.width - 110
                     text: "Rechercher"
                     height:50
@@ -181,8 +194,9 @@ Item {
                     onClicked:
                     {
                         treatment.searchUserId(model.modelData.id, 0);
-                        swipeView.replace("qrc:pages/PageUtilisateurSearch.qml", StackView.Immediate);
+                        swipeView.push("qrc:pages/PageUtilisateurSearch.qml", StackView.Immediate);
                     }
+                }
                 }
             }
 

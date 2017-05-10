@@ -10,6 +10,14 @@ Treatment::Treatment(Data *d)
     m_domaine = "";
     m_descriptionResult = new DataDomaine("", "");
     m_domaineexit = false;
+
+    User *u = new User;
+    u->ID = "";
+    u->nom = "";
+    u->prenom = "";
+    u->psa = true;
+
+    m_data->userId["0"] = u;
 }
 
 void Treatment::load()
@@ -311,8 +319,10 @@ void Treatment::run()
         */
         if (m_data->getCurrentCommu()->users.contains(m_user))
             m_selectuser = new DataUserU(m_data->getCurrentCommu()->users[m_user]->user, m_data->getCurrentCommu()->users[m_user], false);
-        else
+        else if (m_data->userId.contains(m_user))
             m_selectuser = new DataUserU(m_data->userId[m_user], NULL, true);
+        else
+            m_selectuser = new DataUserU(m_data->userId["0"], NULL, true);
 
         emit selectUserRefresh();
         m_data->drawTreeUserId(m_user, m_typeUser);
