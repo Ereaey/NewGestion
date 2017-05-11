@@ -3,7 +3,7 @@
 
 Loading::Loading(Data *d, autoCompletGoal *g, autoCompletUser *user, QObject *parent) : QThread(parent)
 {
-    //m_listDrives += QFileInfo("C:/fichiersGestion");
+    m_listDrives += QFileInfo("C:/fichiersGestion");
     //m_listDrives += QFileInfo("D:/");
     m_listDrives += QFileInfo("/home/psapiv/Téléchargements/");
     m_data = d;

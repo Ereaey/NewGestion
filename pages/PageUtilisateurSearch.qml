@@ -146,7 +146,8 @@ Item {
                 anchors.fill: parent
                 onClicked:
                 {
-                    if (swipeView.depth === 0)
+                    console.log(swipeView.depth)
+                    if (swipeView.depth === 1)
                         swipeView.replace("qrc:MainMenu.qml", StackView.Immediate);
                     else
                         swipeView.pop(StackView.Immediate);
