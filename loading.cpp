@@ -247,6 +247,10 @@ void Loading::loadDocument(QStringList data)
 
     if (data.size() > 3)
     {
+        int nbConsult = 0;
+        //qDebug() << data.size() << m_pathMembersInternalCSV->getColumn("BC");
+        if (data.size() > m_pathMembersInternalCSV->getColumn("BC"))
+            nbConsult = data[m_pathMembersInternalCSV->getColumn("BC")].toInt();
         /*if (data[m_pathMembersInternalCSV->getColumn("A")] == "Référence")
             return;*/
         m_data->addDocument(data[m_pathMembersInternalCSV->getColumn("D")],//name
@@ -258,7 +262,7 @@ void Loading::loadDocument(QStringList data)
                 data[m_pathMembersInternalCSV->getColumn("O")],//dateModif
                 data[m_pathMembersInternalCSV->getColumn("AI")],//nbPj
                 data[m_pathMembersInternalCSV->getColumn("AD")],//namePj
-                0,//nbConsult
+                nbConsult,//nbConsult
                 data[m_pathMembersInternalCSV->getColumn("AL")],//conf
                 data[m_pathMembersInternalCSV->getColumn("C")]//status
                     );

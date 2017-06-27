@@ -258,6 +258,18 @@ void Treatment::exportPlan(QString idDomaine, QString path)
     start();
 }
 
+void Treatment::exportDoc(QString path)
+{
+    path.remove("file:///");
+    path.remove("file:\\\/");
+
+    m_currentAction = "Exportation des documents";
+    m_path = path;
+    emit currentActionChanged();
+    m_type = EXPORT_DOC;
+    start();
+}
+
 QString Treatment::generatePlan(QString idDomaine)
 {
     QString d;
@@ -815,6 +827,29 @@ void Treatment::run()
         QTextStream out2(&file4);
         out2 << m_file2;
         searchDomaine(m_domaine);
+    }
+    else if (m_type == EXPORT_DOC)
+    {
+        qDebug() << "EXPORT DOCUMENT";
+        m_file1 = "Identifiant du document;Nom du document;Responsable;Date de derniére modification;Nombre de consultation" + QString(QChar('\n'));
+
+        foreach (QString name, m_data->getCurrentCommu()->documents.keys()) {
+            Document *d = m_data->getCurrentCommu()->documents[name];
+            m_file1 += d->id + ";"
+                    + d->nom + ";"
+                    + d->proprietaire->user->ID + ";"
+                    + d->dateModif.toString() + ";"
+                    + QString::number(d->nbConsult)
+                    + QString(QChar('\n'));
+
+        }
+        QFile file1(m_path);
+        if (!file1.open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+        QTextStream out(&file1);
+        out << m_file1;
+
+        searchDocument("");
     }
     else if (m_type == SEARCH_ALL_GOAL)
     {

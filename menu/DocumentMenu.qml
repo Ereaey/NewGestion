@@ -147,6 +147,37 @@ Item {
             Text
             {
                 y:80
+                text:"Exporter"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            Text
+            {
+                y:110
+                text:"Documents"
+                color: "white"
+                font.pointSize:16
+                x:parent.width/2 - width/2
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    treatment.searchDocumentSurchage();
+                    swipeView.replace("qrc:pages/PageDocumentList.qml", StackView.Immediate);;
+                }
+            }
+        }
+        */
+        /*
+        Image
+        {
+            source:"qrc:../images/folder.png"
+            Text
+            {
+                y:80
                 text:"Documents"
                 color: "white"
                 font.pointSize:16
