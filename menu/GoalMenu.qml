@@ -140,7 +140,7 @@ Item {
                 }
             }
         }
-        /*
+
         Image
         {
             source:"qrc:../images/group.png"
@@ -152,24 +152,16 @@ Item {
                 font.pointSize:16
                 x:parent.width/2 - width/2
             }
-            Text
-            {
-                y:110
-                text:"Doublons"
-                color: "white"
-                font.pointSize:16
-                x:parent.width/2 - width/2
-            }
             MouseArea
             {
                 anchors.fill: parent
                 onClicked:
                 {
-                    treatment.searchGoalDoublon();
+                    treatment.searchAllGoal();
                     swipeView.replace("qrc:pages/PageGoalList.qml", StackView.Immediate);
                 }
             }
-        }*/
+        }
 
 
     }

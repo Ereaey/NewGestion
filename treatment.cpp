@@ -179,6 +179,23 @@ void Treatment::searchGoalsProbleme()
     start();
 }
 
+void Treatment::searchAllGoal()
+{
+    m_currentAction = "Rechercher les goals";
+    emit currentActionChanged();
+    m_type = SEARCH_ALL_GOAL;
+    start();
+}
+
+void Treatment::exportAllGoal(QString path)
+{
+    m_currentAction = "Rechercher les goals";
+    emit currentActionChanged();
+    m_type = EXPORT_ALL_GOAL;
+    m_path = path;
+    start();
+}
+
 void Treatment::searchDomaine(QString name)
 {
     m_currentAction = "Rechercher un domaine > " + name;
@@ -798,6 +815,50 @@ void Treatment::run()
         QTextStream out2(&file4);
         out2 << m_file2;
         searchDomaine(m_domaine);
+    }
+    else if (m_type == SEARCH_ALL_GOAL)
+    {
+        m_listgoals.clear();
+        for (int i = 0; i < m_commu.size(); i++)
+        {
+            ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->goals.size());
+        }
+        foreach (QString goal, m_data->getCurrentCommu()->goals.keys()) {
+            m_listgoals.append(new DataGoal(m_data->getCurrentCommu()->goals[goal]->nom, m_data->getCurrentCommu()->goals[goal]->ID));
+        }
+        emit listGoalRefresh();
+    }
+    else if (m_type == EXPORT_ALL_GOAL)
+    {
+        qDebug() << "Export";
+        m_listgoals.clear();
+        for (int i = 0; i < m_commu.size(); i++)
+        {
+            ((DataCommu*)(m_commu[i]))->setResult(m_data->getCommus()[((DataCommu*)m_commu[i])->nom()]->goals.size());
+        }
+        m_path.remove("file:///");
+        m_path.remove("file:\\\/");
+        QFile file(m_path);
+        qDebug() << m_path;
+
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+
+        qDebug() << "export..";
+
+        QTextStream out(&file);
+
+        foreach (QString goal, m_data->getCurrentCommu()->goals.keys()) {
+            m_listgoals.append(new DataGoal(m_data->getCurrentCommu()->goals[goal]->nom, m_data->getCurrentCommu()->goals[goal]->ID));
+
+            QString line = m_data->getCurrentCommu()->goals[goal]->nom;
+            line += ";" + m_data->getCurrentCommu()->goals[goal]->ID;
+            line += ";" + m_data->getCurrentCommu()->goals[goal]->responsable->nom+ " " + m_data->getCurrentCommu()->goals[goal]->responsable->prenom + ";" + m_data->getCurrentCommu()->goals[goal]->responsable->ID;
+            line += QString(QChar('\n'));
+            out << line;
+        }
+        emit listGoalRefresh();
+        m_type = SEARCH_ALL_GOAL;
     }
     m_finish = true;
     emit finishChanged();

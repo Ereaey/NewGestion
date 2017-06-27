@@ -205,6 +205,7 @@ class Data : public QObject
 
         Model* treeMo;
         QMutex dataD;
+        User *m_userU;
 };
 
 #endif // DATA_H

@@ -53,6 +53,7 @@ void DataDomaines::exportList(QString path)
         for (unsigned int i = 0; i < m_domaines.size(); i++)
         {
             flux << ((DataDomaine*)m_domaines[i])->iddomaine();
+
             flux << QChar(0x0D);
             flux << QChar(0x0A);
         }

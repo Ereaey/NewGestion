@@ -2,10 +2,29 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.0
+import Qt.labs.platform 1.0
 import "qrc:/mycomponent"
 
 Item {
     id:mainview
+    FileDialog {
+        id: fileSavet
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            console.log("You chose: " + fileSavet.file)
+            treatment.exportAllGoal(fileSavet.file);
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+
+        fileMode: FileDialog.SaveFile
+        nameFilters: [ "CSV(*.csv)" ]
+        //Component.onCompleted: visible = true
+    }
+
     Rectangle
     {
         width: parent.width - 100
@@ -60,6 +79,19 @@ Item {
             color:"white"
             font.pointSize: 12
         }
+        ButtonSt
+        {
+            x:parent.width - 110
+            text: "Exporter liste"
+            visible: treatment.currentAction == "Rechercher les goals" ? true : false
+            height:25
+            y:10
+            onClicked:
+            {
+                fileSavet.open();
+            }
+        }
+
         ListView
         {
             ScrollBar.vertical: ScrollBar{active: true}

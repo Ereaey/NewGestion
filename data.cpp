@@ -5,6 +5,11 @@ Data::Data(Model* tree)
 {
     treeMo = tree;
     //dataD.unlock();
+
+    m_userU = new User;
+    m_userU->ID = "";
+    m_userU->nom = "";
+    m_userU->prenom = "";
 }
 
 void Data::addUser(QString identifiant, QString nom, QString prenom)
@@ -250,6 +255,7 @@ void Data::addDomaine(QString nameCommu, QString nameDomaine, QString IdDomaine,
             Goal *go = new Goal;
             go->nom = g;
             go->etat = "Non trouvé";
+            go->responsable = m_userU;
 
             goalNom[g] = go;
             communautes[nameCommu]->goalsInexistants.append(go);
@@ -276,6 +282,7 @@ void Data::addDomaine(QString nameCommu, QString nameDomaine, QString IdDomaine,
             Goal *go = new Goal;
             go->nom = g;
             go->etat = "Non trouvé";
+            go->responsable = m_userU;
 
             goalNom[g] = go;
             communautes[nameCommu]->goalsInexistants.append(go);
@@ -306,6 +313,7 @@ void Data::addDomaine(QString nameCommu, QString nameDomaine, QString IdDomaine,
             Goal *go = new Goal;
             go->nom = g;
             go->etat = "Non trouvé";
+            go->responsable = m_userU;
 
             goalNom[g] = go;
             communautes[nameCommu]->goalsInexistants.append(go);
