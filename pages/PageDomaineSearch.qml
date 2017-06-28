@@ -28,6 +28,23 @@ Item {
         nameFilters: [ "html(*.html)" ]
         //Component.onCompleted: visible = true
     }
+
+    FileDialog {
+        id: fileSave2
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            console.log("You chose: " + fileSave2.file)
+            treatment.exportDoc(treatment.selectDomaine.id, fileSave2.file)
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        fileMode: FileDialog.SaveFile
+        nameFilters: [ "csv(*.csv)" ]
+        //Component.onCompleted: visible = true
+    }
+
     id:mainview
     Rectangle
     {
@@ -154,6 +171,17 @@ Item {
             onClicked:
             {
                 fileSave.open();
+            }
+        }
+        ButtonSt
+        {
+            x:parent.width - 250
+            height:25
+            y:10
+            text:"Exporter Consultation"
+            onClicked:
+            {
+                fileSave2.open();
             }
         }
         Column

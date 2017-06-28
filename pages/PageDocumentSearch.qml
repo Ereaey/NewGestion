@@ -9,22 +9,6 @@ import "qrc:/mycomponent"
 Item {
     id:mainview
 
-    FileDialog {
-        id: fileSave
-        title: "Please choose a file"
-        folder: shortcuts.home
-        onAccepted: {
-            console.log("You chose: " + fileSave.file)
-            treatment.exportDoc(fileSave.file)
-        }
-        onRejected: {
-            console.log("Canceled")
-        }
-        fileMode: FileDialog.SaveFile
-        nameFilters: [ "csv(*.csv)" ]
-        //Component.onCompleted: visible = true
-    }
-
     Rectangle
     {
         width: parent.width - 100
@@ -329,15 +313,7 @@ Item {
                     x:parent.width - 210
                     text:"Vider"
                 }
-                ButtonSt
-                {
-                    x:parent.width - 350
-                    text:"Exporter Consultation"
-                    onClicked:
-                    {
-                        fileSave.open();
-                    }
-                }
+
             }
 
         }

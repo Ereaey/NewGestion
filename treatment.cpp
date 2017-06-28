@@ -258,16 +258,37 @@ void Treatment::exportPlan(QString idDomaine, QString path)
     start();
 }
 
-void Treatment::exportDoc(QString path)
+void Treatment::exportDoc(QString idDomaine, QString path)
 {
     path.remove("file:///");
     path.remove("file:\\\/");
 
     m_currentAction = "Exportation des documents";
     m_path = path;
+    m_domaine = idDomaine;
     emit currentActionChanged();
     m_type = EXPORT_DOC;
     start();
+}
+
+QString Treatment::generateFile(QString idDomaine)
+{
+    for (int i = 0; i < m_data->getCurrentCommu()->domainesKey[idDomaine]->documents.size(); i++)
+    {
+        Document *d = m_data->getCurrentCommu()->domainesKey[idDomaine]->documents[i];
+        m_file1 += d->id + ";"
+                + d->nom + ";"
+                + d->proprietaire->user->ID + ";"
+                + d->dateModif.toString() + ";"
+                + QString::number(d->nbConsult)
+                + QString(QChar('\n'));
+
+    }
+
+    for (int i = 0; i < m_data->getCurrentCommu()->domainesKey[idDomaine]->enfants.size(); i++)
+    {
+         generateFile(QString::number(m_data->getCurrentCommu()->domainesKey[idDomaine]->enfants[i]->id));
+    }
 }
 
 QString Treatment::generatePlan(QString idDomaine)
@@ -833,6 +854,8 @@ void Treatment::run()
         qDebug() << "EXPORT DOCUMENT";
         m_file1 = "Identifiant du document;Nom du document;Responsable;Date de derniére modification;Nombre de consultation" + QString(QChar('\n'));
 
+        generateFile(m_domaine);
+        /*
         foreach (QString name, m_data->getCurrentCommu()->documents.keys()) {
             Document *d = m_data->getCurrentCommu()->documents[name];
             m_file1 += d->id + ";"
@@ -842,14 +865,14 @@ void Treatment::run()
                     + QString::number(d->nbConsult)
                     + QString(QChar('\n'));
 
-        }
+        }*/
         QFile file1(m_path);
         if (!file1.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         QTextStream out(&file1);
         out << m_file1;
 
-        searchDocument("");
+        searchDomaine(m_domaine);
     }
     else if (m_type == SEARCH_ALL_GOAL)
     {

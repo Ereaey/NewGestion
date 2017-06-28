@@ -85,7 +85,7 @@ class Treatment : public QThread
         Q_INVOKABLE void searchUserDoublon(bool resp);
         Q_INVOKABLE void searchUserPerime(bool resp);
         Q_INVOKABLE void exportPlan(QString idDomaine, QString path);
-        Q_INVOKABLE void exportDoc(QString path);
+        Q_INVOKABLE void exportDoc(QString idDomaine, QString path);
         Q_INVOKABLE void searchUserId(QString name, int type);
         Q_INVOKABLE void loadCara();
         Q_INVOKABLE void searchAllGoal();
@@ -108,6 +108,7 @@ class Treatment : public QThread
         QString m_file1, m_file2;
         QString m_user;
         QString generatePlan(QString idDomaine);
+        QString generateFile(QString idDomaine);
         QList<QObject*> m_listgoals;
         QList<QObject*> m_listusers;
         QList<QObject*> m_listdocs;
