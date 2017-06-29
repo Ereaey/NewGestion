@@ -289,6 +289,8 @@ QString Treatment::generateFile(QString idDomaine)
     {
          generateFile(QString::number(m_data->getCurrentCommu()->domainesKey[idDomaine]->enfants[i]->id));
     }
+
+    return "";
 }
 
 QString Treatment::generatePlan(QString idDomaine)
