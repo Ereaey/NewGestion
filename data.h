@@ -40,7 +40,7 @@ struct Document
     QDate dateModif;
     QString version;
     QString id;
-    int nbConsult;
+    int nbConsult, nbConsultRecente;
 };
 
 struct UserCommu
@@ -166,7 +166,7 @@ class Data : public QObject
                         QString asservisseur, QString synchronises
                         );
         void addDocument(QString name, QString idDomaine, QString version, QString proprietaire, QString id,
-                         QString dateCreation, QString dateModif, QString nbPj, QString namePj, int nbConsult,
+                         QString dateCreation, QString dateModif, QString nbPj, QString namePj, int nbConsult, int nbConsultRecente,
                          QString confidentialite, QString Statut);
         QMap<QString, Communaute*> getCommus(){ return communautes;}
         void setCurrentCommu(QString name);

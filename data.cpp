@@ -349,7 +349,7 @@ void Data::addDomaine(QString nameCommu, QString nameDomaine, QString IdDomaine,
     dataD.unlock();
 }
 
-void Data::addDocument(QString name, QString idDomaine, QString version, QString proprietaire, QString id, QString dateCreation, QString dateModif, QString nbPj, QString namePj, int nbConsult, QString confidentialite, QString Statut)
+void Data::addDocument(QString name, QString idDomaine, QString version, QString proprietaire, QString id, QString dateCreation, QString dateModif, QString nbPj, QString namePj, int nbConsult, int nbConsultRecente, QString confidentialite, QString Statut)
 {
     if (domaines.contains(idDomaine.toInt()))
     {
@@ -376,6 +376,8 @@ void Data::addDocument(QString name, QString idDomaine, QString version, QString
         if(domaines[idDomaine.toInt()]->commu->documents.contains(id))
         {
             domaines[idDomaine.toInt()]->commu->documents[id]->nbConsult += nbConsult;
+            domaines[idDomaine.toInt()]->commu->documents[id]->nbConsultRecente += nbConsultRecente;
+
             return;
         }
         dataD.lock();
@@ -383,6 +385,7 @@ void Data::addDocument(QString name, QString idDomaine, QString version, QString
 
         d->nom = name;
         d->nbConsult = nbConsult;
+        d->nbConsultRecente = nbConsultRecente;
         d->domaine = domaines[idDomaine.toInt()];
         d->version = version;
         d->dateCreation = QDate::fromString(dateCreation, "dd/MM/yyyy");

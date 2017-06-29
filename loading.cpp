@@ -5,7 +5,7 @@ Loading::Loading(Data *d, autoCompletGoal *g, autoCompletUser *user, QObject *pa
 {
     m_listDrives += QFileInfo("C:/fichiersGestion");
     //m_listDrives += QFileInfo("D:/");
-    m_listDrives += QFileInfo("/home/psapiv/Téléchargements/");
+    m_listDrives += QFileInfo("/home/psapiv/adeline/");
     m_data = d;
     m_ready = false;
     m_finish = false;
@@ -248,9 +248,13 @@ void Loading::loadDocument(QStringList data)
     if (data.size() > 3)
     {
         int nbConsult = 0;
+        int nbConsultRecente = 0;
         //qDebug() << data.size() << m_pathMembersInternalCSV->getColumn("BC");
         if (data.size() > m_pathMembersInternalCSV->getColumn("BC"))
+        {
             nbConsult = data[m_pathMembersInternalCSV->getColumn("BC")].toInt();
+            nbConsultRecente = data[m_pathMembersInternalCSV->getColumn("BA")].toInt() + data[m_pathMembersInternalCSV->getColumn("BB")].toInt();
+        }
         /*if (data[m_pathMembersInternalCSV->getColumn("A")] == "Référence")
             return;*/
         m_data->addDocument(data[m_pathMembersInternalCSV->getColumn("D")],//name
@@ -263,6 +267,7 @@ void Loading::loadDocument(QStringList data)
                 data[m_pathMembersInternalCSV->getColumn("AI")],//nbPj
                 data[m_pathMembersInternalCSV->getColumn("AD")],//namePj
                 nbConsult,//nbConsult
+                nbConsultRecente,//nbConsult
                 data[m_pathMembersInternalCSV->getColumn("AL")],//conf
                 data[m_pathMembersInternalCSV->getColumn("C")]//status
                     );

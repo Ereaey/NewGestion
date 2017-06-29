@@ -280,7 +280,8 @@ QString Treatment::generateFile(QString idDomaine)
                 + d->nom + ";"
                 + d->proprietaire->user->ID + ";"
                 + d->dateModif.toString() + ";"
-                + QString::number(d->nbConsult)
+                + QString::number(d->nbConsult)+ ";"
+                + QString::number(d->nbConsultRecente)
                 + QString(QChar('\n'));
 
     }
@@ -854,7 +855,7 @@ void Treatment::run()
     else if (m_type == EXPORT_DOC)
     {
         qDebug() << "EXPORT DOCUMENT";
-        m_file1 = "Identifiant du document;Nom du document;Responsable;Date de derniére modification;Nombre de consultation" + QString(QChar('\n'));
+        m_file1 = "Identifiant du document;Nom du document;Propriétaire;Date de derniére modification;Nombre de consultations;Consultation récentes" + QString(QChar('\n'));
 
         generateFile(m_domaine);
         /*
